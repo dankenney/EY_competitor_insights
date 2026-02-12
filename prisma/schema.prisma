@@ -1,0 +1,531 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [pgcrypto, vector]
+}
+
+// =============================================================================
+// AUTH & USERS
+// =============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  role          UserRole  @default(VIEWER)
+  passwordHash  String?
+  emailVerified DateTime?
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions           Session[]
+  accounts           Account[]
+  alertSubscriptions AlertSubscription[]
+  chatSessions       ChatSession[]
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// =============================================================================
+// COMPETITORS (central reference table)
+// =============================================================================
+
+model Competitor {
+  id              String             @id @default(cuid())
+  name            String             @unique
+  slug            String             @unique
+  shortName       String?
+  category        CompetitorCategory
+  website         String?
+  logoUrl         String?
+  brandColor      String?
+  isActive        Boolean            @default(true)
+  publicationUrls String[]
+  gtmUrls         String[]
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  publications     Publication[]
+  headcountRecords HeadcountSnapshot[]
+  gtmSnapshots     GtmSnapshot[]
+  gtmChanges       GtmChange[]
+  layoffEvents     LayoffEvent[]
+  sentimentSignals SentimentSignal[]
+  jobPostings      HeadcountJobPosting[]
+}
+
+enum CompetitorCategory {
+  BIG4
+  MBB
+  ENGINEERING
+  SELF
+}
+
+// =============================================================================
+// MODULE A: REGULATORY TRACKER
+// =============================================================================
+
+model RegulatoryEvent {
+  id                 String    @id @default(cuid())
+  title              String
+  description        String?
+  sourceUrl          String    @unique
+  sourceName         String
+  publishedAt        DateTime?
+  discoveredAt       DateTime  @default(now())
+
+  geography          String?
+  directionOfChange  String?
+  frameworksAffected String[]
+  impactLevel        String?
+  aiSummary          String?
+  aiImpactAssessment String?
+  aiRelevanceToCcass String?
+  confidenceScore    Float?
+  aiClassifiedAt     DateTime?
+
+  rawContent         String?
+  reviewedByHuman    Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  @@index([geography])
+  @@index([publishedAt(sort: Desc)])
+  @@index([impactLevel])
+  @@index([sourceName])
+}
+
+// =============================================================================
+// MODULE B: CLIENT SENTIMENT
+// =============================================================================
+
+model SentimentSignal {
+  id                   String      @id @default(cuid())
+  signalType           String
+  company              String?
+  competitorId         String?
+  competitor           Competitor? @relation(fields: [competitorId], references: [id])
+  sector               String?
+  geography            String?
+
+  sourceUrl            String?
+  rawText              String?
+
+  sustainabilityStance String?
+  esgTermUsage         Boolean?
+  alternativeTerms     String[]
+  spendingDirection    String?
+  keyQuotes            String[]
+
+  periodStart          DateTime?
+  periodEnd            DateTime?
+  confidenceScore      Float?
+  aiClassifiedAt       DateTime?
+  createdAt            DateTime    @default(now())
+
+  @@index([competitorId])
+  @@index([signalType])
+}
+
+model SurveyData {
+  id           String   @id @default(cuid())
+  surveyName   String
+  surveySource String
+  surveyDate   DateTime
+  metricName   String
+  metricValue  Float
+  metricUnit   String?
+  geography    String?
+  sampleSize   Int?
+  notes        String?
+  uploadedBy   String?
+  createdAt    DateTime @default(now())
+
+  @@index([surveyName])
+  @@index([surveyDate])
+}
+
+// =============================================================================
+// MODULE C: HEADCOUNT ANALYTICS
+// =============================================================================
+
+model HeadcountSnapshot {
+  id              String     @id @default(cuid())
+  competitorId    String
+  competitor      Competitor @relation(fields: [competitorId], references: [id])
+  snapshotDate    DateTime
+  dataSource      String
+
+  totalSustainabilityHeadcount Int?
+  usHeadcount     Int?
+  ukHeadcount     Int?
+  indiaHeadcount  Int?
+  euHeadcount     Int?
+  apacHeadcount   Int?
+  otherHeadcount  Int?
+
+  pctChangeVsPrior Float?
+  usPctChange      Float?
+  ukPctChange      Float?
+
+  notes           String?
+  confidenceLevel String?
+  createdAt       DateTime   @default(now())
+
+  @@unique([competitorId, snapshotDate, dataSource])
+  @@index([competitorId])
+  @@index([snapshotDate(sort: Desc)])
+}
+
+model HeadcountJobPosting {
+  id              String     @id @default(cuid())
+  competitorId    String
+  competitor      Competitor @relation(fields: [competitorId], references: [id])
+  snapshotDate    DateTime
+
+  openSustainabilityRoles Int?
+  newPostings30d          Int?
+  closedPostings30d       Int?
+
+  usPostings      Int?
+  ukPostings      Int?
+  indiaPostings   Int?
+  apacPostings    Int?
+  euPostings      Int?
+
+  topRoleTitles   Json?
+  dataSource      String
+  createdAt       DateTime   @default(now())
+
+  @@index([competitorId])
+  @@index([snapshotDate(sort: Desc)])
+}
+
+// =============================================================================
+// MODULE D: PUBLICATIONS & THOUGHT LEADERSHIP
+// =============================================================================
+
+model Publication {
+  id               String     @id @default(cuid())
+  competitorId     String
+  competitor       Competitor @relation(fields: [competitorId], references: [id])
+
+  title            String
+  url              String     @unique
+  publishedDate    DateTime?
+  contentType      String?
+  authors          String[]
+
+  rawHtml          String?
+  extractedText    String?
+  wordCount        Int?
+
+  primaryTheme     String?
+  secondaryThemes  String[]
+
+  keywords         String[]
+  frameworksMentioned   String[]
+  sectorsMentioned     String[]
+  geographiesMentioned String[]
+  targetAudience   String?
+
+  aiSummary        String?
+  keyMessagingPoints           String[]
+  competitivePositioningNotes  String?
+  confidenceScore  Float?
+  aiClassifiedAt   DateTime?
+
+  firstSeenAt      DateTime   @default(now())
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@index([competitorId])
+  @@index([publishedDate(sort: Desc)])
+  @@index([primaryTheme])
+  @@index([contentType])
+}
+
+// =============================================================================
+// MODULE E: GTM MESSAGING
+// =============================================================================
+
+model GtmSnapshot {
+  id                    String     @id @default(cuid())
+  competitorId          String
+  competitor            Competitor @relation(fields: [competitorId], references: [id])
+  pageUrl               String
+  snapshotDate          DateTime   @default(now())
+
+  rawHtml               String?
+  extractedText         String?
+  screenshotPath        String?
+
+  textHash              String?
+  hasChangedSincePrior  Boolean?
+  diffSummary           String?
+
+  gtmStructure          String?
+  keyMessagingPoints    String[]
+  platformsMentioned    String[]
+  partnershipsMentioned String[]
+  serviceDeliveryModel  String?
+  differentiators       String[]
+
+  aiClassifiedAt        DateTime?
+  createdAt             DateTime   @default(now())
+
+  @@index([competitorId])
+  @@index([pageUrl])
+  @@index([snapshotDate(sort: Desc)])
+}
+
+model GtmChange {
+  id                  String     @id @default(cuid())
+  competitorId        String
+  competitor          Competitor @relation(fields: [competitorId], references: [id])
+  pageUrl             String
+  detectedAt          DateTime   @default(now())
+
+  changeType          String
+  changeSummary       String
+  changeSignificance  String?
+
+  priorSnapshotId     String?
+  currentSnapshotId   String?
+
+  createdAt           DateTime   @default(now())
+
+  @@index([competitorId])
+  @@index([detectedAt(sort: Desc)])
+}
+
+// =============================================================================
+// MODULE F: LAYOFFS & HIRING EVENTS
+// =============================================================================
+
+model LayoffEvent {
+  id                String      @id @default(cuid())
+  competitorId      String?
+  competitor        Competitor? @relation(fields: [competitorId], references: [id])
+  company           String
+
+  eventDate         DateTime?
+  headcountAffected Int?
+  division          String?
+  geography         String?
+
+  eventType         String?
+  driver            String?
+
+  sourceUrl         String?
+  sourceName        String?
+  aiSummary         String?
+
+  verified          Boolean     @default(false)
+  confidenceScore   Float?
+  aiClassifiedAt    DateTime?
+  createdAt         DateTime    @default(now())
+
+  @@index([competitorId])
+  @@index([eventDate(sort: Desc)])
+  @@index([eventType])
+}
+
+// =============================================================================
+// AI PROMPTS (configurable, versioned)
+// =============================================================================
+
+model AiPrompt {
+  id             String    @id @default(cuid())
+  slug           String    @unique
+  name           String
+  description    String?
+  systemPrompt   String
+  userTemplate   String
+  model          String
+  temperature    Float     @default(0.3)
+  maxTokens      Int       @default(4096)
+  responseFormat String?
+  version        Int       @default(1)
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  history        AiPromptHistory[]
+}
+
+model AiPromptHistory {
+  id           String   @id @default(cuid())
+  promptId     String
+  prompt       AiPrompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  version      Int
+  systemPrompt String
+  userTemplate String
+  model        String
+  editedBy     String?
+  createdAt    DateTime @default(now())
+
+  @@index([promptId])
+}
+
+// =============================================================================
+// VECTOR EMBEDDINGS (for RAG)
+// Note: The actual vector column is added via raw SQL migration.
+// =============================================================================
+
+model DocumentEmbedding {
+  id         String   @id @default(cuid())
+  sourceType String
+  sourceId   String
+  chunkIndex Int      @default(0)
+  chunkText  String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@unique([sourceType, sourceId, chunkIndex])
+  @@index([sourceType])
+  @@index([sourceId])
+}
+
+// =============================================================================
+// SCRAPER HEALTH
+// =============================================================================
+
+model ScraperRun {
+  id           String           @id @default(cuid())
+  scraperName  String
+  status       ScraperRunStatus
+  itemsFound   Int              @default(0)
+  itemsNew     Int              @default(0)
+  itemsUpdated Int              @default(0)
+  errorMessage String?
+  errorStack   String?
+  durationMs   Int?
+  startedAt    DateTime         @default(now())
+  completedAt  DateTime?
+
+  @@index([scraperName])
+  @@index([startedAt(sort: Desc)])
+  @@index([status])
+}
+
+enum ScraperRunStatus {
+  RUNNING
+  SUCCESS
+  PARTIAL_SUCCESS
+  FAILED
+}
+
+// =============================================================================
+// CHAT / Q&A
+// =============================================================================
+
+model ChatSession {
+  id        String        @id @default(cuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  title     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  messages  ChatMessage[]
+}
+
+model ChatMessage {
+  id          String      @id @default(cuid())
+  sessionId   String
+  session     ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role        String
+  content     String
+  sourcesUsed Json?
+  createdAt   DateTime    @default(now())
+}
+
+// =============================================================================
+// ALERTS
+// =============================================================================
+
+model AlertSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  module    String
+  filters   Json?
+  channel   String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model AlertLog {
+  id             String   @id @default(cuid())
+  subscriptionId String?
+  channel        String
+  subject        String
+  body           String
+  sentAt         DateTime @default(now())
+  status         String
+}
+
+// =============================================================================
+// AI SYNTHESIS REPORTS
+// =============================================================================
+
+model SynthesisReport {
+  id             String   @id @default(cuid())
+  reportType     String
+  periodStart    DateTime
+  periodEnd      DateTime
+  content        Json
+  rawMarkdown    String?
+  promptVersions Json?
+  createdAt      DateTime @default(now())
+
+  @@index([reportType])
+  @@index([periodStart(sort: Desc)])
+}

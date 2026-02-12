@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ---------- EY Brand Tokens ---------- */
+:root {
+  /* EY Brand Colors */
+  --ey-yellow: #FFE600;
+  --ey-dark: #2E2E38;
+  --ey-gray-dark: #464646;
+  --ey-gray-medium: #747480;
+  --ey-gray-light: #C4C4CD;
+  --ey-white: #FFFFFF;
+
+  /* Border radius */
+  --radius: 0.5rem;
+
+  /* Light theme (default) */
+  --background: #FAFAFA;
+  --foreground: #1A1A2E;
+
+  --card: #FFFFFF;
+  --card-foreground: #1A1A2E;
+
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1A2E;
+
+  --primary: #FFE600;
+  --primary-foreground: #2E2E38;
+
+  --secondary: #F4F4F5;
+  --secondary-foreground: #2E2E38;
+
+  --muted: #F4F4F5;
+  --muted-foreground: #747480;
+
+  --accent: #F4F4F5;
+  --accent-foreground: #2E2E38;
+
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+
+  --border: #E4E4E7;
+  --input: #E4E4E7;
+  --ring: #FFE600;
+
+  /* Chart palette - competitor-inspired */
+  --chart-1: #FFE600;
+  --chart-2: #00338D;
+  --chart-3: #EB8C00;
+  --chart-4: #86BC25;
+  --chart-5: #00A3E0;
+
+  /* Sidebar */
+  --sidebar: #2E2E38;
+  --sidebar-foreground: #E4E4E7;
+  --sidebar-accent: rgba(255, 230, 0, 0.1);
+  --sidebar-accent-foreground: #FFE600;
+  --sidebar-border: #3E3E4A;
+}
+
+.dark {
+  --background: #0C0C14;
+  --foreground: #F4F4F5;
+
+  --card: #1A1A2E;
+  --card-foreground: #F4F4F5;
+
+  --popover: #1A1A2E;
+  --popover-foreground: #F4F4F5;
+
+  --primary: #FFE600;
+  --primary-foreground: #2E2E38;
+
+  --secondary: #27272A;
+  --secondary-foreground: #F4F4F5;
+
+  --muted: #27272A;
+  --muted-foreground: #A1A1AA;
+
+  --accent: #27272A;
+  --accent-foreground: #F4F4F5;
+
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+
+  --border: #27272A;
+  --input: #27272A;
+  --ring: #FFE600;
+
+  --chart-1: #FFE600;
+  --chart-2: #4A8FE7;
+  --chart-3: #F5A623;
+  --chart-4: #A4D65E;
+  --chart-5: #33C3F0;
+
+  --sidebar: #131320;
+  --sidebar-foreground: #E4E4E7;
+  --sidebar-accent: rgba(255, 230, 0, 0.12);
+  --sidebar-accent-foreground: #FFE600;
+  --sidebar-border: #27272A;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #0C0C14;
+    --foreground: #F4F4F5;
+
+    --card: #1A1A2E;
+    --card-foreground: #F4F4F5;
+
+    --popover: #1A1A2E;
+    --popover-foreground: #F4F4F5;
+
+    --primary: #FFE600;
+    --primary-foreground: #2E2E38;
+
+    --secondary: #27272A;
+    --secondary-foreground: #F4F4F5;
+
+    --muted: #27272A;
+    --muted-foreground: #A1A1AA;
+
+    --accent: #27272A;
+    --accent-foreground: #F4F4F5;
+
+    --destructive: #DC2626;
+    --destructive-foreground: #FFFFFF;
+
+    --border: #27272A;
+    --input: #27272A;
+    --ring: #FFE600;
+
+    --chart-1: #FFE600;
+    --chart-2: #4A8FE7;
+    --chart-3: #F5A623;
+    --chart-4: #A4D65E;
+    --chart-5: #33C3F0;
+
+    --sidebar: #131320;
+    --sidebar-foreground: #E4E4E7;
+    --sidebar-accent: rgba(255, 230, 0, 0.12);
+    --sidebar-accent-foreground: #FFE600;
+    --sidebar-border: #27272A;
+  }
+}
+
+/* ---------- Base Styles ---------- */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+}
+
+* {
+  border-color: var(--border);
+}
+
+/* ---------- Scrollbar Styles ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
