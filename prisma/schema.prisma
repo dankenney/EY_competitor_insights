@@ -344,7 +344,11 @@ model GtmChange {
 }
 
 // =============================================================================
-// MODULE F: LAYOFFS & HIRING EVENTS
+// MODULE F: SUSTAINABILITY TALENT SIGNALS
+// Tracks sustainability-practice-specific events only: practice leadership
+// moves, sustainability team expansions/reductions, ESG practice restructurings.
+// NOT general corporate layoffs/hiring. Source: press releases, trade press,
+// annual reports. Headcount data is in HeadcountSnapshot (manual CSV / Revelio).
 // =============================================================================
 
 model LayoffEvent {

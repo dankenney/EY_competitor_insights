@@ -92,7 +92,7 @@ function ActivityBadge({ type }: { type: string }) {
       return (
         <Badge variant="outline" className="text-[10px] gap-1 border-blue-300 text-blue-700">
           <Briefcase className="h-3 w-3" />
-          Talent
+          Sustainability Talent
         </Badge>
       );
     default:

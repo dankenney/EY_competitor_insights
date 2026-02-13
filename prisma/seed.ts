@@ -154,7 +154,7 @@ const defaultPrompts = [
     name: "Publication Relevance Screener",
     description:
       "Quick screening to determine if a publication is relevant to sustainability/ESG competitive intelligence",
-    model: "gemini-2.0-flash",
+    model: "gemini-3.0-flash-preview",
     temperature: 0.1,
     maxTokens: 256,
     responseFormat: "json",
@@ -174,7 +174,7 @@ Is this publication relevant to sustainability/ESG competitive intelligence?`,
     name: "Publication Classifier",
     description:
       "Full classification of a sustainability publication into the CCaSS taxonomy",
-    model: "gemini-2.0-flash",
+    model: "gemini-3.0-flash-preview",
     temperature: 0.3,
     maxTokens: 2048,
     responseFormat: "json",
@@ -220,7 +220,7 @@ Return JSON:
     name: "Regulatory Event Classifier",
     description:
       "Classify regulatory events by geography, direction of change, and impact",
-    model: "gemini-2.0-flash",
+    model: "gemini-3.0-flash-preview",
     temperature: 0.2,
     maxTokens: 1536,
     responseFormat: "json",
@@ -255,7 +255,7 @@ Return JSON:
     name: "Monthly Executive Synthesis",
     description:
       "Generate monthly competitive intelligence executive briefing",
-    model: "gemini-2.0-pro",
+    model: "gemini-3.0-flash-preview",
     temperature: 0.4,
     maxTokens: 8192,
     responseFormat: null,
@@ -699,105 +699,82 @@ const headcountData: HeadcountEntry[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Layoff / hiring events
+// Sustainability talent signals
+// Only sustainability-practice-specific events: leadership moves, ESG practice
+// expansions/reductions, sustainability team restructurings. NOT general
+// corporate layoffs. Sources: press releases, trade press, annual reports.
 // ---------------------------------------------------------------------------
 
-const layoffEvents = [
-  {
-    company: "Deloitte",
-    slug: "deloitte",
-    eventType: "Layoff",
-    eventDate: 10, // months ago
-    headcountAffected: 200,
-    division: "Sustainability & Climate Advisory",
-    geography: "US",
-    driver: "Restructuring",
-    sourceName: "Financial Times",
-    sourceUrl: "https://ft.com/deloitte-sustainability-layoffs-2025",
-    aiSummary: "Deloitte laid off approximately 200 staff from its US sustainability practice as part of a broader restructuring. The cuts primarily affected junior to mid-level consultants.",
-  },
+const talentSignals = [
   {
     company: "BCG",
     slug: "bcg",
-    eventType: "Layoff",
-    eventDate: 8,
+    eventType: "Practice Restructuring",
+    eventDate: 8, // months ago
     headcountAffected: 50,
-    division: "Climate & Sustainability",
+    division: "Climate & Sustainability Practice",
     geography: "Global",
-    driver: "Market conditions",
+    driver: "Practice consolidation",
     sourceName: "Bloomberg",
     sourceUrl: "https://bloomberg.com/bcg-climate-team-reduction-2025",
-    aiSummary: "BCG reduced its dedicated climate practice by ~50 roles globally, consolidating climate expertise into broader industry practices rather than maintaining a standalone team.",
-  },
-  {
-    company: "Accenture",
-    slug: "accenture",
-    eventType: "Hiring Surge",
-    eventDate: 6,
-    headcountAffected: 400,
-    division: "Sustainability Technology",
-    geography: "Global",
-    driver: "CSRD demand",
-    sourceName: "Reuters",
-    sourceUrl: "https://reuters.com/accenture-sustainability-hiring-2025",
-    aiSummary: "Accenture announced plans to hire 400+ sustainability technology specialists globally, driven by CSRD implementation demand from European clients.",
-  },
-  {
-    company: "KPMG",
-    slug: "kpmg",
-    eventType: "Hiring Surge",
-    eventDate: 5,
-    headcountAffected: 300,
-    division: "ESG Assurance",
-    geography: "EU",
-    driver: "CSRD assurance demand",
-    sourceName: "Accountancy Daily",
-    sourceUrl: "https://accountancydaily.com/kpmg-esg-assurance-hiring-2025",
-    aiSummary: "KPMG expanded its ESG assurance team by 300 across European offices to meet CSRD limited assurance demand, signaling confidence in the regulatory-driven revenue stream.",
+    aiSummary: "BCG dissolved its standalone Climate & Sustainability practice, redistributing ~50 sustainability specialists into industry verticals (energy, industrials, financial institutions). Signals a shift from dedicated ESG teams to embedded sustainability expertise.",
   },
   {
     company: "PwC",
     slug: "pwc",
-    eventType: "Restructuring",
+    eventType: "Practice Restructuring",
     eventDate: 4,
-    headcountAffected: 150,
+    headcountAffected: null,
     division: "Sustainability & Climate Change",
     geography: "US",
     driver: "Practice reorganization",
     sourceName: "Wall Street Journal",
     sourceUrl: "https://wsj.com/pwc-sustainability-restructuring-2025",
-    aiSummary: "PwC restructured its US sustainability practice, moving 150 consultants into industry-aligned teams (financial services, energy, technology) rather than a centralized sustainability group.",
+    aiSummary: "PwC reorganized its US sustainability practice from a centralized group into industry-aligned teams. Sustainability partners now report to industry sector leaders rather than a dedicated sustainability practice lead.",
   },
   {
-    company: "McKinsey",
-    slug: "mckinsey",
-    eventType: "Hiring Surge",
-    eventDate: 3,
-    headcountAffected: 200,
-    division: "Sustainability Practice",
+    company: "Deloitte",
+    slug: "deloitte",
+    eventType: "Leadership Move",
+    eventDate: 6,
+    headcountAffected: null,
+    division: "Global Sustainability & Climate",
     geography: "Global",
-    driver: "Client demand",
-    sourceName: "McKinsey Careers",
-    sourceUrl: "https://mckinsey.com/sustainability-hiring-2025",
-    aiSummary: "McKinsey expanded its sustainability practice by 200 consultants globally, with particular focus on climate tech and decarbonization advisory.",
+    driver: "Leadership appointment",
+    sourceName: "Deloitte Press Release",
+    sourceUrl: "https://deloitte.com/global-sustainability-leader-2025",
+    aiSummary: "Deloitte appointed a new Global Sustainability & Climate practice leader, elevating the role to report directly to the Global CEO. Signals increased strategic priority for sustainability services at the firm level.",
   },
   {
     company: "ERM",
     slug: "erm",
-    eventType: "Acquisition",
+    eventType: "ESG Acquisition",
     eventDate: 2,
     headcountAffected: 100,
-    division: "ESG Technology",
+    division: "ESG Data & Technology",
     geography: "UK",
     driver: "Capability expansion",
     sourceName: "Environmental Analyst",
     sourceUrl: "https://environment-analyst.com/erm-acquisition-2025",
-    aiSummary: "ERM acquired a UK-based ESG data analytics firm, adding approximately 100 specialists to its digital sustainability capabilities.",
+    aiSummary: "ERM acquired a UK-based ESG data analytics firm, adding ~100 sustainability data specialists. Strengthens ERM's digital sustainability capabilities and positions them to compete with Big Four on CSRD technology solutions.",
+  },
+  {
+    company: "McKinsey",
+    slug: "mckinsey",
+    eventType: "Leadership Move",
+    eventDate: 3,
+    headcountAffected: null,
+    division: "McKinsey Sustainability",
+    geography: "Global",
+    driver: "Practice expansion",
+    sourceName: "McKinsey Press Release",
+    sourceUrl: "https://mckinsey.com/sustainability-leadership-2025",
+    aiSummary: "McKinsey elevated its sustainability practice to a full capability (alongside Strategy, Operations, etc.), appointing a senior partner as global head. Previously operated as a cross-cutting initiative rather than a standalone practice.",
   },
   {
     company: "EY",
     slug: "ey",
-    eventType: "Hiring Surge",
+    eventType: "Practice Expansion",
     eventDate: 1,
     headcountAffected: 350,
     division: "CCaSS Practice",
@@ -805,7 +782,7 @@ const layoffEvents = [
     driver: "CSRD and ISSB demand",
     sourceName: "EY Press Release",
     sourceUrl: "https://ey.com/ccass-expansion-2026",
-    aiSummary: "EY announced a global investment to add 350+ sustainability professionals to its CCaSS practice, targeting CSRD implementation and ISSB readiness advisory.",
+    aiSummary: "EY announced a dedicated investment to expand its CCaSS practice by 350+ sustainability professionals globally, with specific focus on CSRD implementation, ISSB readiness, and ESG assurance delivery. Hiring concentrated in EU and APAC.",
   },
 ];
 
@@ -980,8 +957,8 @@ async function main() {
   }
   console.log(`Seeded ${hcCount} headcount snapshots`);
 
-  // Seed layoff/hiring events
-  for (const event of layoffEvents) {
+  // Seed sustainability talent signals
+  for (const event of talentSignals) {
     const comp = competitorMap.get(event.slug);
     const eventDate = new Date();
     eventDate.setMonth(eventDate.getMonth() - event.eventDate);
@@ -1005,7 +982,7 @@ async function main() {
       },
     });
   }
-  console.log(`Seeded ${layoffEvents.length} layoff/hiring events`);
+  console.log(`Seeded ${talentSignals.length} sustainability talent signals`);
 
   // Seed scraper run history
   for (const comp of competitorRecords) {

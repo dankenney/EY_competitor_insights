@@ -17,8 +17,7 @@ Automated competitive intelligence platform for EY's Climate Change and Sustaina
 - **Database:** PostgreSQL (Neon serverless) + pgvector extension
 - **ORM:** Prisma
 - **AI:** Google Gemini API (`@google/generative-ai`)
-  - Gemini 2.0 Flash → screening/triage (fast, cheap)
-  - Gemini 2.0 Pro → classification, synthesis (high quality)
+  - Gemini 3.0 Flash Preview → screening, classification, synthesis (single model, cost-efficient)
   - text-embedding-004 → embeddings (768-dim)
 - **Scraping:** Playwright (JS-heavy) + Cheerio (static HTML)
 - **Job Queue:** BullMQ + Redis

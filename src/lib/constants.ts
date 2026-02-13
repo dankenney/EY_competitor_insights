@@ -113,10 +113,12 @@ export const ADMIN_NAV_ITEMS = [
 ] as const;
 
 // Gemini model configuration
+// Using Gemini 3 Flash Preview for all tasks — fast, cheap, high quality.
+// Keeps costs low by using a single model for screening + classification + synthesis.
 export const AI_MODELS = {
-  screening: "gemini-2.0-flash",
-  classification: "gemini-2.0-flash",
-  synthesis: "gemini-2.0-pro",
+  screening: "gemini-3.0-flash-preview",
+  classification: "gemini-3.0-flash-preview",
+  synthesis: "gemini-3.0-flash-preview",
   embedding: "text-embedding-004",
 } as const;
 

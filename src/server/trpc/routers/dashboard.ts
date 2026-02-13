@@ -210,7 +210,7 @@ export const dashboardRouter = router({
         ...layoffEvents.map((e) => ({
           id: e.id,
           type: "talent" as const,
-          title: `${e.company}: ${e.eventType} — ${e.headcountAffected ?? "?"} in ${e.division ?? "sustainability"}`,
+          title: `${e.company}: ${e.eventType}${e.division ? ` — ${e.division}` : ""}`,
           date: e.eventDate,
           competitor: e.competitor?.name ?? e.company,
           competitorSlug: e.competitor?.slug ?? null,
