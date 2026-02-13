@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
+import { trpc } from "@/lib/trpc";
 import {
   ArrowLeft,
   ExternalLink,
@@ -142,16 +143,8 @@ function TagList({ items, icon: Icon, label }: { items: string[]; icon: React.Co
 export function PublicationDetailClient({ id }: PublicationDetailClientProps) {
   const [rawTextExpanded, setRawTextExpanded] = useState(false);
 
-  // ---------------------------------------------------------------------------
-  // NOTE: Replace this placeholder with actual tRPC query when the client is
-  // connected:
-  //   const { data: publication, isLoading, isError } =
-  //     trpc.publications.getById.useQuery({ id });
-  // ---------------------------------------------------------------------------
-  // TODO: Replace with tRPC query: trpc.publications.getById.useQuery({ id })
-  const publication = null as PublicationDetail | null;
-  const isLoading = !publication;
-  const isError = false;
+  const { data: publication, isLoading, isError } =
+    trpc.publications.getById.useQuery({ id });
 
   // Loading state
   if (isLoading) {

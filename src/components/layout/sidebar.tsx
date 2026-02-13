@@ -16,6 +16,7 @@ import {
   Activity,
   Sparkles,
   UserCog,
+  UserCheck,
   ChevronLeft,
   ChevronRight,
   type LucideIcon,
@@ -45,6 +46,7 @@ const iconMap: Record<string, LucideIcon> = {
   Activity,
   Sparkles,
   UserCog,
+  UserCheck,
 };
 
 interface SidebarProps {

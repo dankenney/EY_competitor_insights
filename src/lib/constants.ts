@@ -100,6 +100,7 @@ export const NAV_ITEMS = [
   { label: "Publications", href: "/publications", icon: "FileText" },
   { label: "Competitors", href: "/competitors", icon: "Users" },
   { label: "Headcount", href: "/headcount", icon: "BarChart3" },
+  { label: "Talent Signals", href: "/talent-signals", icon: "UserCheck" },
   { label: "GTM Messaging", href: "/gtm", icon: "Target" },
   { label: "Client Sentiment", href: "/sentiment", icon: "TrendingUp" },
   { label: "Intelligence Q&A", href: "/chat", icon: "MessageSquare" },

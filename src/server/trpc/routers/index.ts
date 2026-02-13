@@ -1,6 +1,9 @@
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { publicationsRouter } from "./publications";
 import { dashboardRouter } from "./dashboard";
+import { regulatoryRouter } from "./regulatory";
+import { headcountRouter } from "./headcount";
+import { talentSignalsRouter } from "./talent-signals";
 
 /**
  * Health check router - verifies the API is operational.
@@ -19,6 +22,9 @@ export const appRouter = createTRPCRouter({
   health: healthRouter,
   publications: publicationsRouter,
   dashboard: dashboardRouter,
+  regulatory: regulatoryRouter,
+  headcount: headcountRouter,
+  talentSignals: talentSignalsRouter,
 });
 
 /**
