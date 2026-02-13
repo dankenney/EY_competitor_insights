@@ -48,12 +48,12 @@ prisma/                  → Schema, migrations, seed data
 ```
 
 ### Data Modules
-1. **Regulatory Tracker** — Monitors regulatory changes across US/EU/UK/APAC
-2. **Client Sentiment** — Approximates survey insights from public signals
-3. **Competitor Headcount** — Manual CSV upload (MVP), Revelio Labs (Phase 2)
-4. **Publications & Thought Leadership** — Scrapes + classifies competitor publications
-5. **GTM Messaging** — Tracks competitor website/messaging changes
-6. **Layoffs & Hiring** — Monitors sustainability layoff/hiring events
+1. **Publications & Thought Leadership** — Scrapes + classifies competitor publications *(fully implemented)*
+2. **Regulatory Tracker** — Monitors regulatory changes across US/EU/UK/APAC *(schema + dashboard widget)*
+3. **Competitor Headcount** — Manual CSV upload (MVP), Revelio Labs (Phase 2) *(schema + dashboard widget)*
+4. **Sustainability Talent Signals** — Practice-specific leadership moves, ESG practice restructurings, sustainability team changes. NOT general corporate hiring/layoffs. *(schema + dashboard widget)*
+5. **GTM Messaging** — Tracks competitor website/messaging changes *(schema only)*
+6. **Client Sentiment** — Approximates survey insights from public signals *(schema only)*
 
 ## Coding Standards
 
