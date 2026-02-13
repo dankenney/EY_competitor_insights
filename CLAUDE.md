@@ -17,12 +17,14 @@ Automated competitive intelligence platform for EY's Climate Change and Sustaina
 - **Database:** PostgreSQL (Neon serverless) + pgvector extension
 - **ORM:** Prisma
 - **AI:** Google Gemini API (`@google/generative-ai`)
-  - Gemini 3.0 Flash Preview → screening, classification, synthesis (single model, cost-efficient)
-  - text-embedding-004 → embeddings (768-dim)
-- **Scraping:** Playwright (JS-heavy) + Cheerio (static HTML)
+  - Gemini 3.0 Flash Preview → screening, classification (high-volume ETL)
+  - Gemini 2.5 Pro → monthly synthesis, Chat Q&A (exec-facing reasoning)
+  - text-embedding-004 → embeddings (768-dim, chunked: 500 tokens / 100-token overlap)
+- **Vector Index:** pgvector HNSW (not IVFFlat)
+- **Scraping:** Playwright (JS-heavy) + Cheerio (static HTML); Firecrawl/Jina fallback (Phase 2)
 - **Job Queue:** BullMQ + Redis
 - **Email:** Resend
-- **Exports:** PptxGenJS (PPTX), @react-pdf/renderer (PDF)
+- **Exports:** docxtemplater with PPTX plugin (template-based), @react-pdf/renderer (PDF)
 
 ## Architecture
 
@@ -84,12 +86,40 @@ prisma/                  → Schema, migrations, seed data
 - Every prompt has a `slug` for lookup (e.g., `screen-publication`, `classify-publication`).
 - Prompt changes are versioned — `AiPromptHistory` stores every edit.
 
+### AI Model Selection
+- Use `AI_MODELS.screening` / `AI_MODELS.classification` (Flash) for high-volume ETL tasks.
+- Use `AI_MODELS.synthesis` / `AI_MODELS.chat` (Pro) for executive-facing output and chat Q&A.
+- Never hardcode model names — always reference `AI_MODELS` from `src/lib/constants.ts`.
+
+### Embeddings & Vector Search
+- Chunk long texts (500 tokens, 100-token overlap) before embedding.
+- Store chunks in `DocumentEmbedding` with incrementing `chunkIndex`.
+- Use HNSW index for pgvector (not IVFFlat).
+- Vector search operates on chunks, not whole documents.
+
+### PPTX Export
+- Use template-based generation with `docxtemplater` (PPTX plugin).
+- EY designer owns the .pptx master template with placeholder tags (e.g., `{{COMPETITOR_1_INSIGHT}}`).
+- Charts render server-side as PNG binaries and are inserted as images.
+- Do NOT build slides programmatically with PptxGenJS unless the template approach cannot support a specific slide type.
+
+### Chat Q&A
+- Chat uses agentic RAG with Gemini function calling (tool use), not pure vector search.
+- The LLM decides at runtime whether to vector-search, call structured query tools, or both.
+- Tool definitions map to existing tRPC procedures invoked server-side.
+
 ### Scrapers
 - All scrapers extend `BaseScraper` from `workers/scrapers/base.ts`.
 - Every scraper run MUST record a `ScraperRun` entry (success or failure).
 - Respect rate limits: minimum 2-second delay between requests to the same domain.
 - Use retry with exponential backoff (3 attempts max).
 - Scraper → DB is separate from AI classification. Scrapers store raw data; a separate BullMQ job classifies.
+- Phase 2: If a CSS-based scraper fails health checks, fall back to Firecrawl/Jina + LLM extraction.
+
+### Caching
+- Use Next.js `unstable_cache` with revalidation tags for dashboard queries. Do NOT add Redis caching to the tRPC layer.
+- Revalidate cache tags when classification jobs complete.
+- Redis is reserved for BullMQ and future chat session state only.
 
 ## Environment Setup
 
@@ -119,6 +149,12 @@ See `.env.example` for the full list. Critical ones:
 4. **Don't create new PrismaClient instances** — Use the singleton from `src/server/db/index.ts`.
 5. **Don't hardcode AI prompts** — Use the prompt loader, which reads from DB with caching.
 6. **Don't use standalone API routes for data queries** — Use tRPC routers.
+7. **Don't use IVFFlat for pgvector** — Use HNSW indexes. IVFFlat requires pre-populated tables and has worse recall.
+8. **Don't embed whole documents as single vectors** — Chunk first (500 tokens, 100-token overlap), then embed each chunk.
+9. **Don't use SHA-256 hashing for GTM change detection** — Use LLM semantic diff (Gemini Flash) to avoid false positives from timestamps/widgets.
+10. **Don't build PPTX slides programmatically** — Use the designer-owned template with `docxtemplater`. Only fall back to PptxGenJS for truly dynamic slides.
+11. **Don't use Redis for tRPC query caching** — Use Next.js `unstable_cache` with revalidation tags. Redis is for BullMQ only.
+12. **Don't use Flash for synthesis or chat** — Use `AI_MODELS.synthesis` / `AI_MODELS.chat` (Gemini 2.5 Pro) for exec-facing output.
 
 ## EY Brand Colors
 
