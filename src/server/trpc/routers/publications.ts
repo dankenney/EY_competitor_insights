@@ -297,7 +297,7 @@ export const publicationsRouter = router({
 
     // Convert to array for the chart
     const trends = Array.from(monthBuckets.entries()).map(([month, counts]) => {
-      const row: Record<string, string | number> = { month };
+      const row: { month: string; [key: string]: string | number } = { month };
       for (const slug of competitorSlugs.keys()) {
         row[slug] = counts[slug] ?? 0;
       }

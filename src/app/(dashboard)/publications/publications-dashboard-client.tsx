@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { subMonths, startOfMonth } from "date-fns";
+import { trpc } from "@/lib/trpc";
 
 import {
   PublicationStats,
@@ -9,15 +10,12 @@ import {
 } from "@/components/modules/publications/publication-stats";
 import {
   PublicationTrendChart,
-  type TrendDataPoint,
 } from "@/components/modules/publications/publication-trend-chart";
 import {
   ThemeHeatmap,
-  type CompetitorThemeData,
 } from "@/components/modules/publications/theme-heatmap";
 import {
   PublicationsTable,
-  type PublicationRow,
 } from "@/components/modules/publications/publications-table";
 import {
   CardSkeleton,
@@ -28,35 +26,6 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { FileText, Calendar } from "lucide-react";
-
-// ---------------------------------------------------------------------------
-// NOTE: This component is designed to work with tRPC hooks once the full
-// tRPC client is wired up. In the interim, it demonstrates the intended
-// data flow with placeholder hooks and loading/empty states.
-//
-// Once tRPC is connected, replace the placeholder hooks below with:
-//   import { trpc } from "@/lib/trpc/client";
-//   const stats = trpc.publications.getStats.useQuery({ dateFrom, dateTo });
-//   const trends = trpc.publications.getTrends.useQuery({ months: 12 });
-//   const themeDistribution = trpc.publications.getThemeDistribution.useQuery({ dateFrom, dateTo });
-//   const list = trpc.publications.list.useQuery({ page, limit: 50 });
-// ---------------------------------------------------------------------------
-
-// Placeholder hook types that mirror the tRPC query shape
-interface QueryResult<T> {
-  data: T | undefined;
-  isLoading: boolean;
-  isError: boolean;
-  error: { message: string } | null;
-}
-
-/**
- * Stub hook - returns loading state to allow the full UI skeleton to render.
- * Replace with actual tRPC calls when the client is wired.
- */
-function usePlaceholder<T>(): QueryResult<T> {
-  return { data: undefined, isLoading: true, isError: false, error: null };
-}
 
 // ---------------------------------------------------------------------------
 // Date range presets
@@ -87,31 +56,13 @@ export function PublicationsDashboardClient() {
   const [datePreset, setDatePreset] = useState<DatePreset>("12m");
   const { dateFrom, dateTo } = useMemo(() => getDateRange(datePreset), [datePreset]);
 
-  // ----- tRPC queries (stubs) -----
-  // Replace usePlaceholder with actual tRPC hooks when available:
-  //   const statsQuery = trpc.publications.getStats.useQuery({ dateFrom, dateTo });
-  const statsQuery = usePlaceholder<{
-    total: number;
-    byCompetitor: { competitorId: string; competitorName: string; slug: string; brandColor: string; count: number }[];
-    byTheme: { theme: string; count: number }[];
-    byContentType: { contentType: string; count: number }[];
-    classified: number;
-    unclassified: number;
-  }>();
-
-  const trendsQuery = usePlaceholder<{
-    trends: TrendDataPoint[];
-    competitors: { slug: string; name: string; brandColor: string | null }[];
-  }>();
-
-  const themeQuery = usePlaceholder<CompetitorThemeData[]>();
-
-  const listQuery = usePlaceholder<{
-    items: PublicationRow[];
-    total: number;
-    page: number;
-    totalPages: number;
-  }>();
+  // ----- Live tRPC queries -----
+  const statsQuery = trpc.publications.getStats.useQuery({ dateFrom, dateTo });
+  const trendsQuery = trpc.publications.getTrends.useQuery({
+    months: datePreset === "3m" ? 3 : datePreset === "6m" ? 6 : 12,
+  });
+  const themeQuery = trpc.publications.getThemeDistribution.useQuery({ dateFrom, dateTo });
+  const listQuery = trpc.publications.list.useQuery({ page: 1, limit: 50, dateFrom, dateTo });
 
   // ----- Derived data -----
   const statsData: PublicationStatsData | null = statsQuery.data
@@ -121,7 +72,7 @@ export function PublicationsDashboardClient() {
         byTheme: statsQuery.data.byTheme,
         classified: statsQuery.data.classified,
         unclassified: statsQuery.data.unclassified,
-        thisMonthCount: 0, // Could be computed from trends data
+        thisMonthCount: 0,
       }
     : null;
 

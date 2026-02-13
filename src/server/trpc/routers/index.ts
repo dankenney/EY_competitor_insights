@@ -1,5 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { publicationsRouter } from "./publications";
+import { dashboardRouter } from "./dashboard";
 
 /**
  * Health check router - verifies the API is operational.
@@ -17,6 +18,7 @@ const healthRouter = createTRPCRouter({
 export const appRouter = createTRPCRouter({
   health: healthRouter,
   publications: publicationsRouter,
+  dashboard: dashboardRouter,
 });
 
 /**
