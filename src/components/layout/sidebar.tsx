@@ -194,6 +194,33 @@ export function Sidebar({ isAdmin = false }: SidebarProps) {
           )}
         </ScrollArea>
 
+        {/* Data Chat CTA */}
+        <div className="px-3 pb-3">
+          {collapsed ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/chat"
+                  className="flex h-10 w-10 items-center justify-center rounded-md mx-auto bg-[var(--ey-yellow)] text-[var(--ey-dark)] transition-all hover:brightness-110 hover:scale-105 shadow-lg shadow-[var(--ey-yellow)]/30"
+                >
+                  <MessageSquare className="h-5 w-5" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right" className="bg-[var(--ey-yellow)] text-[var(--ey-dark)] font-semibold border-0">
+                Try Data Chat!
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <Link
+              href="/chat"
+              className="flex items-center justify-center gap-2 rounded-md bg-[var(--ey-yellow)] px-4 py-2.5 text-sm font-bold text-[var(--ey-dark)] transition-all hover:brightness-110 hover:scale-[1.02] shadow-lg shadow-[var(--ey-yellow)]/30"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Try Data Chat!
+            </Link>
+          )}
+        </div>
+
         {/* Collapse toggle */}
         <Separator className="bg-sidebar-border" />
         <div className="flex h-12 items-center justify-center px-2">
