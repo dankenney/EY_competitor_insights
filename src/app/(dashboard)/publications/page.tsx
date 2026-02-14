@@ -12,9 +12,9 @@ import { PublicationsDashboardClient } from "./publications-dashboard-client";
 // ---------------------------------------------------------------------------
 
 export const metadata = {
-  title: "Publications & Thought Leadership | CCaSS Intelligence",
+  title: "Content Marketing | CCaSS Intelligence",
   description:
-    "Track and analyze competitor sustainability publications, thought leadership, and content strategies.",
+    "Track and analyze competitor sustainability content marketing, thought leadership, and publications.",
 };
 
 // ---------------------------------------------------------------------------
@@ -59,11 +59,11 @@ export default function PublicationsPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              Publications &amp; Thought Leadership
+              Content Marketing
             </h1>
             <p className="text-sm text-muted-foreground">
-              Track competitor sustainability publications, themes, and content
-              strategies
+              Track competitor sustainability publications, thought leadership,
+              and content strategies
             </p>
           </div>
         </div>

@@ -96,15 +96,12 @@ export const EY_COLORS = {
 // Navigation items for the sidebar
 export const NAV_ITEMS = [
   { label: "Dashboard", href: "/", icon: "LayoutDashboard" },
-  { label: "Regulatory", href: "/regulatory", icon: "Scale" },
-  { label: "Publications", href: "/publications", icon: "FileText" },
   { label: "Competitors", href: "/competitors", icon: "Users" },
+  { label: "Regulatory", href: "/regulatory", icon: "Scale" },
+  { label: "Content Marketing", href: "/publications", icon: "FileText" },
   { label: "AI Positioning", href: "/ai-positioning", icon: "Brain" },
-  { label: "Headcount", href: "/headcount", icon: "BarChart3" },
-  { label: "Talent Signals", href: "/talent-signals", icon: "UserCheck" },
-  { label: "GTM Messaging", href: "/gtm", icon: "Target" },
-  { label: "Client Sentiment", href: "/sentiment", icon: "TrendingUp" },
-  { label: "Intelligence Q&A", href: "/chat", icon: "MessageSquare" },
+  { label: "Talent", href: "/talent", icon: "UserCheck" },
+  { label: "Data Chat", href: "/chat", icon: "MessageSquare" },
   { label: "Reports", href: "/reports", icon: "Download" },
 ] as const;
 
