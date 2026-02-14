@@ -683,7 +683,9 @@ const headcountData: HeadcountEntry[] = [
     slug: "erm",
     snapshots: [
       { monthsAgo: 12, total: 2800, us: 800, uk: 600, india: 200, eu: 700, apac: 500 },
+      { monthsAgo: 9, total: 2840, us: 808, uk: 608, india: 204, eu: 708, apac: 512 },
       { monthsAgo: 6, total: 2900, us: 820, uk: 620, india: 210, eu: 720, apac: 530 },
+      { monthsAgo: 3, total: 2950, us: 835, uk: 630, india: 215, eu: 730, apac: 540 },
       { monthsAgo: 0, total: 3000, us: 850, uk: 640, india: 220, eu: 740, apac: 550 },
     ],
   },
@@ -691,7 +693,9 @@ const headcountData: HeadcountEntry[] = [
     slug: "wsp",
     snapshots: [
       { monthsAgo: 12, total: 2200, us: 600, uk: 400, india: 100, eu: 600, apac: 500 },
+      { monthsAgo: 9, total: 2240, us: 608, uk: 408, india: 104, eu: 608, apac: 512 },
       { monthsAgo: 6, total: 2300, us: 620, uk: 420, india: 110, eu: 620, apac: 530 },
+      { monthsAgo: 3, total: 2350, us: 635, uk: 430, india: 115, eu: 630, apac: 540 },
       { monthsAgo: 0, total: 2400, us: 650, uk: 440, india: 120, eu: 640, apac: 550 },
     ],
   },
@@ -699,7 +703,9 @@ const headcountData: HeadcountEntry[] = [
     slug: "bureau-veritas",
     snapshots: [
       { monthsAgo: 12, total: 1800, us: 400, uk: 300, india: 150, eu: 600, apac: 350 },
+      { monthsAgo: 9, total: 1840, us: 408, uk: 304, india: 154, eu: 612, apac: 362 },
       { monthsAgo: 6, total: 1900, us: 420, uk: 310, india: 160, eu: 630, apac: 380 },
+      { monthsAgo: 3, total: 1950, us: 430, uk: 315, india: 165, eu: 645, apac: 395 },
       { monthsAgo: 0, total: 2000, us: 440, uk: 320, india: 170, eu: 660, apac: 410 },
     ],
   },
