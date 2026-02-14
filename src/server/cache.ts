@@ -18,6 +18,8 @@ export const CACHE_TAGS = {
   dashboard: "dashboard",
   /** Invalidate when competitors are added/modified */
   competitors: "competitors",
+  /** Invalidate when AI positioning signals are added or classified */
+  aiPositioning: "ai-positioning",
 } as const;
 
 /**

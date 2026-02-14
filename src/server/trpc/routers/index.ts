@@ -4,6 +4,7 @@ import { dashboardRouter } from "./dashboard";
 import { regulatoryRouter } from "./regulatory";
 import { headcountRouter } from "./headcount";
 import { talentSignalsRouter } from "./talent-signals";
+import { aiPositioningRouter } from "./ai-positioning";
 
 /**
  * Health check router - verifies the API is operational.
@@ -25,6 +26,7 @@ export const appRouter = createTRPCRouter({
   regulatory: regulatoryRouter,
   headcount: headcountRouter,
   talentSignals: talentSignalsRouter,
+  aiPositioning: aiPositioningRouter,
 });
 
 /**

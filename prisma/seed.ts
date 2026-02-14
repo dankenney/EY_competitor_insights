@@ -787,6 +787,627 @@ const talentSignals = [
 ];
 
 // ---------------------------------------------------------------------------
+// AI Positioning seed data
+// ---------------------------------------------------------------------------
+
+const aiPageUrlsBySlug: Record<string, string[]> = {
+  ey: [
+    "https://www.ey.com/en_gl/services/sustainability/ai-sustainability",
+    "https://www.ey.com/en_gl/ai/sustainability",
+  ],
+  kpmg: [
+    "https://kpmg.com/xx/en/our-services/advisory/esg/esg-technology.html",
+  ],
+  pwc: [
+    "https://www.pwc.com/gx/en/services/sustainability/esg-technology.html",
+  ],
+  deloitte: [
+    "https://www.deloitte.com/global/en/services/consulting/sustainability-technology.html",
+  ],
+  erm: [
+    "https://www.erm.com/service/digital/",
+  ],
+  wsp: [
+    "https://www.wsp.com/en-gl/services/digital-environment",
+  ],
+  "bureau-veritas": [
+    "https://www.bureauveritas.com/digital-trust",
+  ],
+  mckinsey: [
+    "https://www.mckinsey.com/capabilities/sustainability/how-we-help-clients/ai-for-sustainability",
+  ],
+  bcg: [
+    "https://www.bcg.com/capabilities/climate-change-sustainability/ai-sustainability",
+  ],
+  accenture: [
+    "https://www.accenture.com/us-en/services/sustainability/ai-sustainability",
+  ],
+};
+
+const aiPositioningSignals = [
+  // HIGH REALITY — deployed, named clients, metrics
+  {
+    slug: "bcg",
+    title: "BCG CO2 AI Platform: Multi-Enterprise Carbon Management at Scale",
+    sourceUrl: "https://www.bcg.com/capabilities/climate-change-sustainability/co2-ai",
+    sourceName: "BCG",
+    signalType: "Product Launch",
+    aiCapabilityCategory: "Carbon Accounting & Emissions Management",
+    sustainabilityDomain: "Climate & Decarbonization",
+    productName: "CO2 AI by BCG",
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Scaled",
+    evidenceScore: 0.92,
+    claimSpecificity: 0.88,
+    verifiability: 0.85,
+    realityScore: 0.90,
+    evidenceIndicators: ["Named platform (CO2 AI)", "500+ enterprise users reported", "Publicly verifiable tool", "Independent media coverage"],
+    hypeFlagReasons: [],
+    aiSummary: "BCG's CO2 AI is a SaaS platform enabling enterprises to measure, simulate, and reduce Scope 1-3 emissions. Deployed at scale with 500+ enterprises. One of the most concrete AI-sustainability products in the market.",
+    keyClaimsExtracted: ["500+ enterprises using the platform", "Scope 1-3 emissions measurement", "AI-powered simulation of reduction scenarios", "Available as standalone SaaS"],
+    namedClients: ["Henkel", "Holcim"],
+    quantitativeMetrics: ["500+ enterprise users", "35% average reduction in reporting time"],
+    isSignificant: true,
+    monthsAgo: 3,
+  },
+  {
+    slug: "ey",
+    title: "EY.ai Sustainability Suite: AI-Powered CSRD Compliance Automation",
+    sourceUrl: "https://www.ey.com/en_gl/services/sustainability/ai-csrd-compliance",
+    sourceName: "EY",
+    signalType: "Platform Update",
+    aiCapabilityCategory: "ESG Data Analytics & Reporting",
+    sustainabilityDomain: "ESG Reporting & Disclosure",
+    productName: "EY.ai Sustainability Suite",
+    partnerName: "Microsoft",
+    partnerType: "Technology",
+    partnerships: [{ name: "Microsoft", type: "Technology", depth: "Deep integration", announced: "2025-06" }],
+    maturityLevel: "Deployed",
+    evidenceScore: 0.82,
+    claimSpecificity: 0.78,
+    verifiability: 0.72,
+    realityScore: 0.79,
+    evidenceIndicators: ["Named product suite", "Microsoft partnership", "CSRD-specific use case", "Multiple client references"],
+    hypeFlagReasons: [],
+    aiSummary: "EY launched the EY.ai Sustainability Suite for automated CSRD double materiality assessments, data collection, and ESRS-aligned report generation. Built on Microsoft Azure AI. Multiple client pilots reported.",
+    keyClaimsExtracted: ["Automated double materiality assessment", "ESRS-aligned report generation", "Built on Microsoft Azure AI", "50% reduction in data collection time"],
+    namedClients: ["Siemens", "Unilever"],
+    quantitativeMetrics: ["50% data collection time reduction", "12 ESRS standards covered"],
+    isSignificant: true,
+    monthsAgo: 2,
+  },
+  {
+    slug: "accenture",
+    title: "Accenture Green Software Foundation: Measuring and Reducing Digital Carbon",
+    sourceUrl: "https://www.accenture.com/us-en/services/sustainability/green-software",
+    sourceName: "Accenture",
+    signalType: "Client Win / Case Study",
+    aiCapabilityCategory: "Carbon Accounting & Emissions Management",
+    sustainabilityDomain: "Climate & Decarbonization",
+    productName: "Green Software Dashboard",
+    partnerName: "Green Software Foundation",
+    partnerType: "Industry",
+    partnerships: [{ name: "Green Software Foundation", type: "Industry", depth: "Founding member", announced: "2024-01" }],
+    maturityLevel: "Deployed",
+    evidenceScore: 0.80,
+    claimSpecificity: 0.82,
+    verifiability: 0.78,
+    realityScore: 0.80,
+    evidenceIndicators: ["Founding member of GSF", "Named client deployments", "Open-source contributions", "Measurable outcomes"],
+    hypeFlagReasons: [],
+    aiSummary: "Accenture, as a founding member of the Green Software Foundation, has deployed green software measurement tools for clients. Real deployments with measurable carbon reduction outcomes from software optimization.",
+    keyClaimsExtracted: ["Founding member of Green Software Foundation", "Software carbon intensity measurement", "Client deployments in financial services"],
+    namedClients: ["Deutsche Bank"],
+    quantitativeMetrics: ["30% reduction in cloud carbon emissions for key clients"],
+    isSignificant: true,
+    monthsAgo: 4,
+  },
+
+  // MEDIUM REALITY — partnerships with specifics, pilot stage
+  {
+    slug: "deloitte",
+    title: "Deloitte-ServiceNow ESG Management Platform Integration",
+    sourceUrl: "https://www.deloitte.com/global/en/services/consulting/deloitte-servicenow-esg",
+    sourceName: "Deloitte",
+    signalType: "Partnership Announcement",
+    aiCapabilityCategory: "ESG Data Analytics & Reporting",
+    sustainabilityDomain: "ESG Reporting & Disclosure",
+    productName: null,
+    partnerName: "ServiceNow",
+    partnerType: "Technology",
+    partnerships: [{ name: "ServiceNow", type: "Technology", depth: "Joint solution", announced: "2025-03" }],
+    maturityLevel: "Pilot",
+    evidenceScore: 0.55,
+    claimSpecificity: 0.62,
+    verifiability: 0.50,
+    realityScore: 0.56,
+    evidenceIndicators: ["Named technology partner", "Joint press release", "Specific platform integration"],
+    hypeFlagReasons: ["No named client deployments yet", "Pilot stage only"],
+    aiSummary: "Deloitte announced a partnership with ServiceNow to integrate ESG data management into the Now Platform. AI-powered data collection and automated ESG workflows. Currently in pilot with select clients.",
+    keyClaimsExtracted: ["ServiceNow platform integration", "AI-powered ESG data workflows", "Automated reporting pipelines"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 5,
+  },
+  {
+    slug: "kpmg",
+    title: "KPMG ESG Data & Analytics Hub: AI-Driven Regulatory Mapping",
+    sourceUrl: "https://kpmg.com/xx/en/our-services/advisory/esg/kpmg-esg-hub",
+    sourceName: "KPMG",
+    signalType: "Product Launch",
+    aiCapabilityCategory: "Regulatory Intelligence & Compliance",
+    sustainabilityDomain: "ESG Reporting & Disclosure",
+    productName: "KPMG ESG Hub",
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Pilot",
+    evidenceScore: 0.50,
+    claimSpecificity: 0.58,
+    verifiability: 0.42,
+    realityScore: 0.51,
+    evidenceIndicators: ["Named product", "Specific regulatory mapping use case"],
+    hypeFlagReasons: ["Limited external validation", "No client metrics shared"],
+    aiSummary: "KPMG launched the ESG Data & Analytics Hub, an AI-powered platform for mapping ESG regulations across jurisdictions and automating compliance gap analysis. In pilot with a handful of clients.",
+    keyClaimsExtracted: ["Multi-jurisdictional regulatory mapping", "Automated compliance gap analysis", "AI-powered data extraction"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 6,
+  },
+  {
+    slug: "pwc",
+    title: "PwC-Google Cloud ESG Data Engine Partnership",
+    sourceUrl: "https://www.pwc.com/gx/en/services/sustainability/pwc-google-esg-data",
+    sourceName: "PwC",
+    signalType: "Partnership Announcement",
+    aiCapabilityCategory: "ESG Data Analytics & Reporting",
+    sustainabilityDomain: "ESG Reporting & Disclosure",
+    productName: null,
+    partnerName: "Google Cloud",
+    partnerType: "Technology",
+    partnerships: [{ name: "Google Cloud", type: "Technology", depth: "Alliance", announced: "2025-01" }],
+    maturityLevel: "Pilot",
+    evidenceScore: 0.52,
+    claimSpecificity: 0.55,
+    verifiability: 0.48,
+    realityScore: 0.52,
+    evidenceIndicators: ["Named technology partner", "Specific data platform use case"],
+    hypeFlagReasons: ["Alliance-level only", "No deployed clients mentioned"],
+    aiSummary: "PwC partnered with Google Cloud to develop an ESG data engine leveraging BigQuery and Vertex AI for automated sustainability data ingestion, validation, and analysis. Alliance stage with pilot clients.",
+    keyClaimsExtracted: ["Google Cloud Vertex AI integration", "Automated ESG data validation", "BigQuery-based analytics"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 8,
+  },
+  {
+    slug: "mckinsey",
+    title: "McKinsey Sustainability Lighthouse: AI for Decarbonization Pathways",
+    sourceUrl: "https://www.mckinsey.com/capabilities/sustainability/how-we-help-clients/ai-decarbonization",
+    sourceName: "McKinsey",
+    signalType: "Internal Capability",
+    aiCapabilityCategory: "Climate Modeling & Scenario Analysis",
+    sustainabilityDomain: "Climate & Decarbonization",
+    productName: "Sustainability Lighthouse",
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Deployed",
+    evidenceScore: 0.68,
+    claimSpecificity: 0.70,
+    verifiability: 0.55,
+    realityScore: 0.66,
+    evidenceIndicators: ["Named internal tool", "Referenced in multiple published case studies", "Used in engagement delivery"],
+    hypeFlagReasons: ["Not externally accessible", "Primarily consulting-embedded"],
+    aiSummary: "McKinsey uses the Sustainability Lighthouse, an internal AI-powered analytics suite, for client decarbonization pathway modeling. Provides sector-specific marginal abatement cost curves and scenario analysis. Used in engagements but not sold as standalone product.",
+    keyClaimsExtracted: ["AI-powered decarbonization modeling", "Marginal abatement cost curves", "Sector-specific scenario analysis"],
+    namedClients: [],
+    quantitativeMetrics: ["Used in 200+ sustainability engagements"],
+    isSignificant: true,
+    monthsAgo: 1,
+  },
+
+  // LOW REALITY — vague claims, thought leadership, buzzwords
+  {
+    slug: "pwc",
+    title: "PwC: How AI Will Transform ESG Reporting — A Vision for 2030",
+    sourceUrl: "https://www.pwc.com/gx/en/issues/esg/ai-transform-esg-reporting-2030",
+    sourceName: "PwC",
+    signalType: "Thought Leadership",
+    aiCapabilityCategory: "General AI & Sustainability Strategy",
+    sustainabilityDomain: "Cross-Domain",
+    productName: null,
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Announced",
+    evidenceScore: 0.15,
+    claimSpecificity: 0.20,
+    verifiability: 0.18,
+    realityScore: 0.17,
+    evidenceIndicators: [],
+    hypeFlagReasons: ["Vision piece only", "No specific products or deployments", "Future-oriented claims", "Generic AI references"],
+    aiSummary: "Thought leadership article from PwC outlining a future vision for AI in ESG reporting. No specific products, tools, or client examples. Aspirational language about 'AI-powered transformation' without concrete capabilities.",
+    keyClaimsExtracted: ["AI will automate 80% of ESG data collection by 2030", "End-to-end AI-powered reporting"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 7,
+  },
+  {
+    slug: "deloitte",
+    title: "Deloitte: AI-Powered Sustainability Transformation — Reimagining the Possible",
+    sourceUrl: "https://www.deloitte.com/global/en/issues/climate/ai-sustainability-transformation",
+    sourceName: "Deloitte",
+    signalType: "Vague Claim",
+    aiCapabilityCategory: "General AI & Sustainability Strategy",
+    sustainabilityDomain: "Cross-Domain",
+    productName: null,
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Announced",
+    evidenceScore: 0.12,
+    claimSpecificity: 0.15,
+    verifiability: 0.10,
+    realityScore: 0.12,
+    evidenceIndicators: [],
+    hypeFlagReasons: ["Pure buzzwords", "No named tools or platforms", "Generic AI-powered claims", "No metrics or client references"],
+    aiSummary: "Generic thought leadership from Deloitte using 'AI-powered sustainability transformation' framing with no specific products, tools, or measurable client outcomes. Typical press release theatre.",
+    keyClaimsExtracted: ["AI-powered end-to-end sustainability transformation", "Proprietary AI models"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 9,
+  },
+  {
+    slug: "kpmg",
+    title: "KPMG: Responsible AI for a Sustainable Future — Thought Leadership Series",
+    sourceUrl: "https://kpmg.com/xx/en/our-insights/esg/responsible-ai-sustainable-future",
+    sourceName: "KPMG",
+    signalType: "Thought Leadership",
+    aiCapabilityCategory: "General AI & Sustainability Strategy",
+    sustainabilityDomain: "Cross-Domain",
+    productName: null,
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Announced",
+    evidenceScore: 0.18,
+    claimSpecificity: 0.22,
+    verifiability: 0.15,
+    realityScore: 0.19,
+    evidenceIndicators: [],
+    hypeFlagReasons: ["Thought leadership only", "No deployments", "Generic responsible AI framing"],
+    aiSummary: "KPMG thought leadership series on responsible AI and sustainability. General discussion of AI ethics in ESG context. No specific tools, products, or client examples. Positions KPMG as 'thinking about the problem' rather than solving it.",
+    keyClaimsExtracted: ["Responsible AI framework for ESG", "AI governance for sustainability"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 10,
+  },
+
+  // MORE MIXED SIGNALS
+  {
+    slug: "erm",
+    title: "ERM Digital: AI-Enhanced Environmental Impact Assessment Platform",
+    sourceUrl: "https://www.erm.com/service/digital/ai-environmental-impact",
+    sourceName: "ERM",
+    signalType: "Platform Update",
+    aiCapabilityCategory: "Biodiversity & Nature Analytics",
+    sustainabilityDomain: "Nature & Biodiversity",
+    productName: "ERM Intelligence",
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Deployed",
+    evidenceScore: 0.72,
+    claimSpecificity: 0.68,
+    verifiability: 0.60,
+    realityScore: 0.69,
+    evidenceIndicators: ["Named platform", "Specific EIA use case", "Engineering domain expertise"],
+    hypeFlagReasons: ["Limited public metrics"],
+    aiSummary: "ERM launched AI-enhanced environmental impact assessment capabilities within its digital platform. Uses NLP to analyze environmental baseline data and predict ecological impacts. Deployed with mining and energy clients.",
+    keyClaimsExtracted: ["NLP-powered environmental baseline analysis", "Predictive ecological impact modeling"],
+    namedClients: [],
+    quantitativeMetrics: ["40% faster EIA turnaround"],
+    isSignificant: true,
+    monthsAgo: 2,
+  },
+  {
+    slug: "wsp",
+    title: "WSP Launches AI-Powered Climate Risk Analytics for Infrastructure",
+    sourceUrl: "https://www.wsp.com/en-gl/insights/ai-climate-risk-infrastructure",
+    sourceName: "WSP",
+    signalType: "Product Launch",
+    aiCapabilityCategory: "Climate Modeling & Scenario Analysis",
+    sustainabilityDomain: "Climate & Decarbonization",
+    productName: "WSP Climate Intelligence",
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Pilot",
+    evidenceScore: 0.55,
+    claimSpecificity: 0.60,
+    verifiability: 0.48,
+    realityScore: 0.55,
+    evidenceIndicators: ["Named product", "Infrastructure-specific use case"],
+    hypeFlagReasons: ["Pilot stage", "No public client references"],
+    aiSummary: "WSP announced its Climate Intelligence platform for physical climate risk assessment of infrastructure assets. Uses AI to integrate climate models with asset vulnerability data. In pilot with transport and water utilities.",
+    keyClaimsExtracted: ["Physical climate risk for infrastructure", "AI-integrated climate models", "Asset vulnerability scoring"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 3,
+  },
+  {
+    slug: "accenture",
+    title: "Accenture-SalesForce Net Zero Cloud AI Enhancement",
+    sourceUrl: "https://www.accenture.com/us-en/services/sustainability/salesforce-net-zero-cloud",
+    sourceName: "Accenture",
+    signalType: "Partnership Announcement",
+    aiCapabilityCategory: "Carbon Accounting & Emissions Management",
+    sustainabilityDomain: "Climate & Decarbonization",
+    productName: null,
+    partnerName: "Salesforce",
+    partnerType: "Technology",
+    partnerships: [{ name: "Salesforce", type: "Technology", depth: "Joint solution", announced: "2025-04" }],
+    maturityLevel: "Deployed",
+    evidenceScore: 0.70,
+    claimSpecificity: 0.72,
+    verifiability: 0.65,
+    realityScore: 0.70,
+    evidenceIndicators: ["Named partner platform", "Specific product integration", "Deployed solution"],
+    hypeFlagReasons: [],
+    aiSummary: "Accenture enhanced Salesforce Net Zero Cloud with AI-powered emissions factor matching and automated Scope 3 calculations. Multiple client deployments in consumer goods and retail sectors.",
+    keyClaimsExtracted: ["AI emissions factor matching", "Automated Scope 3 calculations", "Salesforce Net Zero Cloud integration"],
+    namedClients: [],
+    quantitativeMetrics: ["60% reduction in Scope 3 data collection effort"],
+    isSignificant: true,
+    monthsAgo: 4,
+  },
+  {
+    slug: "ey",
+    title: "EY-Persefoni Partnership: AI Carbon Accounting for Financial Services",
+    sourceUrl: "https://www.ey.com/en_gl/alliances/persefoni-carbon-accounting",
+    sourceName: "EY",
+    signalType: "Partnership Announcement",
+    aiCapabilityCategory: "Carbon Accounting & Emissions Management",
+    sustainabilityDomain: "Sustainable Finance",
+    productName: null,
+    partnerName: "Persefoni",
+    partnerType: "Technology",
+    partnerships: [{ name: "Persefoni", type: "Technology", depth: "Alliance", announced: "2025-02" }],
+    maturityLevel: "Deployed",
+    evidenceScore: 0.75,
+    claimSpecificity: 0.72,
+    verifiability: 0.68,
+    realityScore: 0.73,
+    evidenceIndicators: ["Named fintech partner", "Financial services focus", "Deployed with clients"],
+    hypeFlagReasons: [],
+    aiSummary: "EY partnered with Persefoni to offer AI-powered carbon accounting specifically for financial institutions. Combines Persefoni's PCAF-aligned platform with EY's assurance expertise. Deployed with asset managers and banks.",
+    keyClaimsExtracted: ["PCAF-aligned carbon accounting", "Financial services specialization", "AI-powered financed emissions calculation"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: true,
+    monthsAgo: 6,
+  },
+  {
+    slug: "bcg",
+    title: "BCG Gamma x Sustainability: AI for Supply Chain Deforestation Monitoring",
+    sourceUrl: "https://www.bcg.com/capabilities/climate-change-sustainability/ai-supply-chain-deforestation",
+    sourceName: "BCG",
+    signalType: "Client Win / Case Study",
+    aiCapabilityCategory: "Supply Chain Traceability & Due Diligence",
+    sustainabilityDomain: "Nature & Biodiversity",
+    productName: null,
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Deployed",
+    evidenceScore: 0.78,
+    claimSpecificity: 0.80,
+    verifiability: 0.62,
+    realityScore: 0.75,
+    evidenceIndicators: ["Named BCG Gamma involvement", "Satellite imagery analysis", "Specific use case"],
+    hypeFlagReasons: ["Client name not disclosed"],
+    aiSummary: "BCG Gamma developed an AI-powered supply chain deforestation monitoring tool using satellite imagery and NLP analysis of supplier data. Deployed with a major FMCG company for EUDR compliance.",
+    keyClaimsExtracted: ["Satellite imagery analysis for deforestation", "EUDR compliance tool", "Real-time supply chain monitoring"],
+    namedClients: [],
+    quantitativeMetrics: ["90% accuracy in deforestation detection"],
+    isSignificant: true,
+    monthsAgo: 1,
+  },
+  {
+    slug: "mckinsey",
+    title: "McKinsey: The Promise and Peril of AI in Climate Action — A CEO Perspective",
+    sourceUrl: "https://www.mckinsey.com/capabilities/sustainability/our-insights/ai-climate-action-ceo",
+    sourceName: "McKinsey",
+    signalType: "Thought Leadership",
+    aiCapabilityCategory: "General AI & Sustainability Strategy",
+    sustainabilityDomain: "Cross-Domain",
+    productName: null,
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Announced",
+    evidenceScore: 0.22,
+    claimSpecificity: 0.28,
+    verifiability: 0.20,
+    realityScore: 0.24,
+    evidenceIndicators: [],
+    hypeFlagReasons: ["Thought leadership only", "General observations", "No specific McKinsey tools"],
+    aiSummary: "McKinsey thought leadership on AI's role in climate action. High-level survey of opportunities and risks. Well-researched but does not describe specific McKinsey capabilities or products.",
+    keyClaimsExtracted: ["AI could accelerate decarbonization by 5-10%", "Risk of AI increasing energy consumption"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 5,
+  },
+  {
+    slug: "bureau-veritas",
+    title: "Bureau Veritas: AI-Enhanced ESG Assurance Verification",
+    sourceUrl: "https://www.bureauveritas.com/ai-esg-assurance-verification",
+    sourceName: "Bureau Veritas",
+    signalType: "Internal Capability",
+    aiCapabilityCategory: "Sustainability Assurance Automation",
+    sustainabilityDomain: "ESG Reporting & Disclosure",
+    productName: null,
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Pilot",
+    evidenceScore: 0.45,
+    claimSpecificity: 0.50,
+    verifiability: 0.38,
+    realityScore: 0.45,
+    evidenceIndicators: ["Specific assurance use case", "Testing automation claims"],
+    hypeFlagReasons: ["No named product", "Pilot only", "Limited public information"],
+    aiSummary: "Bureau Veritas is piloting AI-enhanced ESG assurance processes for automated document review and data consistency checking. Early stage with no public metrics or named clients.",
+    keyClaimsExtracted: ["AI document review for assurance", "Data consistency checking", "Automated evidence gathering"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: false,
+    monthsAgo: 3,
+  },
+  {
+    slug: "deloitte",
+    title: "Deloitte Acquires AI Sustainability Analytics Startup GreenIQ",
+    sourceUrl: "https://www.deloitte.com/global/en/about/press-room/greeniq-acquisition",
+    sourceName: "Deloitte",
+    signalType: "Acquisition",
+    aiCapabilityCategory: "Greenwashing Detection & Claims Verification",
+    sustainabilityDomain: "ESG Reporting & Disclosure",
+    productName: "GreenIQ",
+    partnerName: null,
+    partnerType: null,
+    partnerships: null,
+    maturityLevel: "Pilot",
+    evidenceScore: 0.60,
+    claimSpecificity: 0.65,
+    verifiability: 0.55,
+    realityScore: 0.60,
+    evidenceIndicators: ["Named acquisition", "Specific product capabilities", "Integration announced"],
+    hypeFlagReasons: ["Integration still in progress", "Pre-acquisition track record uncertain"],
+    aiSummary: "Deloitte acquired GreenIQ, an AI startup specializing in greenwashing detection and ESG claims verification. The technology uses NLP to cross-reference sustainability claims against evidence. Integration into Deloitte's assurance practice is underway.",
+    keyClaimsExtracted: ["Greenwashing detection AI", "NLP cross-referencing of claims", "Integration with Deloitte assurance"],
+    namedClients: [],
+    quantitativeMetrics: [],
+    isSignificant: true,
+    monthsAgo: 2,
+  },
+];
+
+const aiPositioningPrompts = [
+  {
+    slug: "screen-ai-signal",
+    name: "AI Signal Relevance Screener",
+    description:
+      "Quick screening to determine if content contains AI + sustainability positioning signals",
+    model: "gemini-3.0-flash-preview",
+    temperature: 0.1,
+    maxTokens: 256,
+    responseFormat: "json",
+    systemPrompt: `You are a screening filter for a competitive intelligence system tracking how consulting firms position their AI capabilities in sustainability. Your job is to determine whether content is relevant — it must discuss BOTH artificial intelligence/machine learning AND sustainability/ESG/climate topics.
+
+Return JSON: {"relevant": true/false, "confidence": 0.0-1.0, "reason": "brief reason"}
+
+Be inclusive for content that discusses: AI/ML tools for ESG, AI-powered sustainability platforms, partnerships between tech firms and consultancies for sustainability AI, AI in climate risk modeling, generative AI for ESG reporting, etc.
+Exclude: General AI content without sustainability angle. General sustainability content without AI angle.`,
+    userTemplate: `Title: {{title}}
+Source: {{competitor}}
+Excerpt: {{excerpt}}
+
+Does this content contain relevant AI + sustainability positioning signals?`,
+  },
+  {
+    slug: "classify-ai-signal",
+    name: "AI Positioning Signal Classifier",
+    description:
+      "Full classification of an AI positioning signal including hype vs reality scoring",
+    model: "gemini-3.0-flash-preview",
+    temperature: 0.2,
+    maxTokens: 3072,
+    responseFormat: "json",
+    systemPrompt: `You are analyzing competitive intelligence about how consulting/professional services firms position their AI capabilities in sustainability/ESG. Extract structured information and score the signal on a hype-vs-reality scale.
+
+SIGNAL TYPES: "Product Launch", "Partnership Announcement", "Client Win / Case Study", "Thought Leadership", "Hiring Signal", "Acquisition", "Platform Update", "Conference / Demo", "Internal Capability", "Vague Claim"
+
+AI CAPABILITY CATEGORIES: "ESG Data Analytics & Reporting", "Climate Modeling & Scenario Analysis", "Supply Chain Traceability & Due Diligence", "Regulatory Intelligence & Compliance", "Sustainability Assurance Automation", "Carbon Accounting & Emissions Management", "Biodiversity & Nature Analytics", "Sustainable Finance & Investment Screening", "Greenwashing Detection & Claims Verification", "General AI & Sustainability Strategy"
+
+MATURITY LEVELS: "Announced", "Pilot", "Deployed", "Scaled"
+
+SUSTAINABILITY DOMAINS: "Climate & Decarbonization", "ESG Reporting & Disclosure", "Nature & Biodiversity", "Sustainable Finance", "Circular Economy", "Social & Just Transition", "Environmental Compliance", "Cross-Domain"
+
+HYPE VS REALITY SCORING (score each 0.0-1.0):
+- evidenceScore: Named client case study with metrics=0.9-1.0, Named client no metrics=0.7-0.8, Internal deployment=0.5-0.6, Partnership with specifics=0.3-0.4, General claim=0.1-0.2, Pure buzzwords=0.0-0.1
+- claimSpecificity: Named tech/models vs "proprietary AI"=high. Measurable outcomes vs aspirational=high. Defined scope vs "end-to-end everything"=high.
+- verifiability: Publicly accessible/reviewed=0.8-1.0, Independent media=0.5-0.7, Only competitor materials=0.2-0.4`,
+    userTemplate: `Content from {{competitor}}:
+
+Title: {{title}}
+URL: {{url}}
+Date: {{date}}
+Text: {{text}}
+
+Return JSON:
+{
+  "signalType": "one signal type",
+  "aiCapabilityCategory": "one capability category",
+  "sustainabilityDomain": "one domain",
+  "productName": "named product or null",
+  "partnerName": "named partner or null",
+  "partnerType": "Technology/Data/Academic/Industry or null",
+  "partnerships": [{"name": "...", "type": "...", "depth": "...", "announced": "..."}] or null,
+  "maturityLevel": "one level",
+  "evidenceScore": 0.0-1.0,
+  "claimSpecificity": 0.0-1.0,
+  "verifiability": 0.0-1.0,
+  "evidenceIndicators": ["specific evidence items"],
+  "hypeFlagReasons": ["reasons this might be hype"],
+  "summary": "2-3 sentence objective summary",
+  "keyClaimsExtracted": ["specific claims made"],
+  "namedClients": ["any named clients"],
+  "quantitativeMetrics": ["any specific numbers/metrics"],
+  "isSignificant": true/false,
+  "confidence": 0.0-1.0
+}`,
+  },
+  {
+    slug: "analyze-ai-positioning",
+    name: "AI Positioning Monthly Synthesis",
+    description:
+      "Monthly synthesis of AI positioning intelligence for leadership",
+    model: "gemini-2.5-pro",
+    temperature: 0.4,
+    maxTokens: 6144,
+    responseFormat: null,
+    systemPrompt: `You are the chief AI intelligence analyst for EY's Climate Change and Sustainability Services (CCaSS) practice. Generate a monthly AI positioning intelligence report for Bruno Sarda and the CCaSS leadership team.
+
+Your audience is senior partners who need to understand where EY stands relative to competitors on AI capabilities in sustainability — and what to do about it.
+
+CRITICAL: Separate hype from reality. Identify which competitor AI claims are backed by real products/deployments vs marketing theatre. Use the reality scores and evidence to make this assessment.
+
+Tone: Confident, direct, analytical. Every sentence should earn its place. Deliver uncomfortable truths — if EY is behind, say so clearly.`,
+    userTemplate: `Generate a structured AI positioning intelligence briefing covering:
+
+1. **Executive Summary** — where EY stands vs competitors on AI in sustainability (2-3 sentences, be direct)
+2. **Capability Landscape** — which competitors lead in which AI capability categories and why
+3. **Hype vs Reality Assessment** — who is real (products, clients, metrics) vs who is noise (press releases, vague claims)
+4. **Partnership Map** — significant technology partnerships and what they mean
+5. **EY-Specific Recommendations** — 3-5 specific actions EY should take based on competitive intelligence
+6. **Watch List** — emerging signals worth monitoring next month
+
+Data for this period:
+{{data_context}}`,
+  },
+];
+
+// ---------------------------------------------------------------------------
 // Main seed function
 // ---------------------------------------------------------------------------
 
@@ -803,8 +1424,9 @@ async function main() {
   }
   console.log(`Seeded ${competitors.length} competitors`);
 
-  // Seed AI prompts
-  for (const prompt of defaultPrompts) {
+  // Seed AI prompts (default + AI positioning)
+  const allPrompts = [...defaultPrompts, ...aiPositioningPrompts];
+  for (const prompt of allPrompts) {
     await prisma.aiPrompt.upsert({
       where: { slug: prompt.slug },
       update: {
@@ -820,7 +1442,16 @@ async function main() {
       create: prompt,
     });
   }
-  console.log(`Seeded ${defaultPrompts.length} AI prompts`);
+  console.log(`Seeded ${allPrompts.length} AI prompts`);
+
+  // Update competitor aiPageUrls
+  for (const [slug, urls] of Object.entries(aiPageUrlsBySlug)) {
+    await prisma.competitor.update({
+      where: { slug },
+      data: { aiPageUrls: urls },
+    });
+  }
+  console.log("Updated competitor aiPageUrls");
 
   // Seed admin user
   const adminEmail = process.env.ADMIN_EMAIL || "admin@ey.com";
@@ -1006,6 +1637,49 @@ async function main() {
     }
   }
   console.log("Seeded scraper run history");
+
+  // Seed AI positioning signals
+  for (const signal of aiPositioningSignals) {
+    const comp = competitorMap.get(signal.slug);
+    if (!comp) continue;
+
+    const publishedAt = new Date();
+    publishedAt.setMonth(publishedAt.getMonth() - signal.monthsAgo);
+
+    await prisma.aiPositioningSignal.upsert({
+      where: { sourceUrl: signal.sourceUrl },
+      update: {},
+      create: {
+        competitorId: comp.id,
+        title: signal.title,
+        sourceUrl: signal.sourceUrl,
+        sourceName: signal.sourceName,
+        publishedAt,
+        signalType: signal.signalType,
+        aiCapabilityCategory: signal.aiCapabilityCategory,
+        sustainabilityDomain: signal.sustainabilityDomain,
+        productName: signal.productName,
+        partnerName: signal.partnerName,
+        partnerType: signal.partnerType,
+        partnerships: signal.partnerships ?? undefined,
+        maturityLevel: signal.maturityLevel,
+        evidenceScore: signal.evidenceScore,
+        claimSpecificity: signal.claimSpecificity,
+        verifiability: signal.verifiability,
+        realityScore: signal.realityScore,
+        evidenceIndicators: signal.evidenceIndicators,
+        hypeFlagReasons: signal.hypeFlagReasons,
+        aiSummary: signal.aiSummary,
+        keyClaimsExtracted: signal.keyClaimsExtracted,
+        namedClients: signal.namedClients,
+        quantitativeMetrics: signal.quantitativeMetrics,
+        isSignificant: signal.isSignificant,
+        confidenceScore: randomFloat(0.78, 0.95),
+        aiClassifiedAt: new Date(),
+      },
+    });
+  }
+  console.log(`Seeded ${aiPositioningSignals.length} AI positioning signals`);
 
   console.log("Seeding complete!");
 }

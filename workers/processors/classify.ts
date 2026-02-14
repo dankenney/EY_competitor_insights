@@ -4,6 +4,25 @@ import { classifyPublication } from "../../src/server/ai/pipelines/classify-publ
 
 const BATCH_SIZE = 10;
 
+// AI-related keywords for cross-referencing publications → AI positioning signals
+const AI_KEYWORDS = [
+  "artificial intelligence",
+  "machine learning",
+  "generative ai",
+  "gen ai",
+  "genai",
+  "llm",
+  "large language model",
+  "ai-powered",
+  "ai-driven",
+  "ai-enabled",
+  "predictive analytics",
+  "natural language processing",
+  "automation platform",
+  "deep learning",
+  "neural network",
+];
+
 export async function processPublicationsClassify(
   job: Job,
   prisma: PrismaClient
@@ -49,6 +68,10 @@ export async function processPublicationsClassify(
       try {
         await classifyPublication(publication);
         processed++;
+
+        // Pipeline A: Cross-reference — if publication contains AI keywords,
+        // create an AiPositioningSignal record for the AI positioning module.
+        await maybeCreateAiSignal(prisma, publication);
       } catch (error) {
         const message =
           error instanceof Error ? error.message : String(error);
@@ -72,5 +95,49 @@ export async function processPublicationsClassify(
   console.log(
     `[classify-processor] Job ${job.id} complete: ` +
       `${processed} classified, ${errors} errors out of ${unclassified.length} total`
+  );
+}
+
+/**
+ * Pipeline A: Check if a classified publication contains AI keywords.
+ * If so, create an AiPositioningSignal record for the AI positioning module.
+ */
+async function maybeCreateAiSignal(
+  prisma: PrismaClient,
+  publication: {
+    id: string;
+    title: string;
+    url: string;
+    publishedDate: Date | null;
+    extractedText: string | null;
+    competitorId: string;
+  }
+): Promise<void> {
+  const textToSearch = `${publication.title} ${publication.extractedText ?? ""}`.toLowerCase();
+  const hasAiKeyword = AI_KEYWORDS.some((kw) => textToSearch.includes(kw));
+
+  if (!hasAiKeyword) return;
+
+  // Check if signal already exists for this URL
+  const existing = await prisma.aiPositioningSignal.findUnique({
+    where: { sourceUrl: publication.url },
+  });
+
+  if (existing) return;
+
+  await prisma.aiPositioningSignal.create({
+    data: {
+      competitorId: publication.competitorId,
+      publicationId: publication.id,
+      title: publication.title,
+      sourceUrl: publication.url,
+      sourceName: "Publication Cross-Reference",
+      publishedAt: publication.publishedDate,
+      rawContent: publication.extractedText?.substring(0, 4000) ?? null,
+    },
+  });
+
+  console.log(
+    `[classify-processor] Created AI positioning signal from publication: "${publication.title}"`
   );
 }

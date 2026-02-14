@@ -21,6 +21,7 @@ export const dashboardRouter = router({
           regulatoryTotal,
           regulatoryHighImpact,
           layoffEventsRecent,
+          aiPositioningSignals,
           lastScraperRun,
         ] = await Promise.all([
           db.competitor.count({ where: { isActive: true } }),
@@ -33,6 +34,7 @@ export const dashboardRouter = router({
           db.layoffEvent.count({
             where: { eventDate: { gte: thirtyDaysAgo } },
           }),
+          db.aiPositioningSignal.count(),
           db.scraperRun.findFirst({
             orderBy: { completedAt: "desc" },
             select: { completedAt: true, status: true },
@@ -46,12 +48,13 @@ export const dashboardRouter = router({
           regulatoryTotal,
           regulatoryHighImpact,
           layoffEventsRecent,
+          aiPositioningSignals,
           lastDataRefresh: lastScraperRun?.completedAt ?? null,
           scraperStatus: lastScraperRun?.status ?? null,
         };
       },
       ["dashboard-overview"],
-      [CACHE_TAGS.dashboard, CACHE_TAGS.publications, CACHE_TAGS.regulatory, CACHE_TAGS.talentSignals]
+      [CACHE_TAGS.dashboard, CACHE_TAGS.publications, CACHE_TAGS.regulatory, CACHE_TAGS.talentSignals, CACHE_TAGS.aiPositioning]
     );
   }),
 

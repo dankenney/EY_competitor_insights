@@ -86,16 +86,19 @@ model Competitor {
   isActive        Boolean            @default(true)
   publicationUrls String[]
   gtmUrls         String[]
+  aiPageUrls      String[]
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
 
-  publications     Publication[]
-  headcountRecords HeadcountSnapshot[]
-  gtmSnapshots     GtmSnapshot[]
-  gtmChanges       GtmChange[]
-  layoffEvents     LayoffEvent[]
-  sentimentSignals SentimentSignal[]
-  jobPostings      HeadcountJobPosting[]
+  publications            Publication[]
+  headcountRecords        HeadcountSnapshot[]
+  gtmSnapshots            GtmSnapshot[]
+  gtmChanges              GtmChange[]
+  layoffEvents            LayoffEvent[]
+  sentimentSignals        SentimentSignal[]
+  jobPostings             HeadcountJobPosting[]
+  aiPositioningSignals    AiPositioningSignal[]
+  aiPositioningSnapshots  AiPositioningSnapshot[]
 }
 
 enum CompetitorCategory {
@@ -532,4 +535,86 @@ model SynthesisReport {
 
   @@index([reportType])
   @@index([periodStart(sort: Desc)])
+}
+
+// =============================================================================
+// MODULE G: AI POSITIONING INTELLIGENCE
+// Tracks how competitors position their AI capabilities in sustainability.
+// Separates real capabilities (named products, client deployments, measurable
+// outcomes) from press release theatre. Hype vs Reality scoring.
+// =============================================================================
+
+model AiPositioningSignal {
+  id                   String      @id @default(cuid())
+  competitorId         String
+  competitor           Competitor  @relation(fields: [competitorId], references: [id])
+
+  publicationId        String?
+
+  title                String
+  sourceUrl            String      @unique
+  sourceName           String?
+  publishedAt          DateTime?
+  discoveredAt         DateTime    @default(now())
+  rawContent           String?
+
+  signalType           String?
+  aiCapabilityCategory String?
+  sustainabilityDomain String?
+
+  productName          String?
+  partnerName          String?
+  partnerType          String?
+  partnerships         Json?
+
+  maturityLevel        String?
+  evidenceScore        Float?
+  claimSpecificity     Float?
+  verifiability        Float?
+  realityScore         Float?
+  evidenceIndicators   Json?
+  hypeFlagReasons      Json?
+
+  aiSummary            String?
+  keyClaimsExtracted   String[]
+  namedClients         String[]
+  quantitativeMetrics  String[]
+  aiClassifiedAt       DateTime?
+  confidenceScore      Float?
+
+  reviewedByHuman      Boolean     @default(false)
+  isSignificant        Boolean     @default(false)
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+
+  @@index([competitorId])
+  @@index([publishedAt(sort: Desc)])
+  @@index([signalType])
+  @@index([aiCapabilityCategory])
+  @@index([realityScore])
+  @@index([isSignificant])
+}
+
+model AiPositioningSnapshot {
+  id                  String     @id @default(cuid())
+  competitorId        String
+  competitor          Competitor @relation(fields: [competitorId], references: [id])
+  snapshotDate        DateTime
+
+  categoryScores      Json?
+  overallAiMaturity   Float?
+  overallRealityScore Float?
+  totalSignalCount    Int        @default(0)
+  partnershipCount    Int        @default(0)
+
+  positioningSummary  String?
+  strengthsWeaknesses Json?
+  keyDifferentiators  String[]
+  notableGaps         String[]
+
+  generatedAt         DateTime   @default(now())
+
+  @@unique([competitorId, snapshotDate])
+  @@index([competitorId])
+  @@index([snapshotDate(sort: Desc)])
 }

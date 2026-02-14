@@ -83,6 +83,25 @@ export const regulatoryScrapeQueue = new Queue("regulatory-scrape", {
   },
 });
 
+export const aiPositioningClassifyQueue = new Queue("ai-positioning-classify", {
+  connection: redisConfig,
+  defaultJobOptions: {
+    attempts: 2,
+    backoff: {
+      type: "exponential",
+      delay: 10000,
+    },
+    removeOnComplete: {
+      age: 7 * 24 * 3600,
+      count: 100,
+    },
+    removeOnFail: {
+      age: 30 * 24 * 3600,
+      count: 500,
+    },
+  },
+});
+
 export const synthesisQueue = new Queue("synthesis", {
   connection: redisConfig,
   defaultJobOptions: {
@@ -107,6 +126,7 @@ export async function closeQueues(): Promise<void> {
     publicationsScrapeQueue.close(),
     publicationsClassifyQueue.close(),
     regulatoryScrapeQueue.close(),
+    aiPositioningClassifyQueue.close(),
     synthesisQueue.close(),
   ]);
 }

@@ -99,6 +99,7 @@ export const NAV_ITEMS = [
   { label: "Regulatory", href: "/regulatory", icon: "Scale" },
   { label: "Publications", href: "/publications", icon: "FileText" },
   { label: "Competitors", href: "/competitors", icon: "Users" },
+  { label: "AI Positioning", href: "/ai-positioning", icon: "Brain" },
   { label: "Headcount", href: "/headcount", icon: "BarChart3" },
   { label: "Talent Signals", href: "/talent-signals", icon: "UserCheck" },
   { label: "GTM Messaging", href: "/gtm", icon: "Target" },
@@ -112,6 +113,59 @@ export const ADMIN_NAV_ITEMS = [
   { label: "AI Prompts", href: "/admin/prompts", icon: "Sparkles" },
   { label: "Users", href: "/admin/users", icon: "UserCog" },
 ] as const;
+
+// AI Positioning Intelligence — taxonomy constants
+export const AI_CAPABILITY_CATEGORIES = [
+  "ESG Data Analytics & Reporting",
+  "Climate Modeling & Scenario Analysis",
+  "Supply Chain Traceability & Due Diligence",
+  "Regulatory Intelligence & Compliance",
+  "Sustainability Assurance Automation",
+  "Carbon Accounting & Emissions Management",
+  "Biodiversity & Nature Analytics",
+  "Sustainable Finance & Investment Screening",
+  "Greenwashing Detection & Claims Verification",
+  "General AI & Sustainability Strategy",
+] as const;
+
+export type AiCapabilityCategory = (typeof AI_CAPABILITY_CATEGORIES)[number];
+
+export const AI_SIGNAL_TYPES = [
+  "Product Launch",
+  "Partnership Announcement",
+  "Client Win / Case Study",
+  "Thought Leadership",
+  "Hiring Signal",
+  "Acquisition",
+  "Platform Update",
+  "Conference / Demo",
+  "Internal Capability",
+  "Vague Claim",
+] as const;
+
+export type AiSignalType = (typeof AI_SIGNAL_TYPES)[number];
+
+export const AI_MATURITY_LEVELS = [
+  "Announced",
+  "Pilot",
+  "Deployed",
+  "Scaled",
+] as const;
+
+export type AiMaturityLevel = (typeof AI_MATURITY_LEVELS)[number];
+
+export const SUSTAINABILITY_DOMAINS = [
+  "Climate & Decarbonization",
+  "ESG Reporting & Disclosure",
+  "Nature & Biodiversity",
+  "Sustainable Finance",
+  "Circular Economy",
+  "Social & Just Transition",
+  "Environmental Compliance",
+  "Cross-Domain",
+] as const;
+
+export type SustainabilityDomain = (typeof SUSTAINABILITY_DOMAINS)[number];
 
 // Gemini model configuration
 // Flash Preview for high-volume ETL (screening + classification) — fast, cheap, high quality.
