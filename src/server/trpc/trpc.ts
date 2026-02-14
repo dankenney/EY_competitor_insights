@@ -26,13 +26,18 @@ export async function createTRPCContext(): Promise<TRPCContext> {
   // In development, provide a dev session when not authenticated
   // so tRPC protectedProcedure calls work without login
   if (!session && process.env.NODE_ENV === "development") {
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@ey.com";
+    const adminUser = await db.user.findUnique({
+      where: { email: adminEmail },
+    });
+
     return {
       db,
       session: {
         user: {
-          id: "dev-user",
-          email: "admin@ey.com",
-          name: "Dev User",
+          id: adminUser?.id ?? "dev-user",
+          email: adminEmail,
+          name: adminUser?.name ?? "Dev User",
           role: "ADMIN" as const,
         },
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
