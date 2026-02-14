@@ -389,41 +389,51 @@ export function DashboardClient() {
                 </div>
               ) : activity.data && activity.data.length > 0 ? (
                 <div className="space-y-4">
-                  {activity.data.map((item) => (
-                    <div
-                      key={`${item.type}-${item.id}`}
-                      className="border-b pb-3 last:border-0 last:pb-0"
-                    >
-                      <div className="flex items-center gap-2 mb-1">
-                        <ActivityBadge type={item.type} />
-                        {item.competitor && (
-                          <Badge
-                            variant="outline"
-                            className="text-[10px]"
-                            style={{
-                              borderColor: item.brandColor ?? undefined,
-                              color: item.brandColor ?? undefined,
-                            }}
-                          >
-                            {item.competitor}
-                          </Badge>
+                  {activity.data.map((item) => {
+                    const href =
+                      item.type === "publication"
+                        ? `/publications/${item.id}`
+                        : item.type === "regulatory"
+                          ? "/regulatory"
+                          : "/talent-signals";
+
+                    return (
+                      <Link
+                        key={`${item.type}-${item.id}`}
+                        href={href}
+                        className="block border-b pb-3 last:border-0 last:pb-0 rounded-md -mx-1 px-1 transition-colors hover:bg-muted/50"
+                      >
+                        <div className="flex items-center gap-2 mb-1">
+                          <ActivityBadge type={item.type} />
+                          {item.competitor && (
+                            <Badge
+                              variant="outline"
+                              className="text-[10px]"
+                              style={{
+                                borderColor: item.brandColor ?? undefined,
+                                color: item.brandColor ?? undefined,
+                              }}
+                            >
+                              {item.competitor}
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-sm font-medium leading-snug line-clamp-2">
+                          {item.title}
+                        </p>
+                        {item.summary && (
+                          <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
+                            {item.summary}
+                          </p>
                         )}
-                      </div>
-                      <p className="text-sm font-medium leading-snug line-clamp-2">
-                        {item.title}
-                      </p>
-                      {item.summary && (
-                        <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
-                          {item.summary}
-                        </p>
-                      )}
-                      {item.date && (
-                        <p className="mt-1 text-[11px] text-muted-foreground">
-                          {format(new Date(item.date), "MMM d, yyyy")}
-                        </p>
-                      )}
-                    </div>
-                  ))}
+                        {item.date && (
+                          <p className="mt-1 text-[11px] text-muted-foreground">
+                            {format(new Date(item.date), "MMM d, yyyy")}
+                          </p>
+                        )}
+                      </Link>
+                    );
+                  })}
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
