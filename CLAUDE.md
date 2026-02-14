@@ -1,5 +1,9 @@
 # CCaSS Competitor Intelligence Engine
 
+## Communication Rules
+
+- **Always provide full file paths** when referencing files. Use the complete path (e.g., `C:\Users\danie\Documents\EY_competitor_insights\src\app\page.tsx`) so the user can easily locate files on their Windows machine. The user's local repo root is `C:\Users\danie\Documents\EY_competitor_insights\`.
+
 ## Project Overview
 
 Automated competitive intelligence platform for EY's Climate Change and Sustainability Services (CCaSS) practice. Replaces a manually-produced quarterly PowerPoint with a living intelligence platform that continuously monitors 10 competitors, classifies data using Google Gemini AI, and surfaces decision-useful insights for ~30-50 senior leaders (partners, MDs, senior managers).
