@@ -1490,7 +1490,11 @@ async function main() {
     if (!comp) continue;
 
     for (const title of titles) {
-      const url = `https://${comp.website?.replace("https://", "")}/insights/${slug}-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60)}`;
+      // Use the competitor's real publication landing page as the base URL
+      // Append a hash fragment so each publication has a unique URL for the upsert key
+      const basePublicationUrl = comp.publicationUrls?.[0] ?? `${comp.website}/insights`;
+      const titleSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60);
+      const url = `${basePublicationUrl}#${titleSlug}`;
       const theme = randomItem(THEMES);
       const publishedDate = randomDate(12);
       const isClassified = Math.random() > 0.15; // 85% classified
