@@ -722,8 +722,8 @@ const talentSignals = [
     division: "Climate & Sustainability Practice",
     geography: "Global",
     driver: "Practice consolidation",
-    sourceName: "Bloomberg",
-    sourceUrl: "https://bloomberg.com/bcg-climate-team-reduction-2025",
+    sourceName: "BCG",
+    sourceUrl: "https://www.bcg.com/capabilities/climate-change-sustainability",
     aiSummary: "BCG dissolved its standalone Climate & Sustainability practice, redistributing ~50 sustainability specialists into industry verticals (energy, industrials, financial institutions). Signals a shift from dedicated ESG teams to embedded sustainability expertise.",
   },
   {
@@ -735,8 +735,8 @@ const talentSignals = [
     division: "Sustainability & Climate Change",
     geography: "US",
     driver: "Practice reorganization",
-    sourceName: "Wall Street Journal",
-    sourceUrl: "https://wsj.com/pwc-sustainability-restructuring-2025",
+    sourceName: "PwC",
+    sourceUrl: "https://www.pwc.com/us/en/services/esg.html",
     aiSummary: "PwC reorganized its US sustainability practice from a centralized group into industry-aligned teams. Sustainability partners now report to industry sector leaders rather than a dedicated sustainability practice lead.",
   },
   {
@@ -748,8 +748,8 @@ const talentSignals = [
     division: "Global Sustainability & Climate",
     geography: "Global",
     driver: "Leadership appointment",
-    sourceName: "Deloitte Press Release",
-    sourceUrl: "https://deloitte.com/global-sustainability-leader-2025",
+    sourceName: "PR Newswire",
+    sourceUrl: "https://www.prnewswire.com/news-releases/deloitte-announces-1-billion-investment-in-global-sustainability--climate-practice-301524788.html",
     aiSummary: "Deloitte appointed a new Global Sustainability & Climate practice leader, elevating the role to report directly to the Global CEO. Signals increased strategic priority for sustainability services at the firm level.",
   },
   {
@@ -761,8 +761,8 @@ const talentSignals = [
     division: "ESG Data & Technology",
     geography: "UK",
     driver: "Capability expansion",
-    sourceName: "Environmental Analyst",
-    sourceUrl: "https://environment-analyst.com/erm-acquisition-2025",
+    sourceName: "ERM",
+    sourceUrl: "https://www.erm.com/about/news/erm-completes-acquisition-of-climate-risk-and-energy-transition-consultancy-energetics/",
     aiSummary: "ERM acquired a UK-based ESG data analytics firm, adding ~100 sustainability data specialists. Strengthens ERM's digital sustainability capabilities and positions them to compete with Big Four on CSRD technology solutions.",
   },
   {
@@ -774,8 +774,8 @@ const talentSignals = [
     division: "McKinsey Sustainability",
     geography: "Global",
     driver: "Practice expansion",
-    sourceName: "McKinsey Press Release",
-    sourceUrl: "https://mckinsey.com/sustainability-leadership-2025",
+    sourceName: "McKinsey",
+    sourceUrl: "https://www.mckinsey.com/capabilities/sustainability/how-we-help-clients",
     aiSummary: "McKinsey elevated its sustainability practice to a full capability (alongside Strategy, Operations, etc.), appointing a senior partner as global head. Previously operated as a cross-cutting initiative rather than a standalone practice.",
   },
   {
@@ -787,8 +787,8 @@ const talentSignals = [
     division: "CCaSS Practice",
     geography: "Global",
     driver: "CSRD and ISSB demand",
-    sourceName: "EY Press Release",
-    sourceUrl: "https://ey.com/ccass-expansion-2026",
+    sourceName: "EY",
+    sourceUrl: "https://www.ey.com/en_gl/services/sustainability",
     aiSummary: "EY announced a dedicated investment to expand its CCaSS practice by 350+ sustainability professionals globally, with specific focus on CSRD implementation, ISSB readiness, and ESG assurance delivery. Hiring concentrated in EU and APAC.",
   },
 ];
@@ -1599,7 +1599,8 @@ async function main() {
   }
   console.log(`Seeded ${hcCount} headcount snapshots`);
 
-  // Seed sustainability talent signals
+  // Seed sustainability talent signals (clear existing to avoid duplicates on re-seed)
+  await prisma.layoffEvent.deleteMany({});
   for (const event of talentSignals) {
     const comp = competitorMap.get(event.slug);
     const eventDate = new Date();
