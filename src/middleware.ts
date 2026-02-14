@@ -12,6 +12,11 @@ export default function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // In development without a database, skip auth redirect
+  if (process.env.NODE_ENV === "development") {
+    return NextResponse.next();
+  }
+
   // Check for session token — NextAuth stores it in a cookie.
   // The actual session validation happens server-side in tRPC procedures.
   const sessionToken =
