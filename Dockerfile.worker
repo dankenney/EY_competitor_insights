@@ -1,0 +1,46 @@
+# ── Stage 1: Install dependencies ─────────────────────────────────────────────
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat openssl
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+COPY prisma ./prisma/
+RUN npm ci
+
+# ── Stage 2: Build worker ────────────────────────────────────────────────────
+FROM node:20-alpine AS builder
+RUN apk add --no-cache libc6-compat openssl
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Generate Prisma client (workers need DB access)
+RUN npx prisma generate
+
+# ── Stage 3: Production worker runner ─────────────────────────────────────────
+FROM node:20-alpine AS runner
+RUN apk add --no-cache libc6-compat openssl
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 worker
+
+# Copy full source (tsx runs TypeScript directly)
+COPY --from=builder --chown=worker:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=worker:nodejs /app/workers ./workers
+COPY --from=builder --chown=worker:nodejs /app/src ./src
+COPY --from=builder --chown=worker:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=worker:nodejs /app/package.json ./
+COPY --from=builder --chown=worker:nodejs /app/tsconfig.json ./
+
+# Copy generated Prisma client
+COPY --from=builder /app/src/generated/prisma ./src/generated/prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+
+USER worker
+
+CMD ["npx", "tsx", "workers/index.ts"]
