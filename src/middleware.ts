@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "@/server/auth/config";
 
-export default auth((req) => {
+export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Allow public routes without authentication
@@ -13,15 +12,20 @@ export default auth((req) => {
     return NextResponse.next();
   }
 
-  // Protect all routes under /(dashboard) group and any other app routes
-  if (!req.auth) {
+  // Check for session token — NextAuth stores it in a cookie.
+  // The actual session validation happens server-side in tRPC procedures.
+  const sessionToken =
+    req.cookies.get("authjs.session-token")?.value ??
+    req.cookies.get("__Secure-authjs.session-token")?.value;
+
+  if (!sessionToken) {
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [
