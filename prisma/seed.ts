@@ -1,7 +1,14 @@
 import { PrismaClient, CompetitorCategory } from "../src/generated/prisma";
+import { PrismaPg } from "@prisma/adapter-pg";
+import pg from "pg";
 import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient();
+const connectionString =
+  process.env.DATABASE_URL ??
+  "postgresql://postgres:postgres@localhost:5432/ey_ccass?schema=public";
+const pool = new pg.Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 // ---------------------------------------------------------------------------
 // Competitors

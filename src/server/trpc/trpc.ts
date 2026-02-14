@@ -16,9 +16,29 @@ export interface TRPCContext {
 /**
  * Creates the tRPC context for each incoming request.
  * Called by the API route handler.
+ *
+ * In development mode, if no session exists, a dev session is used
+ * so dashboard queries work without requiring login.
  */
 export async function createTRPCContext(): Promise<TRPCContext> {
   const session = await auth();
+
+  // In development, provide a dev session when not authenticated
+  // so tRPC protectedProcedure calls work without login
+  if (!session && process.env.NODE_ENV === "development") {
+    return {
+      db,
+      session: {
+        user: {
+          id: "dev-user",
+          email: "admin@ey.com",
+          name: "Dev User",
+          role: "ADMIN" as const,
+        },
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      },
+    };
+  }
 
   return {
     db,
