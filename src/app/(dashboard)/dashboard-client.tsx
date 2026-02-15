@@ -28,7 +28,6 @@ import {
   Clock,
   Building2,
   Globe,
-  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -51,7 +50,7 @@ function StatCard({
 }) {
   if (loading) return <CardSkeleton />;
   return (
-    <Card>
+    <Card className="border-0 bg-transparent shadow-none">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {label}
@@ -132,25 +131,15 @@ export function DashboardClient() {
   return (
     <div className="space-y-8">
       {/* Page header */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            CCaSS Competitive Intelligence
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Real-time competitive intelligence across sustainability services.
-            Monitoring publications, regulatory shifts, headcount, and market
-            positioning.
-          </p>
-        </div>
-        <Link href="/chat">
-          <Button
-            className="shrink-0 gap-2 bg-[#FFE600] text-[#2E2E38] hover:bg-[#FFE600]/90 font-semibold"
-          >
-            <MessageSquare className="h-4 w-4" />
-            Try Data Chat
-          </Button>
-        </Link>
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          CCaSS Competitive Intelligence
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Real-time competitive intelligence across sustainability services.
+          Monitoring publications, regulatory shifts, headcount, and market
+          positioning.
+        </p>
       </div>
 
       {/* Summary stats */}
@@ -237,28 +226,28 @@ export function DashboardClient() {
                     const maxTotal = Math.max(
                       ...headcount.data!.map((c) => c.total)
                     );
-                    const pct = (comp.total / maxTotal) * 100;
+                    const barPct = (comp.total / maxTotal) * 75;
                     return (
                       <div key={comp.slug} className="flex items-center gap-3">
                         <div className="w-24 text-sm font-medium truncate">
                           {comp.name}
                         </div>
-                        <div className="flex-1 h-6 overflow-hidden">
+                        <div className="flex-1 flex items-center gap-2 h-6">
                           <div
-                            className="h-full rounded-md transition-all duration-500"
+                            className="h-full rounded-md transition-all duration-500 shrink-0"
                             style={{
-                              width: `${pct}%`,
+                              width: `${barPct}%`,
                               backgroundColor: comp.brandColor ?? "#888",
                               opacity: 0.85,
                             }}
                           />
-                        </div>
-                        <div className="w-14 text-right text-sm font-semibold tabular-nums">
-                          {comp.total.toLocaleString()}
+                          <span className="text-sm font-semibold tabular-nums whitespace-nowrap">
+                            {comp.total.toLocaleString()}
+                          </span>
                         </div>
                         <div
                           className={cn(
-                            "flex items-center gap-0.5 text-xs font-medium w-16 justify-end",
+                            "flex items-center gap-0.5 text-xs font-medium w-16 justify-end shrink-0",
                             comp.pctChange !== null && comp.pctChange > 0
                               ? "text-emerald-600"
                               : comp.pctChange !== null && comp.pctChange < 0
