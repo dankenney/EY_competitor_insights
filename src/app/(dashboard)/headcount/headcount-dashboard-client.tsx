@@ -49,7 +49,7 @@ import {
   ChartSkeleton,
 } from "@/components/shared/loading-skeleton";
 import { EmptyState } from "@/components/shared/empty-state";
-import { COMPETITOR_COLORS } from "@/lib/constants";
+import { COMPETITOR_COLORS, BRAND_COLOR_FALLBACK } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -356,7 +356,7 @@ export function HeadcountDashboardClient() {
                   <div className="flex items-center gap-2">
                     <span
                       className="inline-block h-3 w-3 rounded-full"
-                      style={{ backgroundColor: stats.largestTeam.brandColor ?? "#888" }}
+                      style={{ backgroundColor: stats.largestTeam.brandColor ?? BRAND_COLOR_FALLBACK }}
                     />
                     <span className="text-2xl font-bold">
                       {stats.largestTeam.shortName ?? stats.largestTeam.name}
@@ -589,7 +589,7 @@ export function HeadcountDashboardClient() {
                           <div className="flex items-center gap-2">
                             <span
                               className="inline-block h-2.5 w-2.5 rounded-full"
-                              style={{ backgroundColor: comp.brandColor ?? "#888" }}
+                              style={{ backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK }}
                             />
                             <span className="font-medium">
                               {comp.shortName ?? comp.name}

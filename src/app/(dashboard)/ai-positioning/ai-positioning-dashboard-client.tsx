@@ -27,7 +27,7 @@ import {
   Area,
 } from "recharts";
 import { trpc } from "@/lib/trpc";
-import { COMPETITOR_COLORS } from "@/lib/constants";
+import { COMPETITOR_COLORS, BRAND_COLOR_FALLBACK } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -184,7 +184,7 @@ function CapabilityMatrix({
                   <td className="p-2 whitespace-nowrap">
                     <span
                       className="mr-1.5 inline-block h-2 w-2 rounded-full"
-                      style={{ backgroundColor: row.brandColor ?? "#888" }}
+                      style={{ backgroundColor: row.brandColor ?? BRAND_COLOR_FALLBACK }}
                     />
                     {row.competitorName}
                     {isEY && <span className="ml-1 text-xs text-ey-yellow">(EY)</span>}
@@ -305,7 +305,7 @@ function HypeRealityQuadrant({
             {data.map((entry) => (
               <Cell
                 key={entry.slug}
-                fill={entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? "#888"}
+                fill={entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? BRAND_COLOR_FALLBACK}
                 stroke={entry.slug === "ey" ? "var(--ey-yellow)" : "transparent"}
                 strokeWidth={entry.slug === "ey" ? 3 : 0}
               />
@@ -313,16 +313,16 @@ function HypeRealityQuadrant({
           </Scatter>
 
           {/* Quadrant labels */}
-          <text x={80} y={30} fontSize={10} fill="#888" textAnchor="middle">
+          <text x={80} y={30} fontSize={10} fill="var(--ey-gray-medium)" textAnchor="middle">
             Overpromisers
           </text>
-          <text x={420} y={30} fontSize={10} fill="#888" textAnchor="middle">
+          <text x={420} y={30} fontSize={10} fill="var(--ey-gray-medium)" textAnchor="middle">
             Proven Leaders
           </text>
-          <text x={80} y={330} fontSize={10} fill="#888" textAnchor="middle">
+          <text x={80} y={330} fontSize={10} fill="var(--ey-gray-medium)" textAnchor="middle">
             Early Noise
           </text>
-          <text x={420} y={330} fontSize={10} fill="#888" textAnchor="middle">
+          <text x={420} y={330} fontSize={10} fill="var(--ey-gray-medium)" textAnchor="middle">
             Quiet Builders
           </text>
         </ScatterChart>
@@ -333,7 +333,7 @@ function HypeRealityQuadrant({
           <span key={entry.slug} className="inline-flex items-center gap-1">
             <span
               className="h-2.5 w-2.5 rounded-full"
-              style={{ backgroundColor: entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? "#888" }}
+              style={{ backgroundColor: entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? BRAND_COLOR_FALLBACK }}
             />
             {entry.name}
           </span>
@@ -391,7 +391,7 @@ function PartnershipTracker({
                 <td className="px-4 py-3 whitespace-nowrap">
                   <span
                     className="mr-1.5 inline-block h-2 w-2 rounded-full"
-                    style={{ backgroundColor: row.brandColor ?? "#888" }}
+                    style={{ backgroundColor: row.brandColor ?? BRAND_COLOR_FALLBACK }}
                   />
                   {row.competitorName}
                 </td>
@@ -590,8 +590,8 @@ function SignalTimeline({
               dataKey={comp.slug}
               name={comp.name}
               stackId="1"
-              fill={comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? "#888"}
-              stroke={comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? "#888"}
+              fill={comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? BRAND_COLOR_FALLBACK}
+              stroke={comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? BRAND_COLOR_FALLBACK}
               fillOpacity={0.6}
             />
           ))}
@@ -605,7 +605,7 @@ function SignalTimeline({
               className="h-2.5 w-2.5 rounded-full"
               style={{
                 backgroundColor:
-                  comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? "#888",
+                  comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? BRAND_COLOR_FALLBACK,
               }}
             />
             {comp.name}
@@ -670,7 +670,7 @@ function SignalRow({
         <td className="px-4 py-3 whitespace-nowrap">
           <span
             className="mr-1.5 inline-block h-2 w-2 rounded-full"
-            style={{ backgroundColor: signal.competitor.brandColor ?? "#888" }}
+            style={{ backgroundColor: signal.competitor.brandColor ?? BRAND_COLOR_FALLBACK }}
           />
           {signal.competitor.name}
         </td>

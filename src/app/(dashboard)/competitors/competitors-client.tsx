@@ -18,6 +18,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BRAND_COLOR_FALLBACK } from "@/lib/constants";
 
 const CATEGORY_LABELS: Record<string, string> = {
   SELF: "EY",
@@ -77,7 +78,7 @@ export function CompetitorsClient() {
                         className="h-full rounded-md transition-all duration-500"
                         style={{
                           width: `${pct}%`,
-                          backgroundColor: comp.brandColor ?? "#888",
+                          backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK,
                           opacity: 0.8,
                         }}
                       />
@@ -147,7 +148,7 @@ export function CompetitorsClient() {
                         <div
                           className="h-4 w-4 rounded-full shrink-0"
                           style={{
-                            backgroundColor: comp.brandColor ?? "#888",
+                            backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK,
                           }}
                         />
                         <span className="font-semibold truncate">

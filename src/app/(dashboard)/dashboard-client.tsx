@@ -30,6 +30,7 @@ import {
   Globe,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BRAND_COLOR_FALLBACK } from "@/lib/constants";
 
 // ---------------------------------------------------------------------------
 // Stat card
@@ -237,7 +238,7 @@ export function DashboardClient() {
                             className="h-full rounded-md transition-all duration-500 shrink-0"
                             style={{
                               width: `${barPct}%`,
-                              backgroundColor: comp.brandColor ?? "#888",
+                              backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK,
                               opacity: 0.85,
                             }}
                           />
@@ -475,7 +476,7 @@ export function DashboardClient() {
                       <div
                         className="h-3 w-3 rounded-full shrink-0"
                         style={{
-                          backgroundColor: comp.brandColor ?? "#888",
+                          backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK,
                         }}
                       />
                       <span className="font-semibold text-sm truncate">

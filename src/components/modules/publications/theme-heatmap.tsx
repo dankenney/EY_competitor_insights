@@ -14,7 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { PUBLICATION_THEMES } from "@/lib/constants";
+import { PUBLICATION_THEMES, BRAND_COLOR_FALLBACK } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -175,7 +175,7 @@ export function ThemeHeatmap({ data }: ThemeHeatmapProps) {
                           className="inline-block h-2.5 w-2.5 rounded-full shrink-0"
                           style={{
                             backgroundColor:
-                              competitor.brandColor ?? "#888",
+                              competitor.brandColor ?? BRAND_COLOR_FALLBACK,
                           }}
                         />
                         <span className="font-medium whitespace-nowrap">

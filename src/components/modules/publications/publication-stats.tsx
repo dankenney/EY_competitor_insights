@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { BRAND_COLOR_FALLBACK } from "@/lib/constants";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -206,7 +207,7 @@ export function PublicationStats({ data }: PublicationStatsProps) {
               <div className="flex items-center gap-2">
                 <span
                   className="inline-block h-3 w-3 rounded-full"
-                  style={{ backgroundColor: topPublisher.brandColor ?? "#888" }}
+                  style={{ backgroundColor: topPublisher.brandColor ?? BRAND_COLOR_FALLBACK }}
                 />
                 <span className="text-2xl font-bold">{topPublisher.competitorName}</span>
               </div>
