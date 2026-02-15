@@ -149,15 +149,15 @@ export function PublicationStats({ data }: PublicationStatsProps) {
         <CardContent>
           <div className="flex items-center gap-4">
             <MiniDonut themes={data.byTheme} />
-            <div className="flex-1 space-y-1">
+            <div className="flex-1 min-w-0 space-y-1">
               {data.byTheme.slice(0, 3).map((t, i) => (
-                <div key={t.theme} className="flex items-center gap-2 text-xs">
+                <div key={t.theme} className="flex items-center gap-2 text-xs min-w-0">
                   <span
-                    className="inline-block h-2 w-2 rounded-full"
+                    className="inline-block h-2 w-2 shrink-0 rounded-full"
                     style={{ backgroundColor: THEME_COLORS[i % THEME_COLORS.length] }}
                   />
-                  <span className="truncate text-muted-foreground">{t.theme}</span>
-                  <span className="ml-auto font-medium">{t.count}</span>
+                  <span className="min-w-0 truncate text-muted-foreground">{t.theme}</span>
+                  <span className="shrink-0 tabular-nums font-medium">{t.count}</span>
                 </div>
               ))}
               {data.byTheme.length > 3 && (
