@@ -19,7 +19,6 @@ import {
 import {
   FileText,
   Scale,
-  Users,
   TrendingUp,
   TrendingDown,
   ArrowRight,
@@ -553,28 +552,6 @@ export function DashboardClient() {
                 </Card>
               ))}
         </div>
-      </div>
-
-      {/* Quick links */}
-      <div className="flex flex-wrap gap-3">
-        <Link href="/publications">
-          <Button variant="outline" size="sm" className="gap-2">
-            <FileText className="h-4 w-4" />
-            Publications
-          </Button>
-        </Link>
-        <Link href="/regulatory">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Scale className="h-4 w-4" />
-            Regulatory Tracker
-          </Button>
-        </Link>
-        <Link href="/competitors">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Users className="h-4 w-4" />
-            Competitor Profiles
-          </Button>
-        </Link>
       </div>
     </div>
   );
