@@ -51,7 +51,6 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 RUN addgroup --system --gid 1001 nodejs
@@ -85,7 +84,5 @@ COPY --from=builder /app/scripts/docker-entrypoint.sh ./docker-entrypoint.sh
 RUN chmod +x docker-entrypoint.sh
 
 USER nextjs
-
-EXPOSE 3000
 
 CMD ["./docker-entrypoint.sh"]
