@@ -87,8 +87,11 @@ COPY --from=builder /app/node_modules/@auth ./node_modules/@auth
 # Copy bcryptjs — used in credentials provider for password verification
 COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
 
-# Copy prisma CLI for runtime schema push (db push on first deploy)
+# Copy prisma CLI + config for runtime schema push (db push on first deploy)
+# prisma.config.ts provides the DATABASE_URL to the CLI in Prisma 7
 COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+COPY --from=builder /app/package.json ./package.json
 
 # Copy bundled seed script (compiled from seed.ts during build)
 COPY --from=builder /app/prisma/seed.cjs ./prisma/seed.cjs
