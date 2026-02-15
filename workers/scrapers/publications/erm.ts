@@ -84,7 +84,7 @@ export class ERMScraper extends BasePublicationScraper {
   private detectContentType(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     $el: any,
-    $: cheerio.CheerioAPI
+    _$: cheerio.CheerioAPI
   ): string | undefined {
     const typeTag = this.cleanText(
       $el.find(".type, .content-type, .tag, .label, .category").first().text()
