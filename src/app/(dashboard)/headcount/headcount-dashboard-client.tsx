@@ -432,14 +432,14 @@ export function HeadcountDashboardClient() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
                     <XAxis
                       dataKey="name"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
                       allowDecimals={false}
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
@@ -452,7 +452,7 @@ export function HeadcountDashboardClient() {
                       {barChartData.map((entry) => (
                         <Cell
                           key={entry.slug}
-                          fill={entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? "#747480"}
+                          fill={entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? "var(--ey-gray-medium)"}
                         />
                       ))}
                     </Bar>
@@ -490,14 +490,14 @@ export function HeadcountDashboardClient() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
                     <XAxis
                       dataKey="date"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
                       allowDecimals={false}
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
@@ -511,7 +511,7 @@ export function HeadcountDashboardClient() {
                         type="monotone"
                         dataKey={comp.slug}
                         name={comp.name}
-                        stroke={comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? "#747480"}
+                        stroke={comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? "var(--ey-gray-medium)"}
                         strokeWidth={2}
                         dot={{ r: 3 }}
                         connectNulls

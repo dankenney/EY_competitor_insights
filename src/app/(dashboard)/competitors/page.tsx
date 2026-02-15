@@ -21,7 +21,7 @@ export default function CompetitorsPage() {
         </div>
       </div>
       <Card>
-        <CardContent className="flex flex-col items-center justify-center py-16">
+        <CardContent className="flex flex-col items-center justify-center py-12">
           <Users className="h-12 w-12 text-muted-foreground/50 mb-4" />
           <h2 className="text-lg font-semibold mb-2">Coming Soon</h2>
           <p className="text-sm text-muted-foreground text-center max-w-md">

@@ -54,7 +54,7 @@ const THEME_COLORS = [
   "#EB8C00", // ESG Managed Services
   "#00338D", // Sustainable finance
   "#A100FF", // Climate tech
-  "#747480", // fallback
+  "var(--ey-gray-medium)", // fallback
 ];
 
 function MiniDonut({ themes }: { themes: ThemeCount[] }) {

@@ -179,14 +179,14 @@ export function PublicationTrendChart({
               />
               <XAxis
                 dataKey="monthLabel"
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 12 }}
                 className="text-muted-foreground"
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
                 allowDecimals={false}
-                tick={{ fontSize: 11 }}
+                tick={{ fontSize: 12 }}
                 className="text-muted-foreground"
                 tickLine={false}
                 axisLine={false}

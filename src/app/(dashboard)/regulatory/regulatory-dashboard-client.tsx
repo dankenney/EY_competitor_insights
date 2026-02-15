@@ -72,7 +72,7 @@ const GEOGRAPHY_COLORS: Record<string, string> = {
   "APAC-HongKong": "#DE2910",
   "APAC-Singapore": "#EF3340",
   "APAC-Japan": "#BC002D",
-  Global: "#747480",
+  Global: "var(--ey-gray-medium)",
 };
 
 function impactBadgeVariant(level: string | null): "default" | "secondary" | "outline" | "destructive" {
@@ -286,14 +286,14 @@ export function RegulatoryDashboardClient() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
                     <XAxis
                       dataKey="monthLabel"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
                       allowDecimals={false}
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
@@ -336,11 +336,11 @@ export function RegulatoryDashboardClient() {
                     margin={{ top: 10, right: 30, left: 80, bottom: 0 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" horizontal={false} />
-                    <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+                    <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
                     <YAxis
                       dataKey="geography"
                       type="category"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       tickLine={false}
                       axisLine={false}
                       width={70}
@@ -350,7 +350,7 @@ export function RegulatoryDashboardClient() {
                       {statsQuery.data.byGeography.map((entry) => (
                         <Cell
                           key={entry.geography}
-                          fill={GEOGRAPHY_COLORS[entry.geography] ?? "#747480"}
+                          fill={GEOGRAPHY_COLORS[entry.geography] ?? "var(--ey-gray-medium)"}
                         />
                       ))}
                     </Bar>
@@ -394,7 +394,7 @@ export function RegulatoryDashboardClient() {
                             className="h-full rounded-full transition-all"
                             style={{
                               width: `${pct}%`,
-                              backgroundColor: IMPACT_COLORS[item.impactLevel] ?? "#747480",
+                              backgroundColor: IMPACT_COLORS[item.impactLevel] ?? "var(--ey-gray-medium)",
                             }}
                           />
                         </div>
