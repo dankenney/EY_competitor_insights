@@ -38,6 +38,12 @@ RUN npx esbuild prisma/seed.ts \
     --packages=external \
     --external:../src/generated/prisma
 
+# Bundle prisma.config.ts to plain JS so the Prisma CLI can load it
+# in the slim runner without TypeScript dev dependencies.
+RUN npx esbuild prisma.config.ts \
+    --bundle --platform=node --format=esm --outfile=prisma.config.mjs \
+    --packages=external
+
 # ── Stage 3: Production runner ────────────────────────────────────────────────
 FROM node:20-alpine AS runner
 RUN apk add --no-cache libc6-compat openssl
@@ -51,46 +57,24 @@ ENV HOSTNAME="0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy standalone output
+# Copy standalone output (includes server.js and a minimal node_modules)
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Copy FULL node_modules from builder on top of standalone's minimal set.
+# Prisma 7's CLI (db push) has 30+ hoisted transitive deps (c12, jiti,
+# valibot, @prisma/dev, etc.) — cherry-picking them is fragile and breaks
+# on every Prisma update. Copying the full tree is the only reliable approach.
+# Docker COPY merges directories, so standalone's files are preserved.
+COPY --from=builder /app/node_modules ./node_modules
+
 # Copy Prisma schema + generated client (needed at runtime for queries)
-# In Prisma v7 the client is generated to src/generated/prisma (no node_modules/.prisma)
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/src/generated/prisma ./src/generated/prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
-# Copy pg and adapter-pg — marked as serverExternalPackages so Next.js
-# standalone doesn't bundle them; they must exist in node_modules at runtime.
-COPY --from=builder /app/node_modules/pg ./node_modules/pg
-COPY --from=builder /app/node_modules/pg-types ./node_modules/pg-types
-COPY --from=builder /app/node_modules/pg-protocol ./node_modules/pg-protocol
-COPY --from=builder /app/node_modules/pg-pool ./node_modules/pg-pool
-COPY --from=builder /app/node_modules/pg-connection-string ./node_modules/pg-connection-string
-COPY --from=builder /app/node_modules/pg-int8 ./node_modules/pg-int8
-COPY --from=builder /app/node_modules/pgpass ./node_modules/pgpass
-COPY --from=builder /app/node_modules/postgres-array ./node_modules/postgres-array
-COPY --from=builder /app/node_modules/postgres-bytea ./node_modules/postgres-bytea
-COPY --from=builder /app/node_modules/postgres-date ./node_modules/postgres-date
-COPY --from=builder /app/node_modules/postgres-interval ./node_modules/postgres-interval
-COPY --from=builder /app/node_modules/split2 ./node_modules/split2
-COPY --from=builder /app/node_modules/@prisma/adapter-pg ./node_modules/@prisma/adapter-pg
-COPY --from=builder /app/node_modules/@prisma/driver-adapter-utils ./node_modules/@prisma/driver-adapter-utils
-
-# Copy next-auth v5 and its @auth/* dependencies — beta package structure
-# can confuse the Next.js standalone tracer
-COPY --from=builder /app/node_modules/next-auth ./node_modules/next-auth
-COPY --from=builder /app/node_modules/@auth ./node_modules/@auth
-
-# Copy bcryptjs — used in credentials provider for password verification
-COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
-
-# Copy prisma CLI + config for runtime schema push (db push on first deploy)
-# prisma.config.ts provides the DATABASE_URL to the CLI in Prisma 7
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+# Copy prisma config (compiled to JS) and package.json
+COPY --from=builder /app/prisma.config.mjs ./prisma.config.mjs
 COPY --from=builder /app/package.json ./package.json
 
 # Copy bundled seed script (compiled from seed.ts during build)

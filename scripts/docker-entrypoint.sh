@@ -2,7 +2,7 @@
 set -e
 
 echo "==> Pushing database schema..."
-node ./node_modules/prisma/build/index.js db push --accept-data-loss 2>&1
+node ./node_modules/prisma/build/index.js db push --config=prisma.config.mjs --accept-data-loss 2>&1
 echo "==> Schema push complete."
 
 echo "==> Seeding database..."
