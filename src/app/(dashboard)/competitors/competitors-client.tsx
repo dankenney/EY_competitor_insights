@@ -11,8 +11,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CardSkeleton } from "@/components/shared/loading-skeleton";
 import {
-  FileText,
-  Users,
   TrendingUp,
   TrendingDown,
   Briefcase,
@@ -120,7 +118,7 @@ export function CompetitorsClient() {
 
       {/* Competitor cards grouped by category */}
       {competitors.isLoading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {Array.from({ length: 10 }).map((_, i) => (
             <CardSkeleton key={i} />
           ))}
@@ -136,49 +134,45 @@ export function CompetitorsClient() {
                   {grouped[cat]!.length}
                 </Badge>
               </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                 {grouped[cat]!.map((comp) => (
                   <Card
                     key={comp.id}
-                    className="group transition-shadow hover:shadow-md"
+                    className="group relative transition-shadow hover:shadow-md"
                   >
                     <CardContent className="p-5">
-                      {/* Header */}
-                      <div className="flex items-center gap-2 mb-4">
+                      <div className="flex items-center gap-2 mb-3">
                         <div
-                          className="h-4 w-4 rounded-full shrink-0"
+                          className="h-3 w-3 rounded-full shrink-0"
                           style={{
                             backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK,
                           }}
                         />
-                        <span className="font-semibold truncate">
+                        <span className="font-semibold text-sm truncate">
                           {comp.name}
                         </span>
                         <Badge
                           variant="outline"
-                          className="ml-auto text-[10px] shrink-0"
+                          className="ml-auto text-xs shrink-0"
                         >
                           {CATEGORY_LABELS[comp.category] ?? comp.category}
                         </Badge>
                       </div>
 
-                      {/* Stats */}
-                      <div className="space-y-3 text-sm">
-                        <div className="flex items-center justify-between">
-                          <span className="text-muted-foreground flex items-center gap-1.5">
-                            <FileText className="h-3.5 w-3.5" />
+                      <div className="space-y-2 text-xs">
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">
                             Publications
                           </span>
                           <span className="font-medium">
                             {comp.publicationCount}
                           </span>
                         </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-muted-foreground flex items-center gap-1.5">
-                            <Users className="h-3.5 w-3.5" />
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">
                             Headcount
                           </span>
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1">
                             <span className="font-medium">
                               {comp.headcount
                                 ? comp.headcount.toLocaleString()
@@ -203,20 +197,13 @@ export function CompetitorsClient() {
                         </div>
                       </div>
 
-                      {/* Latest talent signal */}
                       {comp.latestEvent && (
-                        <div className="pt-3 border-t mt-3">
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1">
+                        <div className="pt-2 border-t mt-2">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Briefcase className="h-3 w-3" />
                             {comp.latestEvent.eventType}
-                            {comp.latestEvent.headcountAffected && (
-                              <span className="ml-1">
-                                ({comp.latestEvent.headcountAffected.toLocaleString()}{" "}
-                                affected)
-                              </span>
-                            )}
                           </div>
-                          <p className="text-xs text-muted-foreground line-clamp-3">
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
                             {comp.latestEvent.aiSummary}
                           </p>
                         </div>
