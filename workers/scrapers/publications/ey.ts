@@ -10,7 +10,7 @@ export class EYScraper extends BasePublicationScraper {
     super(prisma);
     this.name = "ey-publications";
     this.competitorSlug = "ey";
-    this.urls = ["https://www.ey.com/en_gl/insights/sustainability"];
+    this.urls = ["https://www.ey.com/en_gl/services/climate-change-sustainability-services"];
 
     this.articleSelectors = [
       ".article-card a",

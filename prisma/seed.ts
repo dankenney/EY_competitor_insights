@@ -23,9 +23,9 @@ const competitors = [
     website: "https://www.ey.com",
     brandColor: "#FFE600",
     publicationUrls: [
-      "https://www.ey.com/en_gl/insights/sustainability",
-      "https://www.ey.com/en_us/insights/sustainability",
-      "https://www.ey.com/en_gl/insights/assurance/esg-reporting",
+      "https://www.ey.com/en_gl/services/climate-change-sustainability-services",
+      "https://www.ey.com/en_us/sustainability",
+      "https://www.ey.com/en_gl/services/assurance/esg-sustainability",
     ],
     gtmUrls: [
       "https://www.ey.com/en_gl/services/sustainability",
@@ -41,8 +41,8 @@ const competitors = [
     brandColor: "#00338D",
     publicationUrls: ["https://kpmg.com/xx/en/our-insights/esg.html"],
     gtmUrls: [
-      "https://kpmg.com/xx/en/our-services/advisory/esg.html",
-      "https://kpmg.com/xx/en/our-services/advisory/esg/sustainability-managed-services.html",
+      "https://kpmg.com/xx/en/what-we-do/services/ESG.html",
+      "https://kpmg.com/xx/en/what-we-do/services/advisory/consulting/kpmg-managed-services/sustainability.html",
     ],
   },
   {
@@ -69,7 +69,7 @@ const competitors = [
       "https://www.deloitte.com/global/en/issues/climate.html",
     ],
     gtmUrls: [
-      "https://www.deloitte.com/global/en/services/risk-advisory/sustainability-climate.html",
+      "https://www.deloitte.com/global/en/services/consulting-risk/services/sustainability-climate.html",
     ],
   },
   {
@@ -81,8 +81,8 @@ const competitors = [
     brandColor: "#00A3E0",
     publicationUrls: ["https://www.erm.com/insights/"],
     gtmUrls: [
-      "https://www.erm.com/sustainability/",
-      "https://www.erm.com/service/digital/",
+      "https://www.erm.com/about/sustainability/",
+      "https://www.erm.com/solutions/data-digital/",
     ],
   },
   {
@@ -94,7 +94,7 @@ const competitors = [
     brandColor: "#E31937",
     publicationUrls: ["https://www.wsp.com/en-gl/insights"],
     gtmUrls: [
-      "https://www.wsp.com/en-gl/services/sustainability-energy-and-climate-change",
+      "https://www.wsp.com/en-us/services/sustainability-energy-and-climate-change",
     ],
   },
   {
@@ -104,8 +104,8 @@ const competitors = [
     category: "ENGINEERING" as CompetitorCategory,
     website: "https://www.bureauveritas.com",
     brandColor: "#00205B",
-    publicationUrls: ["https://www.bureauveritas.com/magazine"],
-    gtmUrls: ["https://www.bureauveritas.com/needs/csr-sustainability"],
+    publicationUrls: ["https://group.bureauveritas.com/magazine"],
+    gtmUrls: ["https://group.bureauveritas.com/sustainability"],
   },
   {
     name: "McKinsey",
@@ -132,7 +132,7 @@ const competitors = [
       "https://www.bcg.com/capabilities/climate-change-sustainability/insights",
     ],
     gtmUrls: [
-      "https://www.bcg.com/capabilities/climate-change-sustainability",
+      "https://www.bcg.com/capabilities/climate-change-sustainability/overview",
     ],
   },
   {
@@ -143,10 +143,10 @@ const competitors = [
     website: "https://www.accenture.com",
     brandColor: "#A100FF",
     publicationUrls: [
-      "https://www.accenture.com/us-en/insights/sustainability-index",
+      "https://www.accenture.com/us-en/insights/consulting/sustainability-index",
     ],
     gtmUrls: [
-      "https://www.accenture.com/us-en/services/sustainability-index",
+      "https://www.accenture.com/us-en/services/sustainability",
     ],
   },
 ];
@@ -463,7 +463,7 @@ const regulatoryEvents = [
     title: "EU CSRD enters first reporting period for large companies",
     description: "The Corporate Sustainability Reporting Directive (CSRD) officially begins its first reporting period for large public-interest entities with 500+ employees.",
     sourceName: "European Commission",
-    sourceUrl: "https://ec.europa.eu/csrd-implementation-2025",
+    sourceUrl: "https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en",
     geography: "EU",
     directionOfChange: "Mandatory",
     frameworksAffected: ["CSRD", "ESRS", "EU Taxonomy"],
@@ -476,7 +476,7 @@ const regulatoryEvents = [
     title: "SEC Climate Disclosure Rule — litigation and stay update",
     description: "The SEC's climate disclosure rule remains partially stayed pending Eighth Circuit review. Companies prepare for both scenarios.",
     sourceName: "SEC",
-    sourceUrl: "https://www.sec.gov/climate-disclosure-2025-update",
+    sourceUrl: "https://www.sec.gov/rules-regulations/2024/03/s7-10-22",
     geography: "US",
     directionOfChange: "Pullback/Uncertainty",
     frameworksAffected: ["SEC Climate Rule"],
@@ -489,7 +489,7 @@ const regulatoryEvents = [
     title: "ISSB Standards (IFRS S1/S2) adoption expanding globally",
     description: "Multiple jurisdictions announce ISSB adoption timelines. Japan, Australia, and Singapore publish implementation roadmaps.",
     sourceName: "IFRS Foundation",
-    sourceUrl: "https://www.ifrs.org/issb-adoption-tracker-2025",
+    sourceUrl: "https://www.ifrs.org/ifrs-sustainability-disclosure-standards-around-the-world/jurisdictional-guide/",
     geography: "Global",
     directionOfChange: "Voluntary to Mandatory",
     frameworksAffected: ["ISSB", "IFRS S1", "IFRS S2"],
@@ -502,7 +502,7 @@ const regulatoryEvents = [
     title: "EU Corporate Sustainability Due Diligence Directive (CSDDD) implementation begins",
     description: "Member states begin transposing CSDDD into national law, requiring value chain due diligence on human rights and environmental impacts.",
     sourceName: "European Commission",
-    sourceUrl: "https://ec.europa.eu/csddd-transposition-2025",
+    sourceUrl: "https://ec.europa.eu/info/business-economy-euro/doing-business-eu/corporate-sustainability-due-diligence_en",
     geography: "EU",
     directionOfChange: "New Regulation",
     frameworksAffected: ["CSDDD", "CSRD"],
@@ -515,7 +515,7 @@ const regulatoryEvents = [
     title: "TNFD recommendations gain momentum with 500+ adopters",
     description: "The Taskforce on Nature-related Financial Disclosures (TNFD) exceeds 500 early adopters globally, signaling market readiness.",
     sourceName: "TNFD",
-    sourceUrl: "https://tnfd.global/adopters-update-2025",
+    sourceUrl: "https://tnfd.global/engage/tnfd-adopters/",
     geography: "Global",
     directionOfChange: "Guidance to Mandate",
     frameworksAffected: ["TNFD", "GRI 101 Biodiversity"],
@@ -528,7 +528,7 @@ const regulatoryEvents = [
     title: "California climate disclosure laws (SB 253, SB 261) implementation update",
     description: "California finalizes implementation timeline for mandatory GHG emissions and climate risk reporting for large companies doing business in the state.",
     sourceName: "California Air Resources Board",
-    sourceUrl: "https://ww2.arb.ca.gov/sb253-implementation-2025",
+    sourceUrl: "https://ww2.arb.ca.gov/our-work/programs/california-corporate-greenhouse-gas-ghg-reporting-and-climate-related-financial",
     geography: "US-State",
     directionOfChange: "Mandatory",
     frameworksAffected: ["SB 253", "SB 261"],
@@ -541,7 +541,7 @@ const regulatoryEvents = [
     title: "UK Sustainability Disclosure Standards consultation launched",
     description: "UK FCA launches consultation on UK Sustainability Disclosure Standards (UK SDS) based on ISSB, with proposed 2027 effective date.",
     sourceName: "UK FCA",
-    sourceUrl: "https://www.fca.org.uk/uk-sds-consultation-2025",
+    sourceUrl: "https://www.gov.uk/government/consultations/exposure-drafts-uk-sustainability-reporting-standards",
     geography: "UK",
     directionOfChange: "Guidance to Mandate",
     frameworksAffected: ["UK SDS", "ISSB"],
@@ -554,7 +554,7 @@ const regulatoryEvents = [
     title: "Singapore launches mandatory climate reporting for listed companies",
     description: "SGX RegCo mandates ISSB-aligned climate disclosures for listed companies starting FY2025, with phased implementation.",
     sourceName: "SGX RegCo",
-    sourceUrl: "https://www.sgx.com/climate-reporting-mandate-2025",
+    sourceUrl: "https://www.sgx.com/sustainable-finance/sustainability-reporting",
     geography: "APAC-Singapore",
     directionOfChange: "Mandatory",
     frameworksAffected: ["ISSB", "SGX Climate"],
@@ -567,7 +567,7 @@ const regulatoryEvents = [
     title: "Australia mandates climate-related financial disclosures",
     description: "Australia's Treasury Laws Amendment (Financial Market Infrastructure and Other Measures) mandates climate disclosures for large entities from 2025.",
     sourceName: "Australian Treasury",
-    sourceUrl: "https://treasury.gov.au/climate-disclosure-mandate-2025",
+    sourceUrl: "https://treasury.gov.au/consultation/c2024-466491",
     geography: "APAC-Australia",
     directionOfChange: "Mandatory",
     frameworksAffected: ["AASB S1", "AASB S2", "ISSB"],
@@ -580,7 +580,7 @@ const regulatoryEvents = [
     title: "EU Anti-Greenwashing Directive moves to final trilogue",
     description: "European Parliament and Council reach preliminary agreement on rules to substantiate environmental claims, including carbon neutrality claims.",
     sourceName: "European Parliament",
-    sourceUrl: "https://europarl.europa.eu/anti-greenwashing-directive-2025",
+    sourceUrl: "https://environment.ec.europa.eu/topics/circular-economy-topics/green-claims_en",
     geography: "EU",
     directionOfChange: "New Regulation",
     frameworksAffected: ["Green Claims Directive"],
@@ -729,7 +729,7 @@ const talentSignals = [
     geography: "Global",
     driver: "Practice consolidation",
     sourceName: "BCG",
-    sourceUrl: "https://www.bcg.com/capabilities/climate-change-sustainability",
+    sourceUrl: "https://www.bcg.com/capabilities/climate-change-sustainability/overview",
     aiSummary: "BCG dissolved its standalone Climate & Sustainability practice, redistributing ~50 sustainability specialists into industry verticals (energy, industrials, financial institutions). Signals a shift from dedicated ESG teams to embedded sustainability expertise.",
   },
   {
@@ -805,35 +805,35 @@ const talentSignals = [
 
 const aiPageUrlsBySlug: Record<string, string[]> = {
   ey: [
-    "https://www.ey.com/en_gl/services/sustainability/ai-sustainability",
-    "https://www.ey.com/en_gl/ai/sustainability",
+    "https://www.ey.com/en_gl/services/sustainability",
+    "https://www.ey.com/en_gl/services/climate-change-sustainability-services",
   ],
   kpmg: [
-    "https://kpmg.com/xx/en/our-services/advisory/esg/esg-technology.html",
+    "https://kpmg.com/xx/en/our-insights/ai-and-technology/all-eyes-on-tech-enabled-esg-assurance.html",
   ],
   pwc: [
-    "https://www.pwc.com/gx/en/services/sustainability/esg-technology.html",
+    "https://www.pwc.com/us/en/services/esg/esg-technology.html",
   ],
   deloitte: [
-    "https://www.deloitte.com/global/en/services/consulting/sustainability-technology.html",
+    "https://www.deloitte.com/global/en/issues/climate/greenspacetech.html",
   ],
   erm: [
-    "https://www.erm.com/service/digital/",
+    "https://www.erm.com/solutions/data-digital/",
   ],
   wsp: [
-    "https://www.wsp.com/en-gl/services/digital-environment",
+    "https://www.wsp.com/en-gl/hubs/environmental-intelligence",
   ],
   "bureau-veritas": [
-    "https://www.bureauveritas.com/digital-trust",
+    "https://group.bureauveritas.com/services-digital-world",
   ],
   mckinsey: [
-    "https://www.mckinsey.com/capabilities/sustainability/how-we-help-clients/ai-for-sustainability",
+    "https://www.mckinsey.com/capabilities/sustainability/how-we-help-clients",
   ],
   bcg: [
-    "https://www.bcg.com/capabilities/climate-change-sustainability/ai-sustainability",
+    "https://www.bcg.com/beyond-consulting/bcg-gamma/co2-ai-for-sustainability",
   ],
   accenture: [
-    "https://www.accenture.com/us-en/services/sustainability/ai-sustainability",
+    "https://www.accenture.com/us-en/services/sustainability/sustainable-technology",
   ],
 };
 
@@ -842,7 +842,7 @@ const aiPositioningSignals = [
   {
     slug: "bcg",
     title: "BCG CO2 AI Platform: Multi-Enterprise Carbon Management at Scale",
-    sourceUrl: "https://www.bcg.com/capabilities/climate-change-sustainability/co2-ai",
+    sourceUrl: "https://www.bcg.com/beyond-consulting/bcg-gamma/co2-ai-for-sustainability",
     sourceName: "BCG",
     signalType: "Product Launch",
     aiCapabilityCategory: "Carbon Accounting & Emissions Management",
@@ -868,7 +868,7 @@ const aiPositioningSignals = [
   {
     slug: "ey",
     title: "EY.ai Sustainability Suite: AI-Powered CSRD Compliance Automation",
-    sourceUrl: "https://www.ey.com/en_gl/services/sustainability/ai-csrd-compliance",
+    sourceUrl: "https://www.ey.com/en_gl/technical/csrd-technical-resources",
     sourceName: "EY",
     signalType: "Platform Update",
     aiCapabilityCategory: "ESG Data Analytics & Reporting",
@@ -894,7 +894,7 @@ const aiPositioningSignals = [
   {
     slug: "accenture",
     title: "Accenture Green Software Foundation: Measuring and Reducing Digital Carbon",
-    sourceUrl: "https://www.accenture.com/us-en/services/sustainability/green-software",
+    sourceUrl: "https://www.accenture.com/us-en/services/sustainability/sustainable-technology",
     sourceName: "Accenture",
     signalType: "Client Win / Case Study",
     aiCapabilityCategory: "Carbon Accounting & Emissions Management",
@@ -922,7 +922,7 @@ const aiPositioningSignals = [
   {
     slug: "deloitte",
     title: "Deloitte-ServiceNow ESG Management Platform Integration",
-    sourceUrl: "https://www.deloitte.com/global/en/services/consulting/deloitte-servicenow-esg",
+    sourceUrl: "https://www.deloitte.com/global/en/alliances/servicenow.html",
     sourceName: "Deloitte",
     signalType: "Partnership Announcement",
     aiCapabilityCategory: "ESG Data Analytics & Reporting",
@@ -948,7 +948,7 @@ const aiPositioningSignals = [
   {
     slug: "kpmg",
     title: "KPMG ESG Data & Analytics Hub: AI-Driven Regulatory Mapping",
-    sourceUrl: "https://kpmg.com/xx/en/our-services/advisory/esg/kpmg-esg-hub",
+    sourceUrl: "https://kpmg.com/xx/en/what-we-do/services/ESG.html",
     sourceName: "KPMG",
     signalType: "Product Launch",
     aiCapabilityCategory: "Regulatory Intelligence & Compliance",
@@ -974,7 +974,7 @@ const aiPositioningSignals = [
   {
     slug: "pwc",
     title: "PwC-Google Cloud ESG Data Engine Partnership",
-    sourceUrl: "https://www.pwc.com/gx/en/services/sustainability/pwc-google-esg-data",
+    sourceUrl: "https://www.pwc.com/gx/en/services/alliances/google.html",
     sourceName: "PwC",
     signalType: "Partnership Announcement",
     aiCapabilityCategory: "ESG Data Analytics & Reporting",
@@ -1000,7 +1000,7 @@ const aiPositioningSignals = [
   {
     slug: "mckinsey",
     title: "McKinsey Sustainability Lighthouse: AI for Decarbonization Pathways",
-    sourceUrl: "https://www.mckinsey.com/capabilities/sustainability/how-we-help-clients/ai-decarbonization",
+    sourceUrl: "https://www.mckinsey.com/capabilities/sustainability/how-we-help-clients/decarbonization-transformation",
     sourceName: "McKinsey",
     signalType: "Internal Capability",
     aiCapabilityCategory: "Climate Modeling & Scenario Analysis",
@@ -1028,7 +1028,7 @@ const aiPositioningSignals = [
   {
     slug: "pwc",
     title: "PwC: How AI Will Transform ESG Reporting — A Vision for 2030",
-    sourceUrl: "https://www.pwc.com/gx/en/issues/esg/ai-transform-esg-reporting-2030",
+    sourceUrl: "https://www.pwc.com/gx/en/issues/esg/global-sustainability-reporting-survey.html",
     sourceName: "PwC",
     signalType: "Thought Leadership",
     aiCapabilityCategory: "General AI & Sustainability Strategy",
@@ -1054,7 +1054,7 @@ const aiPositioningSignals = [
   {
     slug: "deloitte",
     title: "Deloitte: AI-Powered Sustainability Transformation — Reimagining the Possible",
-    sourceUrl: "https://www.deloitte.com/global/en/issues/climate/ai-sustainability-transformation",
+    sourceUrl: "https://www.deloitte.com/global/en/issues/climate/powering-ai.html",
     sourceName: "Deloitte",
     signalType: "Vague Claim",
     aiCapabilityCategory: "General AI & Sustainability Strategy",
@@ -1080,7 +1080,7 @@ const aiPositioningSignals = [
   {
     slug: "kpmg",
     title: "KPMG: Responsible AI for a Sustainable Future — Thought Leadership Series",
-    sourceUrl: "https://kpmg.com/xx/en/our-insights/esg/responsible-ai-sustainable-future",
+    sourceUrl: "https://kpmg.com/us/en/articles/2025/ai-sustainability.html",
     sourceName: "KPMG",
     signalType: "Thought Leadership",
     aiCapabilityCategory: "General AI & Sustainability Strategy",
@@ -1108,7 +1108,7 @@ const aiPositioningSignals = [
   {
     slug: "erm",
     title: "ERM Digital: AI-Enhanced Environmental Impact Assessment Platform",
-    sourceUrl: "https://www.erm.com/service/digital/ai-environmental-impact",
+    sourceUrl: "https://www.erm.com/products/",
     sourceName: "ERM",
     signalType: "Platform Update",
     aiCapabilityCategory: "Biodiversity & Nature Analytics",
@@ -1134,7 +1134,7 @@ const aiPositioningSignals = [
   {
     slug: "wsp",
     title: "WSP Launches AI-Powered Climate Risk Analytics for Infrastructure",
-    sourceUrl: "https://www.wsp.com/en-gl/insights/ai-climate-risk-infrastructure",
+    sourceUrl: "https://www.wsp.com/en-us/services/climate-resilient-infrastructure",
     sourceName: "WSP",
     signalType: "Product Launch",
     aiCapabilityCategory: "Climate Modeling & Scenario Analysis",
@@ -1160,7 +1160,7 @@ const aiPositioningSignals = [
   {
     slug: "accenture",
     title: "Accenture-SalesForce Net Zero Cloud AI Enhancement",
-    sourceUrl: "https://www.accenture.com/us-en/services/sustainability/salesforce-net-zero-cloud",
+    sourceUrl: "https://www.accenture.com/us-en/services/salesforce/sustainability",
     sourceName: "Accenture",
     signalType: "Partnership Announcement",
     aiCapabilityCategory: "Carbon Accounting & Emissions Management",
@@ -1186,7 +1186,7 @@ const aiPositioningSignals = [
   {
     slug: "ey",
     title: "EY-Persefoni Partnership: AI Carbon Accounting for Financial Services",
-    sourceUrl: "https://www.ey.com/en_gl/alliances/persefoni-carbon-accounting",
+    sourceUrl: "https://www.ey.com/en_gl/services/sustainability",
     sourceName: "EY",
     signalType: "Partnership Announcement",
     aiCapabilityCategory: "Carbon Accounting & Emissions Management",
@@ -1212,7 +1212,7 @@ const aiPositioningSignals = [
   {
     slug: "bcg",
     title: "BCG Gamma x Sustainability: AI for Supply Chain Deforestation Monitoring",
-    sourceUrl: "https://www.bcg.com/capabilities/climate-change-sustainability/ai-supply-chain-deforestation",
+    sourceUrl: "https://www.bcg.com/capabilities/climate-change-sustainability/insights",
     sourceName: "BCG",
     signalType: "Client Win / Case Study",
     aiCapabilityCategory: "Supply Chain Traceability & Due Diligence",
@@ -1238,7 +1238,7 @@ const aiPositioningSignals = [
   {
     slug: "mckinsey",
     title: "McKinsey: The Promise and Peril of AI in Climate Action — A CEO Perspective",
-    sourceUrl: "https://www.mckinsey.com/capabilities/sustainability/our-insights/ai-climate-action-ceo",
+    sourceUrl: "https://www.mckinsey.com/capabilities/sustainability/our-insights",
     sourceName: "McKinsey",
     signalType: "Thought Leadership",
     aiCapabilityCategory: "General AI & Sustainability Strategy",
@@ -1264,7 +1264,7 @@ const aiPositioningSignals = [
   {
     slug: "bureau-veritas",
     title: "Bureau Veritas: AI-Enhanced ESG Assurance Verification",
-    sourceUrl: "https://www.bureauveritas.com/ai-esg-assurance-verification",
+    sourceUrl: "https://certification.bureauveritas.com/needs/sustainability-report-assurance-and-emissions-verification",
     sourceName: "Bureau Veritas",
     signalType: "Internal Capability",
     aiCapabilityCategory: "Sustainability Assurance Automation",
@@ -1290,7 +1290,7 @@ const aiPositioningSignals = [
   {
     slug: "deloitte",
     title: "Deloitte Acquires AI Sustainability Analytics Startup GreenIQ",
-    sourceUrl: "https://www.deloitte.com/global/en/about/press-room/greeniq-acquisition",
+    sourceUrl: "https://www.deloitte.com/global/en/about/press-room/deloitte-launches-global-sustainability-and-climate-business.html",
     sourceName: "Deloitte",
     signalType: "Acquisition",
     aiCapabilityCategory: "Greenwashing Detection & Claims Verification",

@@ -232,7 +232,7 @@ export function DashboardClient() {
                   ))}
                 </div>
               ) : headcount.data && headcount.data.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   {headcount.data.map((comp) => {
                     const maxTotal = Math.max(
                       ...headcount.data!.map((c) => c.total)
@@ -243,22 +243,22 @@ export function DashboardClient() {
                         <div className="w-24 text-sm font-medium truncate">
                           {comp.name}
                         </div>
-                        <div className="flex-1 h-7 bg-muted rounded-md overflow-hidden relative">
+                        <div className="flex-1 h-6 overflow-hidden">
                           <div
                             className="h-full rounded-md transition-all duration-500"
                             style={{
                               width: `${pct}%`,
                               backgroundColor: comp.brandColor ?? "#888",
-                              opacity: 0.8,
+                              opacity: 0.85,
                             }}
                           />
-                          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-medium">
-                            {comp.total.toLocaleString()}
-                          </span>
+                        </div>
+                        <div className="w-14 text-right text-sm font-semibold tabular-nums">
+                          {comp.total.toLocaleString()}
                         </div>
                         <div
                           className={cn(
-                            "flex items-center gap-0.5 text-xs font-medium w-16",
+                            "flex items-center gap-0.5 text-xs font-medium w-16 justify-end",
                             comp.pctChange !== null && comp.pctChange > 0
                               ? "text-emerald-600"
                               : comp.pctChange !== null && comp.pctChange < 0
@@ -277,7 +277,7 @@ export function DashboardClient() {
                               {comp.pctChange.toFixed(1)}%
                             </>
                           ) : (
-                            <span>&nbsp;</span>
+                            <span className="text-muted-foreground">--</span>
                           )}
                         </div>
                       </div>
