@@ -21,6 +21,8 @@ ARG DATABASE_URL="postgresql://build:build@localhost:5432/build"
 ENV DATABASE_URL=${DATABASE_URL}
 ARG NEXTAUTH_SECRET="build-secret-placeholder"
 ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+ARG AUTH_SECRET="build-secret-placeholder"
+ENV AUTH_SECRET=${AUTH_SECRET}
 
 # Generate Prisma client
 RUN npx prisma generate
@@ -69,6 +71,14 @@ COPY --from=builder /app/node_modules/postgres-interval ./node_modules/postgres-
 COPY --from=builder /app/node_modules/split2 ./node_modules/split2
 COPY --from=builder /app/node_modules/@prisma/adapter-pg ./node_modules/@prisma/adapter-pg
 COPY --from=builder /app/node_modules/@prisma/driver-adapter-utils ./node_modules/@prisma/driver-adapter-utils
+
+# Copy next-auth v5 and its @auth/* dependencies — beta package structure
+# can confuse the Next.js standalone tracer
+COPY --from=builder /app/node_modules/next-auth ./node_modules/next-auth
+COPY --from=builder /app/node_modules/@auth ./node_modules/@auth
+
+# Copy bcryptjs — used in credentials provider for password verification
+COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
 
 USER nextjs
 
