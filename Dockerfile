@@ -31,6 +31,13 @@ RUN npx prisma generate
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
+# Bundle seed script to plain JS so tsx is not needed at runtime.
+# All package imports stay external — resolved from runner's node_modules.
+RUN npx esbuild prisma/seed.ts \
+    --bundle --platform=node --format=cjs --outfile=prisma/seed.cjs \
+    --packages=external \
+    --external:../src/generated/prisma
+
 # ── Stage 3: Production runner ────────────────────────────────────────────────
 FROM node:20-alpine AS runner
 RUN apk add --no-cache libc6-compat openssl
@@ -80,8 +87,18 @@ COPY --from=builder /app/node_modules/@auth ./node_modules/@auth
 # Copy bcryptjs — used in credentials provider for password verification
 COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
 
+# Copy prisma CLI for runtime schema push (db push on first deploy)
+COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+
+# Copy bundled seed script (compiled from seed.ts during build)
+COPY --from=builder /app/prisma/seed.cjs ./prisma/seed.cjs
+
+# Copy entrypoint script
+COPY --from=builder /app/scripts/docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x docker-entrypoint.sh
+
 USER nextjs
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["./docker-entrypoint.sh"]
