@@ -143,10 +143,10 @@ function CapabilityMatrix({
   };
 
   function cellColor(score: number): string {
-    if (score >= 0.7) return "bg-green-500/80 text-white";
-    if (score >= 0.5) return "bg-yellow-500/70 text-white";
-    if (score >= 0.3) return "bg-orange-400/70 text-white";
-    return "bg-red-400/60 text-white";
+    if (score >= 0.7) return "bg-emerald-600 text-white";
+    if (score >= 0.5) return "bg-amber-500 text-white";
+    if (score >= 0.3) return "bg-orange-500 text-white";
+    return "bg-red-500 text-white";
   }
 
   return (

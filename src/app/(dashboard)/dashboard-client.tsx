@@ -16,6 +16,7 @@ import {
   CardSkeleton,
   TableSkeleton,
 } from "@/components/shared/loading-skeleton";
+import { EmptyState } from "@/components/shared/empty-state";
 import {
   FileText,
   Scale,
@@ -130,7 +131,7 @@ export function DashboardClient() {
   const regulatory = trpc.dashboard.regulatoryOverview.useQuery();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Page header */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
@@ -275,9 +276,12 @@ export function DashboardClient() {
                   })}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  No headcount data available
-                </p>
+                <EmptyState
+                  icon={Building2}
+                  title="No Headcount Data"
+                  description="Headcount comparison data will appear here once uploaded."
+                  className="py-8"
+                />
               )}
             </CardContent>
           </Card>
@@ -358,9 +362,12 @@ export function DashboardClient() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  No regulatory events tracked yet
-                </p>
+                <EmptyState
+                  icon={Scale}
+                  title="No Regulatory Events"
+                  description="Regulatory events will appear here as they are tracked and classified."
+                  className="py-8"
+                />
               )}
             </CardContent>
           </Card>
@@ -440,9 +447,12 @@ export function DashboardClient() {
                   })}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  No recent activity
-                </p>
+                <EmptyState
+                  icon={Activity}
+                  title="No Recent Activity"
+                  description="Intelligence signals will appear here as data is collected."
+                  className="py-8"
+                />
               )}
             </CardContent>
           </Card>
@@ -471,7 +481,7 @@ export function DashboardClient() {
                   key={comp.id}
                   className="group relative transition-shadow hover:shadow-md"
                 >
-                  <CardContent className="p-4">
+                  <CardContent className="p-5">
                     <div className="flex items-center gap-2 mb-3">
                       <div
                         className="h-3 w-3 rounded-full shrink-0"
