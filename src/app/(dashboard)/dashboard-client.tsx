@@ -29,6 +29,7 @@ import {
   Clock,
   Building2,
   Globe,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -132,15 +133,25 @@ export function DashboardClient() {
   return (
     <div className="space-y-8">
       {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          CCaSS Competitive Intelligence
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Real-time competitive intelligence across sustainability services.
-          Monitoring publications, regulatory shifts, headcount, and market
-          positioning.
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            CCaSS Competitive Intelligence
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Real-time competitive intelligence across sustainability services.
+            Monitoring publications, regulatory shifts, headcount, and market
+            positioning.
+          </p>
+        </div>
+        <Link href="/chat">
+          <Button
+            className="shrink-0 gap-2 bg-[#FFE600] text-[#2E2E38] hover:bg-[#FFE600]/90 font-semibold"
+          >
+            <MessageSquare className="h-4 w-4" />
+            Try Data Chat
+          </Button>
+        </Link>
       </div>
 
       {/* Summary stats */}
@@ -246,26 +257,30 @@ export function DashboardClient() {
                             {comp.total.toLocaleString()}
                           </span>
                         </div>
-                        {comp.pctChange !== null && (
-                          <div
-                            className={cn(
-                              "flex items-center gap-0.5 text-xs font-medium w-16",
-                              comp.pctChange > 0
-                                ? "text-emerald-600"
-                                : comp.pctChange < 0
-                                  ? "text-red-500"
-                                  : "text-muted-foreground"
-                            )}
-                          >
-                            {comp.pctChange > 0 ? (
-                              <TrendingUp className="h-3 w-3" />
-                            ) : comp.pctChange < 0 ? (
-                              <TrendingDown className="h-3 w-3" />
-                            ) : null}
-                            {comp.pctChange > 0 ? "+" : ""}
-                            {comp.pctChange.toFixed(1)}%
-                          </div>
-                        )}
+                        <div
+                          className={cn(
+                            "flex items-center gap-0.5 text-xs font-medium w-16",
+                            comp.pctChange !== null && comp.pctChange > 0
+                              ? "text-emerald-600"
+                              : comp.pctChange !== null && comp.pctChange < 0
+                                ? "text-red-500"
+                                : "text-muted-foreground"
+                          )}
+                        >
+                          {comp.pctChange !== null ? (
+                            <>
+                              {comp.pctChange > 0 ? (
+                                <TrendingUp className="h-3 w-3" />
+                              ) : comp.pctChange < 0 ? (
+                                <TrendingDown className="h-3 w-3" />
+                              ) : null}
+                              {comp.pctChange > 0 ? "+" : ""}
+                              {comp.pctChange.toFixed(1)}%
+                            </>
+                          ) : (
+                            <span>&nbsp;</span>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
