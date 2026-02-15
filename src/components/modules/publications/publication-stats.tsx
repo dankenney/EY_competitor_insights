@@ -76,13 +76,12 @@ function MiniDonut({ themes }: { themes: ThemeCount[] }) {
     );
   }
 
-  let cumulativePercent = 0;
-  const segments = themes.map((theme, i) => {
+  const segments = themes.reduce<Array<{ percent: number; offset: number; color: string }>>((acc, theme, i) => {
     const percent = (theme.count / total) * 100;
-    const offset = cumulativePercent;
-    cumulativePercent += percent;
-    return { percent, offset, color: THEME_COLORS[i % THEME_COLORS.length] };
-  });
+    const offset = acc.length > 0 ? acc[acc.length - 1].offset + acc[acc.length - 1].percent : 0;
+    acc.push({ percent, offset, color: THEME_COLORS[i % THEME_COLORS.length] });
+    return acc;
+  }, []);
 
   return (
     <svg viewBox="0 0 36 36" className="h-16 w-16">

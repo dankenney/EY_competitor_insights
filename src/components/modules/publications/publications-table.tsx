@@ -105,6 +105,39 @@ function SortIcon({
 }
 
 // ---------------------------------------------------------------------------
+// Column header (must be defined outside component to avoid recreating during render)
+// ---------------------------------------------------------------------------
+
+function ColHeader({
+  label,
+  sortColumn,
+  className,
+  activeColumn,
+  direction,
+  onToggle,
+}: {
+  label: string;
+  sortColumn: SortKey;
+  className?: string;
+  activeColumn: SortKey;
+  direction: SortDirection;
+  onToggle: (key: SortKey) => void;
+}) {
+  return (
+    <th scope="col" className={cn("px-4 py-3 text-left", className)}>
+      <button
+        type="button"
+        onClick={() => onToggle(sortColumn)}
+        className="inline-flex items-center text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+      >
+        {label}
+        <SortIcon column={sortColumn} activeColumn={activeColumn} direction={direction} />
+      </button>
+    </th>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
@@ -200,28 +233,6 @@ export function PublicationsTable({ data, competitors }: PublicationsTableProps)
     return Array.from(seen.values());
   }, [data, competitors]);
 
-  // --- Column header ---
-  const ColHeader = ({
-    label,
-    sortColumn,
-    className,
-  }: {
-    label: string;
-    sortColumn: SortKey;
-    className?: string;
-  }) => (
-    <th scope="col" className={cn("px-4 py-3 text-left", className)}>
-      <button
-        type="button"
-        onClick={() => toggleSort(sortColumn)}
-        className="inline-flex items-center text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
-      >
-        {label}
-        <SortIcon column={sortColumn} activeColumn={sortKey} direction={sortDir} />
-      </button>
-    </th>
-  );
-
   return (
     <Card>
       <CardHeader>
@@ -313,12 +324,12 @@ export function PublicationsTable({ data, competitors }: PublicationsTableProps)
             <table className="w-full border-collapse">
               <thead>
                 <tr className="border-b border-t bg-muted/30">
-                  <ColHeader label="Title" sortColumn="title" className="min-w-[280px]" />
-                  <ColHeader label="Competitor" sortColumn="competitor" className="min-w-[130px]" />
-                  <ColHeader label="Theme" sortColumn="primaryTheme" className="min-w-[140px]" />
-                  <ColHeader label="Type" sortColumn="contentType" className="min-w-[110px]" />
-                  <ColHeader label="Date" sortColumn="publishedDate" className="min-w-[110px]" />
-                  <ColHeader label="Confidence" sortColumn="confidenceScore" className="min-w-[90px]" />
+                  <ColHeader label="Title" sortColumn="title" className="min-w-[280px]" activeColumn={sortKey} direction={sortDir} onToggle={toggleSort} />
+                  <ColHeader label="Competitor" sortColumn="competitor" className="min-w-[130px]" activeColumn={sortKey} direction={sortDir} onToggle={toggleSort} />
+                  <ColHeader label="Theme" sortColumn="primaryTheme" className="min-w-[140px]" activeColumn={sortKey} direction={sortDir} onToggle={toggleSort} />
+                  <ColHeader label="Type" sortColumn="contentType" className="min-w-[110px]" activeColumn={sortKey} direction={sortDir} onToggle={toggleSort} />
+                  <ColHeader label="Date" sortColumn="publishedDate" className="min-w-[110px]" activeColumn={sortKey} direction={sortDir} onToggle={toggleSort} />
+                  <ColHeader label="Confidence" sortColumn="confidenceScore" className="min-w-[90px]" activeColumn={sortKey} direction={sortDir} onToggle={toggleSort} />
                 </tr>
               </thead>
               <tbody>
