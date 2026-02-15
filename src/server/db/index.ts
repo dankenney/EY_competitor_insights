@@ -11,7 +11,11 @@ function createPrismaClient(): PrismaClient {
     process.env.DATABASE_URL ??
     "postgresql://postgres:postgres@localhost:5432/ey_ccass?schema=public";
 
-  const pool = new pg.Pool({ connectionString });
+  const pool = new pg.Pool({
+    connectionString,
+    // Neon and Railway-hosted Postgres require SSL in production
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : undefined,
+  });
   const adapter = new PrismaPg(pool);
 
   return new PrismaClient({

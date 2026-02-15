@@ -27,6 +27,10 @@ declare module "next-auth" {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // Cast needed due to @auth/core version mismatch between @auth/prisma-adapter and next-auth
   adapter: PrismaAdapter(db) as NextAuthConfig["adapter"],
+  // Explicitly pass secret — supports both NEXTAUTH_SECRET (legacy) and AUTH_SECRET (v5)
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  // Required when running behind a reverse proxy (Railway, Vercel, etc.)
+  trustHost: true,
   session: {
     strategy: "jwt",
   },
