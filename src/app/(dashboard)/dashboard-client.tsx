@@ -206,7 +206,7 @@ export function DashboardClient() {
                     Latest estimated team sizes across competitors
                   </CardDescription>
                 </div>
-                <Link href="/headcount">
+                <Link href="/talent">
                   <Button variant="ghost" size="sm" className="text-xs gap-1">
                     Details <ArrowRight className="h-3 w-3" />
                   </Button>
@@ -398,7 +398,7 @@ export function DashboardClient() {
                         ? `/publications/${item.id}`
                         : item.type === "regulatory"
                           ? "/regulatory"
-                          : "/talent-signals";
+                          : "/talent";
 
                     return (
                       <Link
