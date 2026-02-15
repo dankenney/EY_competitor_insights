@@ -6,11 +6,7 @@ generator client {
 
 datasource db {
   provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  // pgcrypto: standard extension for crypto functions
-  // vector: pgvector for embeddings — requires pgvector to be installed on the
-  //   Postgres instance. Comment out if using Railway's default Postgres (which
-  //   does not include pgvector). The vector column is added via raw SQL anyway.
+  // URL is configured in prisma.config.ts (Prisma 7 removed url from schema)
   extensions = [pgcrypto]
 }
 
