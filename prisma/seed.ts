@@ -1585,7 +1585,15 @@ async function main() {
             dataSource: "Manual Estimate",
           },
         },
-        update: {},
+        update: {
+          totalSustainabilityHeadcount: snap.total,
+          usHeadcount: snap.us,
+          ukHeadcount: snap.uk,
+          indiaHeadcount: snap.india,
+          euHeadcount: snap.eu,
+          apacHeadcount: snap.apac,
+          pctChangeVsPrior: pctChange,
+        },
         create: {
           competitorId: comp.id,
           snapshotDate,
