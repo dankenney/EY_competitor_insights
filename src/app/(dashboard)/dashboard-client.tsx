@@ -76,27 +76,27 @@ function ActivityBadge({ type }: { type: string }) {
   switch (type) {
     case "publication":
       return (
-        <Badge variant="secondary" className="text-[10px] gap-1">
+        <Badge variant="secondary" className="text-xs gap-1">
           <FileText className="h-3 w-3" />
           Publication
         </Badge>
       );
     case "regulatory":
       return (
-        <Badge variant="outline" className="text-[10px] gap-1 border-amber-300 text-amber-700">
+        <Badge variant="outline" className="text-xs gap-1 border-amber-300 text-amber-700">
           <Scale className="h-3 w-3" />
           Regulatory
         </Badge>
       );
     case "talent":
       return (
-        <Badge variant="outline" className="text-[10px] gap-1 border-blue-300 text-blue-700">
+        <Badge variant="outline" className="text-xs gap-1 border-blue-300 text-blue-700">
           <Briefcase className="h-3 w-3" />
           Sustainability Talent
         </Badge>
       );
     default:
-      return <Badge variant="secondary" className="text-[10px]">{type}</Badge>;
+      return <Badge variant="secondary" className="text-xs">{type}</Badge>;
   }
 }
 
@@ -112,7 +112,7 @@ function ImpactBadge({ level }: { level: string }) {
         ? "bg-amber-100 text-amber-700 border-amber-200"
         : "bg-green-100 text-green-700 border-green-200";
   return (
-    <Badge variant="outline" className={cn("text-[10px]", color)}>
+    <Badge variant="outline" className={cn("text-xs", color)}>
       {level}
     </Badge>
   );
@@ -333,7 +333,7 @@ export function DashboardClient() {
                             {event.aiSummary}
                           </p>
                         )}
-                        <div className="mt-2 flex items-center gap-3 text-[11px] text-muted-foreground">
+                        <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
                           {event.geography && (
                             <span className="flex items-center gap-1">
                               <Globe className="h-3 w-3" />
@@ -401,14 +401,14 @@ export function DashboardClient() {
                       <Link
                         key={`${item.type}-${item.id}`}
                         href={href}
-                        className="block border-b pb-3 last:border-0 last:pb-0 rounded-md -mx-1 px-1 transition-colors hover:bg-muted/50"
+                        className="block border-b pb-3 last:border-0 last:pb-0 rounded-md p-2 transition-colors hover:bg-muted/50"
                       >
                         <div className="flex items-center gap-2 mb-1">
                           <ActivityBadge type={item.type} />
                           {item.competitor && (
                             <Badge
                               variant="outline"
-                              className="text-[10px]"
+                              className="text-xs"
                               style={{
                                 borderColor: item.brandColor ?? undefined,
                                 color: item.brandColor ?? undefined,
@@ -427,7 +427,7 @@ export function DashboardClient() {
                           </p>
                         )}
                         {item.date && (
-                          <p className="mt-1 text-[11px] text-muted-foreground">
+                          <p className="mt-1 text-xs text-muted-foreground">
                             {format(new Date(item.date), "MMM d, yyyy")}
                           </p>
                         )}
@@ -480,7 +480,7 @@ export function DashboardClient() {
                       </span>
                       <Badge
                         variant="outline"
-                        className="ml-auto text-[9px] shrink-0"
+                        className="ml-auto text-xs shrink-0"
                       >
                         {comp.category}
                       </Badge>
@@ -508,7 +508,7 @@ export function DashboardClient() {
                           {comp.headcountChange !== null && (
                             <span
                               className={cn(
-                                "text-[10px]",
+                                "text-xs",
                                 comp.headcountChange > 0
                                   ? "text-emerald-600"
                                   : comp.headcountChange < 0
@@ -524,11 +524,11 @@ export function DashboardClient() {
                       </div>
                       {comp.latestEvent && (
                         <div className="pt-2 border-t mt-2">
-                          <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Briefcase className="h-3 w-3" />
                             {comp.latestEvent.eventType}
                           </div>
-                          <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
                             {comp.latestEvent.aiSummary}
                           </p>
                         </div>
