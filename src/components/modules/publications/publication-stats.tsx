@@ -62,7 +62,7 @@ function MiniDonut({ themes }: { themes: ThemeCount[] }) {
   const total = themes.reduce((sum, t) => sum + t.count, 0);
   if (total === 0) {
     return (
-      <svg viewBox="0 0 36 36" className="h-16 w-16">
+      <svg viewBox="0 0 36 36" className="h-12 w-12 shrink-0">
         <circle
           cx="18"
           cy="18"
@@ -84,7 +84,7 @@ function MiniDonut({ themes }: { themes: ThemeCount[] }) {
   }, []);
 
   return (
-    <svg viewBox="0 0 36 36" className="h-16 w-16">
+    <svg viewBox="0 0 36 36" className="h-12 w-12 shrink-0">
       {segments.map((seg, i) => (
         <circle
           key={i}
