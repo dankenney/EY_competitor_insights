@@ -10,6 +10,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   BarChart,
   Bar,
@@ -177,7 +178,7 @@ function CapabilityMatrix({
               return (
                 <tr
                   key={row.slug}
-                  className={cn(isEY && "bg-[#FFE600]/5 font-semibold")}
+                  className={cn(isEY && "bg-ey-yellow/5 font-semibold")}
                 >
                   <td className="p-2 whitespace-nowrap">
                     <span
@@ -185,7 +186,7 @@ function CapabilityMatrix({
                       style={{ backgroundColor: row.brandColor ?? "#888" }}
                     />
                     {row.competitorName}
-                    {isEY && <span className="ml-1 text-[10px] text-[#FFE600]">(EY)</span>}
+                    {isEY && <span className="ml-1 text-xs text-ey-yellow">(EY)</span>}
                   </td>
                   {allCategories.map((cat) => {
                     const cell = categoryMap.get(cat);
@@ -200,7 +201,7 @@ function CapabilityMatrix({
                       <td key={cat} className="p-1 text-center">
                         <div
                           className={cn(
-                            "mx-auto rounded px-1.5 py-0.5 text-[10px] font-medium",
+                            "mx-auto rounded px-1.5 py-0.5 text-xs font-medium",
                             cellColor(cell.avgRealityScore)
                           )}
                           title={`${cell.count} signals, avg reality: ${cell.avgRealityScore.toFixed(2)}`}
@@ -216,7 +217,7 @@ function CapabilityMatrix({
           </tbody>
         </table>
       </div>
-      <div className="mt-3 flex items-center gap-3 text-[10px] text-muted-foreground">
+      <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
         <span>Legend:</span>
         <span className="inline-flex items-center gap-1"><span className="h-2 w-4 rounded bg-green-500/80" /> High (0.7+)</span>
         <span className="inline-flex items-center gap-1"><span className="h-2 w-4 rounded bg-yellow-500/70" /> Medium (0.5+)</span>
@@ -258,7 +259,7 @@ function HypeRealityQuadrant({
             name="Reality Score"
             domain={[0, 1]}
             tickFormatter={(v: number) => v.toFixed(1)}
-            label={{ value: "Reality Score", position: "bottom", offset: 0, fontSize: 11 }}
+            label={{ value: "Reality Score", position: "bottom", offset: 0, fontSize: 12 }}
             className="text-xs"
           />
           <YAxis
@@ -304,7 +305,7 @@ function HypeRealityQuadrant({
               <Cell
                 key={entry.slug}
                 fill={entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? "#888"}
-                stroke={entry.slug === "ey" ? "#FFE600" : "transparent"}
+                stroke={entry.slug === "ey" ? "var(--ey-yellow)" : "transparent"}
                 strokeWidth={entry.slug === "ey" ? 3 : 0}
               />
             ))}
@@ -510,16 +511,16 @@ function EyComparisonChart({
               );
             }}
           />
-          <Bar dataKey="EY" fill="#FFE600" radius={[0, 4, 4, 0]} barSize={12} />
-          <Bar dataKey="Competitors" fill="#747480" radius={[0, 4, 4, 0]} barSize={12} />
+          <Bar dataKey="EY" fill="var(--ey-yellow)" radius={[0, 4, 4, 0]} barSize={12} />
+          <Bar dataKey="Competitors" fill="var(--ey-gray-medium)" radius={[0, 4, 4, 0]} barSize={12} />
         </BarChart>
       </ResponsiveContainer>
       <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
         <span className="inline-flex items-center gap-1">
-          <span className="h-2 w-4 rounded bg-[#FFE600]" /> EY
+          <span className="h-2 w-4 rounded bg-ey-yellow" /> EY
         </span>
         <span className="inline-flex items-center gap-1">
-          <span className="h-2 w-4 rounded bg-[#747480]" /> Competitor Avg
+          <span className="h-2 w-4 rounded bg-ey-gray-medium" /> Competitor Avg
         </span>
       </div>
     </div>
@@ -655,6 +656,15 @@ function SignalRow({
           signal.isSignificant && "bg-primary/5"
         )}
         onClick={() => setExpanded(!expanded)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setExpanded(!expanded);
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-expanded={expanded}
       >
         <td className="px-4 py-3 whitespace-nowrap">
           <span
@@ -774,7 +784,6 @@ function SignalRow({
 // ---------------------------------------------------------------------------
 
 export function AiPositioningDashboardClient() {
-  const [activeTab, setActiveTab] = useState<"timeline" | "eyComparison">("timeline");
 
   const statsQuery = trpc.aiPositioning.getStats.useQuery();
   const matrixQuery = trpc.aiPositioning.getCapabilityMatrix.useQuery();
@@ -856,40 +865,34 @@ export function AiPositioningDashboardClient() {
       </div>
 
       {/* Section 4: Tabs — Timeline + EY Comparison */}
-      <div className="rounded-lg border bg-card shadow-sm">
-        <div className="flex border-b">
-          <button
-            onClick={() => setActiveTab("timeline")}
-            className={cn(
-              "px-6 py-3 text-sm font-medium transition-colors",
-              activeTab === "timeline"
-                ? "border-b-2 border-primary text-primary"
-                : "text-muted-foreground hover:text-foreground"
+      <Tabs defaultValue="timeline">
+        <div className="rounded-lg border bg-card shadow-sm">
+          <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
+            <TabsTrigger
+              value="timeline"
+              className="rounded-none border-b-2 border-transparent px-6 py-3 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+            >
+              Signal Timeline
+            </TabsTrigger>
+            <TabsTrigger
+              value="eyComparison"
+              className="rounded-none border-b-2 border-transparent px-6 py-3 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+            >
+              EY Comparison
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="timeline" className="m-0">
+            {timelineQuery.data && (
+              <SignalTimeline data={timelineQuery.data} />
             )}
-          >
-            Signal Timeline
-          </button>
-          <button
-            onClick={() => setActiveTab("eyComparison")}
-            className={cn(
-              "px-6 py-3 text-sm font-medium transition-colors",
-              activeTab === "eyComparison"
-                ? "border-b-2 border-primary text-primary"
-                : "text-muted-foreground hover:text-foreground"
+          </TabsContent>
+          <TabsContent value="eyComparison" className="m-0">
+            {eyComparisonQuery.data && (
+              <EyComparisonChart data={eyComparisonQuery.data} />
             )}
-          >
-            EY Comparison
-          </button>
+          </TabsContent>
         </div>
-        <div className="p-0">
-          {activeTab === "timeline" && timelineQuery.data && (
-            <SignalTimeline data={timelineQuery.data} />
-          )}
-          {activeTab === "eyComparison" && eyComparisonQuery.data && (
-            <EyComparisonChart data={eyComparisonQuery.data} />
-          )}
-        </div>
-      </div>
+      </Tabs>
 
       {/* Section 5: All Signals Table */}
       <div className="rounded-lg border bg-card shadow-sm">
