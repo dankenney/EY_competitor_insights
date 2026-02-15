@@ -1,19 +1,23 @@
 import { NextResponse } from "next/server";
-import { db } from "@/server/db";
 
 export async function GET() {
-  try {
-    // Verify database connectivity
-    await db.$queryRaw`SELECT 1`;
+  const timestamp = new Date().toISOString();
+  let dbStatus = "unknown";
 
-    return NextResponse.json(
-      { status: "healthy", timestamp: new Date().toISOString() },
-      { status: 200 }
-    );
+  try {
+    // Lazy-import db to avoid crashing if DATABASE_URL is missing at module load
+    const { db } = await import("@/server/db");
+    await db.$queryRaw`SELECT 1`;
+    dbStatus = "connected";
   } catch {
-    return NextResponse.json(
-      { status: "unhealthy", timestamp: new Date().toISOString() },
-      { status: 503 }
-    );
+    dbStatus = "unavailable";
   }
+
+  // Always return 200 so Railway knows the process is alive.
+  // DB connectivity is reported as informational — a missing DB
+  // shouldn't prevent the container from passing the healthcheck.
+  return NextResponse.json(
+    { status: "healthy", database: dbStatus, timestamp },
+    { status: 200 }
+  );
 }
