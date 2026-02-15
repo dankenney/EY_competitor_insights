@@ -98,7 +98,7 @@ function SidebarNav({
 
       {/* Navigation */}
       <ScrollArea className="flex-1 px-2 py-3">
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-1" aria-label="Main navigation">
           {NAV_ITEMS.map((item) => {
             const Icon = iconMap[item.icon];
             const active = isActive(item.href);
@@ -132,7 +132,7 @@ function SidebarNav({
             <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground/40">
               Administration
             </p>
-            <nav className="flex flex-col gap-1">
+            <nav className="flex flex-col gap-1" aria-label="Administration">
               {ADMIN_NAV_ITEMS.map((item) => {
                 const Icon = iconMap[item.icon];
                 const active = isActive(item.href);
@@ -208,7 +208,7 @@ export function Sidebar({ isAdmin = false }: SidebarProps) {
 
         {/* Navigation */}
         <ScrollArea className="flex-1 px-2 py-3">
-          <nav className="flex flex-col gap-1">
+          <nav className="flex flex-col gap-1" aria-label="Main navigation">
             {NAV_ITEMS.map((item) => {
               const Icon = iconMap[item.icon];
               const active = isActive(item.href);
@@ -266,7 +266,7 @@ export function Sidebar({ isAdmin = false }: SidebarProps) {
                   Administration
                 </p>
               )}
-              <nav className="flex flex-col gap-1">
+              <nav className="flex flex-col gap-1" aria-label="Administration">
                 {ADMIN_NAV_ITEMS.map((item) => {
                   const Icon = iconMap[item.icon];
                   const active = isActive(item.href);

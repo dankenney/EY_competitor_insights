@@ -210,7 +210,7 @@ export function PublicationsTable({ data, competitors }: PublicationsTableProps)
     sortColumn: SortKey;
     className?: string;
   }) => (
-    <th className={cn("px-4 py-3 text-left", className)}>
+    <th scope="col" className={cn("px-4 py-3 text-left", className)}>
       <button
         type="button"
         onClick={() => toggleSort(sortColumn)}
@@ -335,8 +335,11 @@ export function PublicationsTable({ data, competitors }: PublicationsTableProps)
                   filteredData.map((pub) => (
                     <tr
                       key={pub.id}
+                      role="link"
+                      tabIndex={0}
                       onClick={() => router.push(`/publications/${pub.id}`)}
-                      className="cursor-pointer border-b transition-colors hover:bg-muted/40"
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); router.push(`/publications/${pub.id}`); } }}
+                      className="cursor-pointer border-b transition-colors hover:bg-muted/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring"
                     >
                       {/* Title */}
                       <td className="px-4 py-3">

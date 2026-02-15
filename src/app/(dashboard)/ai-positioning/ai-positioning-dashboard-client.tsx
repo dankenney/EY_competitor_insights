@@ -156,9 +156,10 @@ function CapabilityMatrix({
         <table className="w-full text-xs">
           <thead>
             <tr>
-              <th className="p-2 text-left font-medium text-muted-foreground">Competitor</th>
+              <th scope="col" className="p-2 text-left font-medium text-muted-foreground">Competitor</th>
               {allCategories.map((cat) => (
                 <th
+                  scope="col"
                   key={cat}
                   className="p-2 text-center font-medium text-muted-foreground"
                   title={cat}
@@ -375,13 +376,13 @@ function PartnershipTracker({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b text-left text-xs text-muted-foreground">
-              <th className="px-4 py-3 font-medium">Competitor</th>
-              <th className="px-4 py-3 font-medium">Partner</th>
-              <th className="px-4 py-3 font-medium">Type</th>
-              <th className="px-4 py-3 font-medium">Category</th>
-              <th className="px-4 py-3 font-medium">Maturity</th>
-              <th className="px-4 py-3 font-medium">Reality</th>
-              <th className="px-4 py-3 font-medium">Date</th>
+              <th scope="col" className="px-4 py-3 font-medium">Competitor</th>
+              <th scope="col" className="px-4 py-3 font-medium">Partner</th>
+              <th scope="col" className="px-4 py-3 font-medium">Type</th>
+              <th scope="col" className="px-4 py-3 font-medium">Category</th>
+              <th scope="col" className="px-4 py-3 font-medium">Maturity</th>
+              <th scope="col" className="px-4 py-3 font-medium">Reality</th>
+              <th scope="col" className="px-4 py-3 font-medium">Date</th>
             </tr>
           </thead>
           <tbody>
@@ -906,13 +907,13 @@ export function AiPositioningDashboardClient() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left text-xs text-muted-foreground">
-                <th className="px-4 py-3 font-medium">Competitor</th>
-                <th className="px-4 py-3 font-medium">Signal</th>
-                <th className="px-4 py-3 font-medium">Type</th>
-                <th className="px-4 py-3 font-medium">Maturity</th>
-                <th className="px-4 py-3 font-medium">Reality</th>
-                <th className="px-4 py-3 font-medium">Date</th>
-                <th className="px-4 py-3 font-medium w-8"></th>
+                <th scope="col" className="px-4 py-3 font-medium">Competitor</th>
+                <th scope="col" className="px-4 py-3 font-medium">Signal</th>
+                <th scope="col" className="px-4 py-3 font-medium">Type</th>
+                <th scope="col" className="px-4 py-3 font-medium">Maturity</th>
+                <th scope="col" className="px-4 py-3 font-medium">Reality</th>
+                <th scope="col" className="px-4 py-3 font-medium">Date</th>
+                <th scope="col" className="px-4 py-3 font-medium w-8"></th>
               </tr>
             </thead>
             <tbody>

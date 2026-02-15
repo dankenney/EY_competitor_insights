@@ -138,11 +138,12 @@ export function ThemeHeatmap({ data }: ThemeHeatmapProps) {
           <table className="w-full border-collapse text-sm">
             <thead>
               <tr>
-                <th className="sticky left-0 z-10 bg-card px-3 py-2 text-left font-medium text-muted-foreground">
+                <th scope="col" className="sticky left-0 z-10 bg-card px-3 py-2 text-left font-medium text-muted-foreground">
                   Competitor
                 </th>
                 {themes.map((theme) => (
                   <th
+                    scope="col"
                     key={theme}
                     className="px-3 py-2 text-center font-medium text-muted-foreground"
                   >
@@ -150,7 +151,7 @@ export function ThemeHeatmap({ data }: ThemeHeatmapProps) {
                     <span className="lg:hidden">{shortenTheme(theme)}</span>
                   </th>
                 ))}
-                <th className="px-3 py-2 text-center font-medium text-muted-foreground">
+                <th scope="col" className="px-3 py-2 text-center font-medium text-muted-foreground">
                   Total
                 </th>
               </tr>
