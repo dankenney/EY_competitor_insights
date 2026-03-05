@@ -42,7 +42,7 @@ const competitorUrlUpdates: Record<
       "https://kpmg.com/xx/en/what-we-do/services/advisory/consulting/kpmg-managed-services/sustainability.html",
     ],
     aiPageUrls: [
-      "https://kpmg.com/xx/en/our-insights/ai-and-technology/all-eyes-on-tech-enabled-esg-assurance.html",
+      "https://kpmg.com/xx/en/our-insights/esg/ai-enabling-climate-outcomes-and-powering-the-energy-transition.html",
     ],
   },
   pwc: {
@@ -111,17 +111,17 @@ const regulatoryUrlUpdates: Record<string, string> = {
   "https://www.ifrs.org/issb-adoption-tracker-2025":
     "https://www.ifrs.org/ifrs-sustainability-disclosure-standards-around-the-world/jurisdictional-guide/",
   "https://ec.europa.eu/csddd-transposition-2025":
-    "https://ec.europa.eu/info/business-economy-euro/doing-business-eu/corporate-sustainability-due-diligence_en",
+    "https://commission.europa.eu/business-economy-euro/doing-business-eu/sustainability-due-diligence-responsible-business/corporate-sustainability-due-diligence_en",
   "https://tnfd.global/adopters-update-2025":
     "https://tnfd.global/engage/tnfd-adopters/",
   "https://ww2.arb.ca.gov/sb253-implementation-2025":
     "https://ww2.arb.ca.gov/our-work/programs/california-corporate-greenhouse-gas-ghg-reporting-and-climate-related-financial",
   "https://www.fca.org.uk/uk-sds-consultation-2025":
-    "https://www.gov.uk/government/consultations/exposure-drafts-uk-sustainability-reporting-standards",
+    "https://www.gov.uk/government/publications/uk-sustainability-reporting-standards-uk-srs-s1-and-uk-srs-s2",
   "https://www.sgx.com/climate-reporting-mandate-2025":
     "https://www.sgx.com/sustainable-finance/sustainability-reporting",
   "https://treasury.gov.au/climate-disclosure-mandate-2025":
-    "https://treasury.gov.au/consultation/c2024-466491",
+    "https://standards.aasb.gov.au/aasb-s2-sep-2024",
   "https://europarl.europa.eu/anti-greenwashing-directive-2025":
     "https://environment.ec.europa.eu/topics/circular-economy-topics/green-claims_en",
 };
