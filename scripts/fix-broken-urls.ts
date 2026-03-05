@@ -111,7 +111,7 @@ const regulatoryUrlUpdates: Record<string, string> = {
   "https://www.ifrs.org/issb-adoption-tracker-2025":
     "https://www.ifrs.org/ifrs-sustainability-disclosure-standards-around-the-world/jurisdictional-guide/",
   "https://ec.europa.eu/csddd-transposition-2025":
-    "https://ec.europa.eu/info/business-economy-euro/doing-business-eu/corporate-sustainability-due-diligence_en",
+    "https://commission.europa.eu/business-economy-euro/doing-business-eu/sustainability-due-diligence-responsible-business/corporate-sustainability-due-diligence_en",
   "https://tnfd.global/adopters-update-2025":
     "https://tnfd.global/engage/tnfd-adopters/",
   "https://ww2.arb.ca.gov/sb253-implementation-2025":
