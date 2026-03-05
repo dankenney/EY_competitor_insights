@@ -117,11 +117,11 @@ const regulatoryUrlUpdates: Record<string, string> = {
   "https://ww2.arb.ca.gov/sb253-implementation-2025":
     "https://ww2.arb.ca.gov/our-work/programs/california-corporate-greenhouse-gas-ghg-reporting-and-climate-related-financial",
   "https://www.fca.org.uk/uk-sds-consultation-2025":
-    "https://www.gov.uk/government/consultations/exposure-drafts-uk-sustainability-reporting-standards",
+    "https://www.gov.uk/government/publications/uk-sustainability-reporting-standards-uk-srs-s1-and-uk-srs-s2",
   "https://www.sgx.com/climate-reporting-mandate-2025":
     "https://www.sgx.com/sustainable-finance/sustainability-reporting",
   "https://treasury.gov.au/climate-disclosure-mandate-2025":
-    "https://treasury.gov.au/consultation/c2024-466491",
+    "https://standards.aasb.gov.au/aasb-s2-sep-2024",
   "https://europarl.europa.eu/anti-greenwashing-directive-2025":
     "https://environment.ec.europa.eu/topics/circular-economy-topics/green-claims_en",
 };
