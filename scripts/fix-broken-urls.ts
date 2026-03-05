@@ -42,7 +42,7 @@ const competitorUrlUpdates: Record<
       "https://kpmg.com/xx/en/what-we-do/services/advisory/consulting/kpmg-managed-services/sustainability.html",
     ],
     aiPageUrls: [
-      "https://kpmg.com/xx/en/our-insights/ai-and-technology/all-eyes-on-tech-enabled-esg-assurance.html",
+      "https://kpmg.com/xx/en/our-insights/esg/ai-enabling-climate-outcomes-and-powering-the-energy-transition.html",
     ],
   },
   pwc: {

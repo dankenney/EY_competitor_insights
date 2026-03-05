@@ -887,7 +887,7 @@ const aiPageUrlsBySlug: Record<string, string[]> = {
     "https://www.ey.com/en_gl/services/climate-change-sustainability-services",
   ],
   kpmg: [
-    "https://kpmg.com/xx/en/our-insights/ai-and-technology/all-eyes-on-tech-enabled-esg-assurance.html",
+    "https://kpmg.com/xx/en/our-insights/esg/ai-enabling-climate-outcomes-and-powering-the-energy-transition.html",
   ],
   pwc: [
     "https://www.pwc.com/us/en/services/esg/esg-technology.html",
