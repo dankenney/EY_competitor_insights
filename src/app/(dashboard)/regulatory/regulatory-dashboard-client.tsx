@@ -61,6 +61,40 @@ const IMPACT_COLORS: Record<string, string> = {
   Low: "#22c55e",
 };
 
+const IMPACT_ORDER = ["High", "Medium", "Low"];
+
+/* Custom tooltip that enforces High → Medium → Low order with tight spacing */
+function ImpactTooltip({ active, payload, label }: {
+  active?: boolean;
+  payload?: Array<{ name: string; value: number; color: string; dataKey: string }>;
+  label?: string;
+}) {
+  if (!active || !payload || payload.length === 0) return null;
+
+  const sorted = [...payload].sort((a, b) => {
+    const aKey = a.dataKey ?? a.name;
+    const bKey = b.dataKey ?? b.name;
+    return IMPACT_ORDER.indexOf(aKey === "high" ? "High" : aKey === "medium" ? "Medium" : "Low")
+      - IMPACT_ORDER.indexOf(bKey === "high" ? "High" : bKey === "medium" ? "Medium" : "Low");
+  });
+
+  return (
+    <div className="rounded-md border bg-background px-3 py-2 shadow-sm">
+      <p className="text-xs font-medium mb-1">{label}</p>
+      {sorted.map((entry) => (
+        <div key={entry.dataKey ?? entry.name} className="flex items-center gap-2 text-xs">
+          <span
+            className="inline-block h-2 w-2 rounded-full"
+            style={{ backgroundColor: entry.color }}
+          />
+          <span className="text-muted-foreground">{entry.name}:</span>
+          <span className="font-medium">{entry.value}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 const GEOGRAPHY_COLORS: Record<string, string> = {
   US: "#00338D",
   "US-State": "#4169E1",
@@ -72,7 +106,7 @@ const GEOGRAPHY_COLORS: Record<string, string> = {
   "APAC-HongKong": "#DE2910",
   "APAC-Singapore": "#EF3340",
   "APAC-Japan": "#BC002D",
-  Global: "#747480",
+  Global: "var(--ey-gray-medium)",
 };
 
 function impactBadgeVariant(level: string | null): "default" | "secondary" | "outline" | "destructive" {
@@ -286,20 +320,20 @@ export function RegulatoryDashboardClient() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
                     <XAxis
                       dataKey="monthLabel"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
                       allowDecimals={false}
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
                       width={40}
                     />
-                    <Tooltip />
+                    <Tooltip content={<ImpactTooltip />} />
                     <Legend verticalAlign="top" height={36} iconType="circle" iconSize={8} />
                     <Bar dataKey="high" name="High Impact" stackId="a" fill="#ef4444" radius={[0, 0, 0, 0]} />
                     <Bar dataKey="medium" name="Medium Impact" stackId="a" fill="#f59e0b" radius={[0, 0, 0, 0]} />
@@ -336,11 +370,11 @@ export function RegulatoryDashboardClient() {
                     margin={{ top: 10, right: 30, left: 80, bottom: 0 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" horizontal={false} />
-                    <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11 }} tickLine={false} axisLine={false} />
+                    <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
                     <YAxis
                       dataKey="geography"
                       type="category"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       tickLine={false}
                       axisLine={false}
                       width={70}
@@ -350,7 +384,7 @@ export function RegulatoryDashboardClient() {
                       {statsQuery.data.byGeography.map((entry) => (
                         <Cell
                           key={entry.geography}
-                          fill={GEOGRAPHY_COLORS[entry.geography] ?? "#747480"}
+                          fill={GEOGRAPHY_COLORS[entry.geography] ?? "var(--ey-gray-medium)"}
                         />
                       ))}
                     </Bar>
@@ -377,7 +411,9 @@ export function RegulatoryDashboardClient() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {statsQuery.data.byImpact.map((item) => {
+                  {[...statsQuery.data.byImpact].sort((a, b) =>
+                    IMPACT_ORDER.indexOf(a.impactLevel) - IMPACT_ORDER.indexOf(b.impactLevel)
+                  ).map((item) => {
                     const pct = statsQuery.data!.total > 0
                       ? Math.round((item.count / statsQuery.data!.total) * 100)
                       : 0;
@@ -394,7 +430,7 @@ export function RegulatoryDashboardClient() {
                             className="h-full rounded-full transition-all"
                             style={{
                               width: `${pct}%`,
-                              backgroundColor: IMPACT_COLORS[item.impactLevel] ?? "#747480",
+                              backgroundColor: IMPACT_COLORS[item.impactLevel] ?? "var(--ey-gray-medium)",
                             }}
                           />
                         </div>
@@ -497,22 +533,22 @@ export function RegulatoryDashboardClient() {
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b border-t bg-muted/30">
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Title
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Geography
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Impact
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Direction
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Date
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Frameworks
                       </th>
                     </tr>

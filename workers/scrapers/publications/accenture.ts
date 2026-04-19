@@ -11,7 +11,7 @@ export class AccentureScraper extends BasePublicationScraper {
     this.name = "accenture-publications";
     this.competitorSlug = "accenture";
     this.urls = [
-      "https://www.accenture.com/us-en/insights/sustainability-index",
+      "https://www.accenture.com/us-en/insights/consulting/sustainability-index",
     ];
 
     this.articleSelectors = [

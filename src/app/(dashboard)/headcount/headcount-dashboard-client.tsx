@@ -49,7 +49,7 @@ import {
   ChartSkeleton,
 } from "@/components/shared/loading-skeleton";
 import { EmptyState } from "@/components/shared/empty-state";
-import { COMPETITOR_COLORS } from "@/lib/constants";
+import { COMPETITOR_COLORS, BRAND_COLOR_FALLBACK } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
@@ -235,8 +235,11 @@ function CsvUploadDialog({
           ) : (
             <>
               <div
-                className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 transition-colors hover:border-primary/50 hover:bg-muted/30"
+                role="button"
+                tabIndex={0}
+                className="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 transition-colors hover:border-primary/50 hover:bg-muted/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring"
                 onClick={() => fileRef.current?.click()}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileRef.current?.click(); } }}
               >
                 <FileSpreadsheet className="h-10 w-10 text-muted-foreground" />
                 <p className="mt-3 text-sm font-medium">
@@ -353,7 +356,7 @@ export function HeadcountDashboardClient() {
                   <div className="flex items-center gap-2">
                     <span
                       className="inline-block h-3 w-3 rounded-full"
-                      style={{ backgroundColor: stats.largestTeam.brandColor ?? "#888" }}
+                      style={{ backgroundColor: stats.largestTeam.brandColor ?? BRAND_COLOR_FALLBACK }}
                     />
                     <span className="text-2xl font-bold">
                       {stats.largestTeam.shortName ?? stats.largestTeam.name}
@@ -432,14 +435,14 @@ export function HeadcountDashboardClient() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
                     <XAxis
                       dataKey="name"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
                       allowDecimals={false}
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
@@ -452,7 +455,7 @@ export function HeadcountDashboardClient() {
                       {barChartData.map((entry) => (
                         <Cell
                           key={entry.slug}
-                          fill={entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? "#747480"}
+                          fill={entry.brandColor ?? COMPETITOR_COLORS[entry.slug] ?? "var(--ey-gray-medium)"}
                         />
                       ))}
                     </Bar>
@@ -490,14 +493,14 @@ export function HeadcountDashboardClient() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" vertical={false} />
                     <XAxis
                       dataKey="date"
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
                       allowDecimals={false}
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 12 }}
                       className="text-muted-foreground"
                       tickLine={false}
                       axisLine={false}
@@ -511,7 +514,7 @@ export function HeadcountDashboardClient() {
                         type="monotone"
                         dataKey={comp.slug}
                         name={comp.name}
-                        stroke={comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? "#747480"}
+                        stroke={comp.brandColor ?? COMPETITOR_COLORS[comp.slug] ?? "var(--ey-gray-medium)"}
                         strokeWidth={2}
                         dot={{ r: 3 }}
                         connectNulls
@@ -545,31 +548,31 @@ export function HeadcountDashboardClient() {
               <table className="w-full border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-t bg-muted/30">
-                    <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       Competitor
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       Total
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       US
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       UK
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       EU
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       India
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       APAC
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       Change
                     </th>
-                    <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <th scope="col" className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       Source
                     </th>
                   </tr>
@@ -586,7 +589,7 @@ export function HeadcountDashboardClient() {
                           <div className="flex items-center gap-2">
                             <span
                               className="inline-block h-2.5 w-2.5 rounded-full"
-                              style={{ backgroundColor: comp.brandColor ?? "#888" }}
+                              style={{ backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK }}
                             />
                             <span className="font-medium">
                               {comp.shortName ?? comp.name}

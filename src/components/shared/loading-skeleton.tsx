@@ -14,7 +14,7 @@ function Skeleton({
 
 export function CardSkeleton() {
   return (
-    <div className="rounded-lg border bg-card p-6 shadow-sm">
+    <div className="rounded-lg border bg-card p-6 shadow-sm" role="status" aria-busy="true" aria-label="Loading card">
       <div className="flex items-center justify-between">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-8 w-8 rounded-md" />
@@ -29,7 +29,7 @@ export function CardSkeleton() {
 
 export function TableSkeleton({ rows = 5 }: { rows?: number }) {
   return (
-    <div className="rounded-lg border bg-card shadow-sm">
+    <div className="rounded-lg border bg-card shadow-sm" role="status" aria-busy="true" aria-label="Loading table">
       {/* Table header */}
       <div className="flex items-center gap-4 border-b px-6 py-3">
         <Skeleton className="h-4 w-32" />
@@ -58,7 +58,7 @@ export function TableSkeleton({ rows = 5 }: { rows?: number }) {
 
 export function ChartSkeleton() {
   return (
-    <div className="rounded-lg border bg-card p-6 shadow-sm">
+    <div className="rounded-lg border bg-card p-6 shadow-sm" role="status" aria-busy="true" aria-label="Loading chart">
       <div className="mb-4 flex items-center justify-between">
         <Skeleton className="h-5 w-36" />
         <Skeleton className="h-8 w-24 rounded-md" />
@@ -68,7 +68,7 @@ export function ChartSkeleton() {
           <Skeleton
             key={i}
             className="flex-1"
-            style={{ height: `${Math.random() * 120 + 40}px` }}
+            style={{ height: `${[100, 60, 140, 80, 120, 50, 130, 70, 110, 90, 150, 65][i]}px` }}
           />
         ))}
       </div>

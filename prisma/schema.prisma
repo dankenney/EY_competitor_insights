@@ -6,7 +6,8 @@ generator client {
 
 datasource db {
   provider   = "postgresql"
-  extensions = [pgcrypto, vector]
+  // URL is configured in prisma.config.ts (Prisma 7 removed url from schema)
+  extensions = [pgcrypto]
 }
 
 // =============================================================================

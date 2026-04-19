@@ -15,6 +15,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { BRAND_COLOR_FALLBACK } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -380,7 +381,7 @@ export function TalentSignalsDashboardClient() {
                     <span
                       className="inline-block h-3 w-3 rounded-full"
                       style={{
-                        backgroundColor: statsQuery.data.byCompetitor[0].brandColor ?? "#888",
+                        backgroundColor: statsQuery.data.byCompetitor[0].brandColor ?? BRAND_COLOR_FALLBACK,
                       }}
                     />
                     <span className="text-2xl font-bold">

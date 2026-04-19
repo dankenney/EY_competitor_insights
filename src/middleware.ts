@@ -5,7 +5,14 @@ export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Allow public routes without authentication
-  const publicPaths = ["/login", "/api/auth", "/_next", "/favicon.ico"];
+  const publicPaths = [
+    "/login",
+    "/api/auth",
+    "/api/health",
+    "/api/revalidate",
+    "/_next",
+    "/favicon.ico",
+  ];
   const isPublicPath = publicPaths.some((path) => pathname.startsWith(path));
 
   if (isPublicPath) {

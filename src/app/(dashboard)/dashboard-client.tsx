@@ -16,10 +16,10 @@ import {
   CardSkeleton,
   TableSkeleton,
 } from "@/components/shared/loading-skeleton";
+import { EmptyState } from "@/components/shared/empty-state";
 import {
   FileText,
   Scale,
-  Users,
   TrendingUp,
   TrendingDown,
   ArrowRight,
@@ -31,6 +31,7 @@ import {
   Globe,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BRAND_COLOR_FALLBACK } from "@/lib/constants";
 
 // ---------------------------------------------------------------------------
 // Stat card
@@ -51,7 +52,7 @@ function StatCard({
 }) {
   if (loading) return <CardSkeleton />;
   return (
-    <Card>
+    <Card className="border-0 bg-transparent shadow-none">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {label}
@@ -76,27 +77,27 @@ function ActivityBadge({ type }: { type: string }) {
   switch (type) {
     case "publication":
       return (
-        <Badge variant="secondary" className="text-[10px] gap-1">
+        <Badge variant="secondary" className="text-xs gap-1">
           <FileText className="h-3 w-3" />
           Publication
         </Badge>
       );
     case "regulatory":
       return (
-        <Badge variant="outline" className="text-[10px] gap-1 border-amber-300 text-amber-700">
+        <Badge variant="outline" className="text-xs gap-1 border-amber-300 text-amber-700">
           <Scale className="h-3 w-3" />
           Regulatory
         </Badge>
       );
     case "talent":
       return (
-        <Badge variant="outline" className="text-[10px] gap-1 border-blue-300 text-blue-700">
+        <Badge variant="outline" className="text-xs gap-1 border-blue-300 text-blue-700">
           <Briefcase className="h-3 w-3" />
           Sustainability Talent
         </Badge>
       );
     default:
-      return <Badge variant="secondary" className="text-[10px]">{type}</Badge>;
+      return <Badge variant="secondary" className="text-xs">{type}</Badge>;
   }
 }
 
@@ -112,7 +113,7 @@ function ImpactBadge({ level }: { level: string }) {
         ? "bg-amber-100 text-amber-700 border-amber-200"
         : "bg-green-100 text-green-700 border-green-200";
   return (
-    <Badge variant="outline" className={cn("text-[10px]", color)}>
+    <Badge variant="outline" className={cn("text-xs", color)}>
       {level}
     </Badge>
   );
@@ -130,7 +131,7 @@ export function DashboardClient() {
   const regulatory = trpc.dashboard.regulatoryOverview.useQuery();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Page header */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
@@ -222,58 +223,65 @@ export function DashboardClient() {
                   ))}
                 </div>
               ) : headcount.data && headcount.data.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   {headcount.data.map((comp) => {
                     const maxTotal = Math.max(
                       ...headcount.data!.map((c) => c.total)
                     );
-                    const pct = (comp.total / maxTotal) * 100;
+                    const barPct = (comp.total / maxTotal) * 75;
                     return (
                       <div key={comp.slug} className="flex items-center gap-3">
                         <div className="w-24 text-sm font-medium truncate">
                           {comp.name}
                         </div>
-                        <div className="flex-1 h-7 bg-muted rounded-md overflow-hidden relative">
+                        <div className="flex-1 flex items-center gap-2 h-6">
                           <div
-                            className="h-full rounded-md transition-all duration-500"
+                            className="h-full rounded-md transition-all duration-500 shrink-0"
                             style={{
-                              width: `${pct}%`,
-                              backgroundColor: comp.brandColor ?? "#888",
-                              opacity: 0.8,
+                              width: `${barPct}%`,
+                              backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK,
+                              opacity: 0.85,
                             }}
                           />
-                          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-medium">
+                          <span className="text-sm font-semibold tabular-nums whitespace-nowrap">
                             {comp.total.toLocaleString()}
                           </span>
                         </div>
-                        {comp.pctChange !== null && (
-                          <div
-                            className={cn(
-                              "flex items-center gap-0.5 text-xs font-medium w-16",
-                              comp.pctChange > 0
-                                ? "text-emerald-600"
-                                : comp.pctChange < 0
-                                  ? "text-red-500"
-                                  : "text-muted-foreground"
-                            )}
-                          >
-                            {comp.pctChange > 0 ? (
-                              <TrendingUp className="h-3 w-3" />
-                            ) : comp.pctChange < 0 ? (
-                              <TrendingDown className="h-3 w-3" />
-                            ) : null}
-                            {comp.pctChange > 0 ? "+" : ""}
-                            {comp.pctChange.toFixed(1)}%
-                          </div>
-                        )}
+                        <div
+                          className={cn(
+                            "flex items-center gap-0.5 text-xs font-medium w-16 justify-end shrink-0",
+                            comp.pctChange !== null && comp.pctChange > 0
+                              ? "text-emerald-600"
+                              : comp.pctChange !== null && comp.pctChange < 0
+                                ? "text-red-500"
+                                : "text-muted-foreground"
+                          )}
+                        >
+                          {comp.pctChange !== null ? (
+                            <>
+                              {comp.pctChange > 0 ? (
+                                <TrendingUp className="h-3 w-3" />
+                              ) : comp.pctChange < 0 ? (
+                                <TrendingDown className="h-3 w-3" />
+                              ) : null}
+                              {comp.pctChange > 0 ? "+" : ""}
+                              {comp.pctChange.toFixed(1)}%
+                            </>
+                          ) : (
+                            <span className="text-muted-foreground">--</span>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  No headcount data available
-                </p>
+                <EmptyState
+                  icon={Building2}
+                  title="No Headcount Data"
+                  description="Headcount comparison data will appear here once uploaded."
+                  className="py-8"
+                />
               )}
             </CardContent>
           </Card>
@@ -333,7 +341,7 @@ export function DashboardClient() {
                             {event.aiSummary}
                           </p>
                         )}
-                        <div className="mt-2 flex items-center gap-3 text-[11px] text-muted-foreground">
+                        <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
                           {event.geography && (
                             <span className="flex items-center gap-1">
                               <Globe className="h-3 w-3" />
@@ -354,9 +362,12 @@ export function DashboardClient() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  No regulatory events tracked yet
-                </p>
+                <EmptyState
+                  icon={Scale}
+                  title="No Regulatory Events"
+                  description="Regulatory events will appear here as they are tracked and classified."
+                  className="py-8"
+                />
               )}
             </CardContent>
           </Card>
@@ -401,14 +412,14 @@ export function DashboardClient() {
                       <Link
                         key={`${item.type}-${item.id}`}
                         href={href}
-                        className="block border-b pb-3 last:border-0 last:pb-0 rounded-md -mx-1 px-1 transition-colors hover:bg-muted/50"
+                        className="block border-b pb-3 last:border-0 last:pb-0 rounded-md p-2 transition-colors hover:bg-muted/50"
                       >
                         <div className="flex items-center gap-2 mb-1">
                           <ActivityBadge type={item.type} />
                           {item.competitor && (
                             <Badge
                               variant="outline"
-                              className="text-[10px]"
+                              className="text-xs"
                               style={{
                                 borderColor: item.brandColor ?? undefined,
                                 color: item.brandColor ?? undefined,
@@ -427,7 +438,7 @@ export function DashboardClient() {
                           </p>
                         )}
                         {item.date && (
-                          <p className="mt-1 text-[11px] text-muted-foreground">
+                          <p className="mt-1 text-xs text-muted-foreground">
                             {format(new Date(item.date), "MMM d, yyyy")}
                           </p>
                         )}
@@ -436,9 +447,12 @@ export function DashboardClient() {
                   })}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  No recent activity
-                </p>
+                <EmptyState
+                  icon={Activity}
+                  title="No Recent Activity"
+                  description="Intelligence signals will appear here as data is collected."
+                  className="py-8"
+                />
               )}
             </CardContent>
           </Card>
@@ -467,12 +481,12 @@ export function DashboardClient() {
                   key={comp.id}
                   className="group relative transition-shadow hover:shadow-md"
                 >
-                  <CardContent className="p-4">
+                  <CardContent className="p-5">
                     <div className="flex items-center gap-2 mb-3">
                       <div
                         className="h-3 w-3 rounded-full shrink-0"
                         style={{
-                          backgroundColor: comp.brandColor ?? "#888",
+                          backgroundColor: comp.brandColor ?? BRAND_COLOR_FALLBACK,
                         }}
                       />
                       <span className="font-semibold text-sm truncate">
@@ -480,7 +494,7 @@ export function DashboardClient() {
                       </span>
                       <Badge
                         variant="outline"
-                        className="ml-auto text-[9px] shrink-0"
+                        className="ml-auto text-xs shrink-0"
                       >
                         {comp.category}
                       </Badge>
@@ -508,7 +522,7 @@ export function DashboardClient() {
                           {comp.headcountChange !== null && (
                             <span
                               className={cn(
-                                "text-[10px]",
+                                "text-xs",
                                 comp.headcountChange > 0
                                   ? "text-emerald-600"
                                   : comp.headcountChange < 0
@@ -524,11 +538,11 @@ export function DashboardClient() {
                       </div>
                       {comp.latestEvent && (
                         <div className="pt-2 border-t mt-2">
-                          <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Briefcase className="h-3 w-3" />
                             {comp.latestEvent.eventType}
                           </div>
-                          <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
                             {comp.latestEvent.aiSummary}
                           </p>
                         </div>
@@ -538,28 +552,6 @@ export function DashboardClient() {
                 </Card>
               ))}
         </div>
-      </div>
-
-      {/* Quick links */}
-      <div className="flex flex-wrap gap-3">
-        <Link href="/publications">
-          <Button variant="outline" size="sm" className="gap-2">
-            <FileText className="h-4 w-4" />
-            Publications
-          </Button>
-        </Link>
-        <Link href="/regulatory">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Scale className="h-4 w-4" />
-            Regulatory Tracker
-          </Button>
-        </Link>
-        <Link href="/competitors">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Users className="h-4 w-4" />
-            Competitor Profiles
-          </Button>
-        </Link>
       </div>
     </div>
   );

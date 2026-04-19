@@ -6,6 +6,7 @@ import { headcountRouter } from "./headcount";
 import { talentSignalsRouter } from "./talent-signals";
 import { aiPositioningRouter } from "./ai-positioning";
 import { chatRouter } from "./chat";
+import { scrapersRouter } from "./scrapers";
 
 /**
  * Health check router - verifies the API is operational.
@@ -29,6 +30,7 @@ export const appRouter = createTRPCRouter({
   talentSignals: talentSignalsRouter,
   aiPositioning: aiPositioningRouter,
   chat: chatRouter,
+  scrapers: scrapersRouter,
 });
 
 /**

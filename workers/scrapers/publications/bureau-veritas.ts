@@ -10,7 +10,7 @@ export class BureauVeritasScraper extends BasePublicationScraper {
     super(prisma);
     this.name = "bureau-veritas-publications";
     this.competitorSlug = "bureau-veritas";
-    this.urls = ["https://www.bureauveritas.com/magazine"];
+    this.urls = ["https://group.bureauveritas.com/magazine"];
 
     this.articleSelectors = [
       ".magazine-article a",

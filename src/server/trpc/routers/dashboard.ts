@@ -272,9 +272,12 @@ export const dashboardRouter = router({
 
         const results = await Promise.all(
           competitors.map(async (comp) => {
-            const latest = await db.headcountSnapshot.findFirst({
+            // Fetch two most recent snapshots so we can compute pctChange
+            // even when the stored value is null
+            const snapshots = await db.headcountSnapshot.findMany({
               where: { competitorId: comp.id },
               orderBy: { snapshotDate: "desc" },
+              take: 2,
               select: {
                 totalSustainabilityHeadcount: true,
                 usHeadcount: true,
@@ -286,6 +289,27 @@ export const dashboardRouter = router({
               },
             });
 
+            const latest = snapshots[0] ?? null;
+            const prior = snapshots[1] ?? null;
+
+            // Use stored pctChange if available, otherwise compute from
+            // the two most recent snapshots
+            let pctChange = latest?.pctChangeVsPrior ?? null;
+            if (
+              pctChange === null &&
+              latest?.totalSustainabilityHeadcount &&
+              prior?.totalSustainabilityHeadcount &&
+              prior.totalSustainabilityHeadcount > 0
+            ) {
+              pctChange =
+                Math.round(
+                  ((latest.totalSustainabilityHeadcount -
+                    prior.totalSustainabilityHeadcount) /
+                    prior.totalSustainabilityHeadcount) *
+                    10000
+                ) / 100;
+            }
+
             return {
               name: comp.name,
               slug: comp.slug,
@@ -296,7 +320,7 @@ export const dashboardRouter = router({
               eu: latest?.euHeadcount ?? 0,
               india: latest?.indiaHeadcount ?? 0,
               apac: latest?.apacHeadcount ?? 0,
-              pctChange: latest?.pctChangeVsPrior ?? null,
+              pctChange,
             };
           })
         );

@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { BRAND_COLOR_FALLBACK } from "@/lib/constants";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -54,14 +55,14 @@ const THEME_COLORS = [
   "#EB8C00", // ESG Managed Services
   "#00338D", // Sustainable finance
   "#A100FF", // Climate tech
-  "#747480", // fallback
+  "var(--ey-gray-medium)", // fallback
 ];
 
 function MiniDonut({ themes }: { themes: ThemeCount[] }) {
   const total = themes.reduce((sum, t) => sum + t.count, 0);
   if (total === 0) {
     return (
-      <svg viewBox="0 0 36 36" className="h-16 w-16">
+      <svg viewBox="0 0 36 36" className="h-12 w-12 shrink-0">
         <circle
           cx="18"
           cy="18"
@@ -75,16 +76,15 @@ function MiniDonut({ themes }: { themes: ThemeCount[] }) {
     );
   }
 
-  let cumulativePercent = 0;
-  const segments = themes.map((theme, i) => {
+  const segments = themes.reduce<Array<{ percent: number; offset: number; color: string }>>((acc, theme, i) => {
     const percent = (theme.count / total) * 100;
-    const offset = cumulativePercent;
-    cumulativePercent += percent;
-    return { percent, offset, color: THEME_COLORS[i % THEME_COLORS.length] };
-  });
+    const offset = acc.length > 0 ? acc[acc.length - 1].offset + acc[acc.length - 1].percent : 0;
+    acc.push({ percent, offset, color: THEME_COLORS[i % THEME_COLORS.length] });
+    return acc;
+  }, []);
 
   return (
-    <svg viewBox="0 0 36 36" className="h-16 w-16">
+    <svg viewBox="0 0 36 36" className="h-12 w-12 shrink-0">
       {segments.map((seg, i) => (
         <circle
           key={i}
@@ -149,15 +149,15 @@ export function PublicationStats({ data }: PublicationStatsProps) {
         <CardContent>
           <div className="flex items-center gap-4">
             <MiniDonut themes={data.byTheme} />
-            <div className="flex-1 space-y-1">
+            <div className="flex-1 min-w-0 space-y-1">
               {data.byTheme.slice(0, 3).map((t, i) => (
-                <div key={t.theme} className="flex items-center gap-2 text-xs">
+                <div key={t.theme} className="flex items-center gap-2 text-xs min-w-0">
                   <span
-                    className="inline-block h-2 w-2 rounded-full"
+                    className="inline-block h-2 w-2 shrink-0 rounded-full"
                     style={{ backgroundColor: THEME_COLORS[i % THEME_COLORS.length] }}
                   />
-                  <span className="truncate text-muted-foreground">{t.theme}</span>
-                  <span className="ml-auto font-medium">{t.count}</span>
+                  <span className="min-w-0 truncate text-muted-foreground">{t.theme}</span>
+                  <span className="shrink-0 tabular-nums font-medium">{t.count}</span>
                 </div>
               ))}
               {data.byTheme.length > 3 && (
@@ -206,7 +206,7 @@ export function PublicationStats({ data }: PublicationStatsProps) {
               <div className="flex items-center gap-2">
                 <span
                   className="inline-block h-3 w-3 rounded-full"
-                  style={{ backgroundColor: topPublisher.brandColor ?? "#888" }}
+                  style={{ backgroundColor: topPublisher.brandColor ?? BRAND_COLOR_FALLBACK }}
                 />
                 <span className="text-2xl font-bold">{topPublisher.competitorName}</span>
               </div>

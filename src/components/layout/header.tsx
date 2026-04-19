@@ -14,9 +14,17 @@ import {
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { NAV_ITEMS, ADMIN_NAV_ITEMS } from "@/lib/constants";
+import { MobileSidebar } from "@/components/layout/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 function useBreadcrumbs() {
   const pathname = usePathname();
@@ -44,50 +52,40 @@ function useBreadcrumbs() {
 
 export function Header() {
   const breadcrumbs = useBreadcrumbs();
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
-  const dropdownRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b bg-card px-6">
-      {/* Breadcrumbs */}
-      <nav className="flex items-center gap-1 text-sm">
-        <Link
-          href="/"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Home
-        </Link>
-        {breadcrumbs.map((crumb, index) => (
-          <Fragment key={crumb.href}>
-            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground/50" />
-            {index === breadcrumbs.length - 1 ? (
-              <span className="font-medium text-foreground">
-                {crumb.label}
-              </span>
-            ) : (
-              <Link
-                href={crumb.href}
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {crumb.label}
-              </Link>
-            )}
-          </Fragment>
-        ))}
-      </nav>
+    <header className="flex h-14 shrink-0 items-center justify-between border-b bg-card px-4 md:px-6">
+      <div className="flex items-center gap-2">
+        {/* Mobile menu trigger */}
+        <MobileSidebar isAdmin />
+
+        {/* Breadcrumbs */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-sm">
+          <Link
+            href="/"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Home
+          </Link>
+          {breadcrumbs.map((crumb, index) => (
+            <Fragment key={crumb.href}>
+              <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+              {index === breadcrumbs.length - 1 ? (
+                <span className="font-medium text-foreground">
+                  {crumb.label}
+                </span>
+              ) : (
+                <Link
+                  href={crumb.href}
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {crumb.label}
+                </Link>
+              )}
+            </Fragment>
+          ))}
+        </nav>
+      </div>
 
       {/* Right side: search + avatar */}
       <div className="flex items-center gap-4">
@@ -97,51 +95,47 @@ export function Header() {
           <Input
             type="search"
             placeholder="Search intelligence..."
-            className="h-8 w-64 bg-muted/50 pl-8 text-sm"
+            className="h-8 w-48 bg-muted/50 pl-8 text-sm lg:w-64"
           />
         </div>
 
         <Separator orientation="vertical" className="hidden h-6 md:block" />
 
         {/* User menu */}
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 rounded-md p-1 transition-colors hover:bg-accent"
-          >
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
-                U
-              </AvatarFallback>
-            </Avatar>
-            <span className="hidden text-sm font-medium md:block">User</span>
-          </button>
-
-          {dropdownOpen && (
-            <div className="absolute right-0 top-full z-50 mt-1 w-48 rounded-md border bg-popover py-1 shadow-lg">
-              <div className="px-3 py-2">
-                <p className="text-sm font-medium">User</p>
-                <p className="text-xs text-muted-foreground">
-                  user@ey.com
-                </p>
-              </div>
-              <Separator />
-              <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground">
-                <User className="h-4 w-4" />
-                Profile
-              </button>
-              <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground">
-                <Settings className="h-4 w-4" />
-                Settings
-              </button>
-              <Separator />
-              <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-destructive transition-colors hover:bg-destructive/10">
-                <LogOut className="h-4 w-4" />
-                Sign out
-              </button>
-            </div>
-          )}
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex items-center gap-2 rounded-md p-1 transition-colors hover:bg-accent">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+                  U
+                </AvatarFallback>
+              </Avatar>
+              <span className="hidden text-sm font-medium md:block">User</span>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuLabel>
+              <p className="text-sm font-medium">User</p>
+              <p className="text-xs font-normal text-muted-foreground">
+                user@ey.com
+              </p>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <User className="h-4 w-4" />
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings className="h-4 w-4" />
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-destructive focus:text-destructive">
+              <LogOut className="h-4 w-4" />
+              Sign out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

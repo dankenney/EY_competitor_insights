@@ -12,6 +12,7 @@
     "db:seed": "npx tsx prisma/seed.ts",
     "db:studio": "npx prisma studio",
     "db:generate": "npx prisma generate",
+    "db:fix-urls": "tsx scripts/fix-broken-urls.ts",
     "worker:dev": "tsx watch workers/index.ts",
     "worker:start": "tsx workers/index.ts"
   },

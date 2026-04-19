@@ -69,6 +69,9 @@ export type DirectionOfChange = (typeof DIRECTION_OF_CHANGE)[number];
 export const IMPACT_LEVELS = ["High", "Medium", "Low"] as const;
 export type ImpactLevel = (typeof IMPACT_LEVELS)[number];
 
+// Fallback brand color when a competitor's brandColor is missing
+export const BRAND_COLOR_FALLBACK = "#747480"; // --ey-gray-medium
+
 // Competitor brand colors (for charts)
 export const COMPETITOR_COLORS: Record<string, string> = {
   ey: "#FFE600",

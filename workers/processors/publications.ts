@@ -11,6 +11,8 @@ import { WSPScraper } from "../scrapers/publications/wsp";
 import { BureauVeritasScraper } from "../scrapers/publications/bureau-veritas";
 import { AccentureScraper } from "../scrapers/publications/accenture";
 import { EYScraper } from "../scrapers/publications/ey";
+import { publicationsClassifyQueue } from "../queues";
+import { revalidateAppCache } from "../revalidate";
 
 const SCRAPER_MAP: Record<
   string,
@@ -93,4 +95,21 @@ export async function processPublicationsScrape(
     `[publications-processor] Job ${job.id} complete: ` +
       `${completedCount} succeeded, ${errorCount} failed out of ${competitors.length} competitors`
   );
+
+  if (completedCount > 0) {
+    const followUpJob = await publicationsClassifyQueue.add(
+      "publications-classify-after-scrape",
+      {
+        source: "publications-scrape",
+        scrapeJobId: job.id,
+        triggeredAt: new Date().toISOString(),
+      }
+    );
+
+    console.log(
+      `[publications-processor] Queued follow-up classification job ${followUpJob.id} after scrape ${job.id}`
+    );
+  }
+
+  await revalidateAppCache("publications-scrape");
 }

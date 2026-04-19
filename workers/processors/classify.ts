@@ -1,6 +1,7 @@
 import { Job } from "bullmq";
 import { PrismaClient } from "../../src/generated/prisma";
 import { classifyPublication } from "../../src/server/ai/pipelines/classify-publication";
+import { revalidateAppCache } from "../revalidate";
 
 const BATCH_SIZE = 10;
 
@@ -46,6 +47,7 @@ export async function processPublicationsClassify(
 
   if (unclassified.length === 0) {
     console.log("[classify-processor] No unclassified publications found");
+    await revalidateAppCache("publications-classify-empty");
     return;
   }
 
@@ -96,6 +98,8 @@ export async function processPublicationsClassify(
     `[classify-processor] Job ${job.id} complete: ` +
       `${processed} classified, ${errors} errors out of ${unclassified.length} total`
   );
+
+  await revalidateAppCache("publications-classify");
 }
 
 /**
