@@ -171,8 +171,8 @@ export type SustainabilityDomain = (typeof SUSTAINABILITY_DOMAINS)[number];
 // Flash Preview for high-volume ETL (screening + classification) — fast, cheap, high quality.
 // Pro for synthesis (monthly exec summaries, chat Q&A) — higher reasoning, infrequent use.
 export const AI_MODELS = {
-  screening: "gemini-3.0-flash-preview",
-  classification: "gemini-3.0-flash-preview",
+  screening: "gemini-2.5-flash",
+  classification: "gemini-2.5-flash",
   synthesis: "gemini-2.5-pro",
   chat: "gemini-2.5-pro",
   embedding: "text-embedding-004",

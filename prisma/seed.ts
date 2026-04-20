@@ -164,7 +164,7 @@ const defaultPrompts = [
     name: "Publication Relevance Screener",
     description:
       "Quick screening to determine if a publication is relevant to sustainability/ESG competitive intelligence",
-    model: "gemini-3.0-flash-preview",
+    model: "gemini-2.5-flash",
     temperature: 0.1,
     maxTokens: 256,
     responseFormat: "json",
@@ -184,7 +184,7 @@ Is this publication relevant to sustainability/ESG competitive intelligence?`,
     name: "Publication Classifier",
     description:
       "Full classification of a sustainability publication into the CCaSS taxonomy",
-    model: "gemini-3.0-flash-preview",
+    model: "gemini-2.5-flash",
     temperature: 0.3,
     maxTokens: 2048,
     responseFormat: "json",
@@ -230,7 +230,7 @@ Return JSON:
     name: "Regulatory Event Classifier",
     description:
       "Classify regulatory events by geography, direction of change, and impact",
-    model: "gemini-3.0-flash-preview",
+    model: "gemini-2.5-flash",
     temperature: 0.2,
     maxTokens: 1536,
     responseFormat: "json",
@@ -265,7 +265,7 @@ Return JSON:
     name: "Monthly Executive Synthesis",
     description:
       "Generate monthly competitive intelligence executive briefing",
-    model: "gemini-3.0-flash-preview",
+    model: "gemini-2.5-flash",
     temperature: 0.4,
     maxTokens: 8192,
     responseFormat: null,
@@ -1399,7 +1399,7 @@ const aiPositioningPrompts = [
     name: "AI Signal Relevance Screener",
     description:
       "Quick screening to determine if content contains AI + sustainability positioning signals",
-    model: "gemini-3.0-flash-preview",
+    model: "gemini-2.5-flash",
     temperature: 0.1,
     maxTokens: 256,
     responseFormat: "json",
@@ -1420,7 +1420,7 @@ Does this content contain relevant AI + sustainability positioning signals?`,
     name: "AI Positioning Signal Classifier",
     description:
       "Full classification of an AI positioning signal including hype vs reality scoring",
-    model: "gemini-3.0-flash-preview",
+    model: "gemini-2.5-flash",
     temperature: 0.2,
     maxTokens: 3072,
     responseFormat: "json",
